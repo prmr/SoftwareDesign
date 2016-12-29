@@ -36,3 +36,5 @@ After this course, you should be able to...
 * **Recommended Textbook:** [Horstmann, Cay. Object-oriented Design and Patterns](http://www.bookdepository.com/Object-oriented-Design-Patterns-Cay-Horstmann/9780471744870). A few copies are available at the [Paragraph Bookstore](http://www.paragraphbooks.com).
 * **Complementary Resource:** [Martin, Robert. Clean Code: A Handbook of Agile Software Craftmanship. Prentice-Hall, 2008.](http://proquest.safaribooksonline.com/9780136083238?tocview=true). Available on-line from the McGill domain. 
 * **Recommended Reference:** A Java 8 Programming reference of your choice.
+* **Sample Project:** [Solitaire](https://github.com/prmr/Solitaire)
+* **Diagramming Tool (and Sample Project):** [JetUML](http://cs.mcgill.ca/~martin/jetuml/)
