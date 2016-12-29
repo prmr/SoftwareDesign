@@ -31,4 +31,8 @@ After this course, you should be able to...
 * *Evaluate:* The quality of design solutions
 * *Write:* well-designed, error-free, and easily understandable software.
 
+## Reference Material
 
+* **Recommended Textbook:** [Horstmann, Cay. Object-oriented Design and Patterns](http://www.bookdepository.com/Object-oriented-Design-Patterns-Cay-Horstmann/9780471744870). A few copies are available at the [Paragraph Bookstore](http://www.paragraphbooks.com).
+* **Complementary Resource:** [Martin, Robert. Clean Code: A Handbook of Agile Software Craftmanship. Prentice-Hall, 2008.](http://proquest.safaribooksonline.com/9780136083238?tocview=true). Available on-line from the McGill domain. 
+* **Recommended Reference:** A Java 8 Programming reference of your choice.
