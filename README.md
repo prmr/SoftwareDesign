@@ -40,7 +40,12 @@ After this course, you should be able to...
 * **Diagramming Tool (and Sample Project):** [JetUML](http://cs.mcgill.ca/~martin/jetuml/)
 
 ## Course Work and Evaluation
-You will have the opportunity to apply the course material in a series of individual *practice exercises*. The exercises are self-directed but necessary to build the skills and knowledge that will allow you to pass the lab tests and exams. It's very hard to get good at anything without practice, and software design is no exception.
+
+This course is divided into [ten main modules](Overview.md), each addressing a major topic in object-oriented software design. Modules are spread over two lectures and involve mandatory reading and practice exercises. To be able to follow the pace of the course, the reading must be done before the module lectures and the exercises must be completed within one week of the end of the second lecture of the module.
+
+It's very hard to get good at anything without practice, and software design is no exception. *Practice exercises* are organized in terms of the module structure and are available on their individual pages. The exercises are designed to help you learn as effectively as possible: you can do them at your own pace, individually or in a group, repeat what's necessary, seek advice from anyone, and make mistakes and learn from them. For these and other reasons, they would be a poor choice for *testing* your knowledge of the material, so they are not graded. Instead, your practical skills will be evaluated through *lab tests*.
+
+Software design is a naturally abstract topic that needs to be applied to make any sense. The **recipe for success** in COMP 303 is to regularly prepare for lectures by doing the required readings in advance, attending the lectures and participating in the design and coding walk-throughs, then completing the related exercises as soon as possible. If you do this you may be pleased to discover that the material will grow on you almost subconsciously. The **recipe for failure** is to await the midterms and final, then furiously attempt to memorize the book and lecture material. Please opt for success.
 
 | Evaluation Activity | Weight |
 | --- |---:|
