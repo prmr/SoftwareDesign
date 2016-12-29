@@ -38,3 +38,18 @@ After this course, you should be able to...
 * **Recommended Reference:** A Java 8 Programming reference of your choice.
 * **Sample Project:** [Solitaire](https://github.com/prmr/Solitaire)
 * **Diagramming Tool (and Sample Project):** [JetUML](http://cs.mcgill.ca/~martin/jetuml/)
+
+## Course Work and Evaluation
+You will have the opportunity to apply the course material in a series of individual *practice exercises*. The exercises are self-directed but necessary to build the skills and knowledge that will allow you to pass the lab tests and exams. It's very hard to get good at anything without practice, and software design is no exception.
+
+| Evaluation Activity | Weight |
+| --- |---:|
+|Lab tests	|20%|
+|Midterm exam 1	|30%/20%/0%|
+|Midterm exam 2	|30%/20%/0%|
+|Final exam	    |40%/50%|
+
+**Important Notes:**
+* Midterm exams are normally worth 20%, but the grade of the lowest midterm can be replaced by 10% each of the final exam and other midterm. Missing one midterm automaticall selects this option.
+* Missing both midterm exams results in a grade of 0% unless original, independently-verifiable documentation justifying the absence to both midterm exams can be provided. Valid causes are limited to *unforseeable* circumstances.
+* All material covered in class and in the practice exercises is subject to examination.
