@@ -66,15 +66,10 @@ General philosophy of the role of lectures, and related policies:
 * Lectures **complement** the course material with
   demonstrations, examples, discussions, and class
   activities: they do **not replace** individual reading and practice.
-
 * The reading should be done in advance to be able to follow the lecture. For example, I will not use the class time to read basic definitions of terms and go over the details of notation, because this is both boring and ineffective. However, coming to the lectures without having gone over the reading will be confusing, because terms will seem to come out of nowhere. Please do the reading in advance, and everything will be fine.
-
 * The lectures will **not** be [Power Pointless](http://www.slate.com/articles/life/education/2014/03/powerpoint_in_higher_education_is_ruining_teaching.html). I will occasionally use slides to provide visual support for the material, and post the slides after the lecture. The slides should not be expected to constitute a self-contained study document. I must emphatically warn anyone against attempting to pass the course by memorizing the slides.
-
 * Although attendance is not monitored, I strongly recommend [attending lectures](http://www.cs.mcgill.ca/~martin/blog/2015-12-27.html). Lectures will feature walk-throughs of design and implementation tasks that will help you understand the reasoning behind certain design decisions as the decisions are being made. I will also go through multiple variants design solutions for various problems, which is extremely tedious to capture in writing (and read, for that matter).
-
 * If you decide to attend lectures, you are asked to refrain from using your computing devices in a distracting or disruptive manner. This includes **watching videos, playing games**, etc. 
-
 * The lectures are not recorded. **No audio or video recording of any kind is allowed in class**, with the one exception that you can take pictures of the projection screen (only) if you can do so in a non-disruptive manner. Note, however, that practically all lecture material will be posted after class.
 
 These policies are subject to revision at any point during the term.
