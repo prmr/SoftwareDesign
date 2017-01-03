@@ -4,6 +4,8 @@
 
 How does one approach a software development project? Start hacking and hope for the best? Probably not. This would just be [inviting disaster](http://spectrum.ieee.org/static/the-staggering-impact-of-it-systems-gone-wrong). In this pseudo-module, I will present an overview of the important steps we need to take to prepare to develop quality software, from understanding the problem to mapping out a development process to choosing and setting up our tools to sketching an application.
 
+[Module Notes](modules/Module-00.md)
+
 ## Module 1 - Encapsulation
 
 One of the major motivation for good design is to keep control of the complexity of a system. An idea that is paramount to simplifying the design of software is encapsulation. Ideally, classes serve to support functionality, but also to isolate distinct computations. This module will cover the most important concepts and techniques necessary to design well-encapsulated classes.

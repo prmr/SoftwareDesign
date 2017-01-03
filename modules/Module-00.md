@@ -28,6 +28,7 @@ The goal for this module is to set up your development environment and checking 
 0. Install the Checkstyle Eclipse Plug-in. In Eclipse, select `Help | Eclipse Marketplace...` and enter `Checkstyle` in the `Find:` box. From the results, install `Checkstyle Plug-In...`.
 0. Similar as the above, install the EclEmma Eclipse-Plug-In.
 0. Check-out the [COMP303Starter](https://github.com/prmr/COMP303Starter) project into you workspace. In the Eclipse package explorer, right-click and select `Import... | Git -> Projects from Git | Clone URI` and under URI enter `https://github.com/prmr/COMP303Starter`, then click-through, requesting to import existing Eclipse projects. Once imported, the project should compile without errors.
+0. Download [JetUML](http://cs.mcgill.ca/~martin/jetuml/) and run it. Draw a simple diagram, save it, then load it. Alternatively, you can check-out the project code, as above, and run the tool from your workspace.
 
 To ensure that everything works:
 
