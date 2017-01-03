@@ -10,7 +10,7 @@
 
 ## Description
 This course provides an in-depth introduction to the discipline of software design, with a focus on object-oriented design. Software design can easily be discounted as a secondary concern when solving small computing problems such as assignments and scripts. However, it assumes a critical role when attempting to build realistic and high-quality software applications. The course 
-combines rigorous foundations (guiding principles, precise terminology, well-defined techniques) with extensive opportunities for the development of practical skills using state-of-the art tools and technique based on the latest research and practice in software engineering. 
+combines rigorous foundations (guiding principles, precise terminology, well-defined techniques) with extensive opportunities for the development of practical skills using state-of-the art tools and techniques based on the latest research and practice in software engineering. 
 
 ### Sample Course Topics
 * General Design Principles (separation of concerns, encapsulation, substitutablity, interface segregation, etc.);
