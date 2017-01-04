@@ -33,8 +33,8 @@ The goal for this module is to set up your development environment and checking 
 To ensure that everything works:
 
 0. Right-click on the file `Welcome.java` and select `Run As... | Java Application`. You should see a small GUI application appear. Try the different buttons which should do the obvious thing.
-0. Right-click on the file `TestAlternatingLabelProvider.java` and select 'Run As... | JUnit Test`. A green bar should appear.
-0. Right-click again on the file `TestAlternatingLabelProvider.java` and select 'Coverage As... | JUnit Test`. A green bar should appear, along with a view showing coverage information. If you go back to the source code file, most lines should be highlighted in green. The meaning of this will be explained in class in a later module.
+0. Right-click on the file `TestAlternatingLabelProvider.java` and select `Run As... | JUnit Test`. A green bar should appear.
+0. Right-click again on the file `TestAlternatingLabelProvider.java` and select `Coverage As... | JUnit Test`. A green bar should appear, along with a view showing coverage information. If you go back to the source code file, most lines should be highlighted in green. The meaning of this will be explained in class in a later module.
 0. Access the "Problems" view in Eclipse. You should see two warnings of the type "Checkstyle Problem".
 
 Once everything works as described above, try the following:
