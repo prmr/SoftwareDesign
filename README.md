@@ -76,7 +76,7 @@ These policies are subject to revision at any point during the term.
 
 An overview of the contents can be found [on a separate page](Overview.md)
 
-## Schedule
+## Lecture Schedule
 
 | Lecture | Date | Module |Lab|
 | --- |---|---|---|
@@ -91,7 +91,27 @@ An overview of the contents can be found [on a separate page](Overview.md)
 |9	| 2 Feb | M4 - Unit Testing | Lab Test 1 (M1-3)|
 |10	| 7 Feb | M5 - Composition | Lab Test 1 (M1-3)|
 |11	| 9 Feb | M5 - Composition | Lab Test 1 (M1-3)|
+|12	| 14 Feb | Review Session | Lab Test 2 (M4-5)|
+|13	| 16 Feb | Midterm 1 | Lab Test 2 (M4-5)|
+|14	| 21 Feb | M6 - Inversion of Control | Lab Test 2 (M4-5)|
+|15	| 23 Feb | M6 - Inversion of Control | Lab Test 2 (M4-5)|
+| 	| 28 Feb | Reading Week | |
+| 	| 2 Mar | Reading Week | |
+|16	| 7 Mar | Review Session | |
+|17	| 9 Mar | Midterm 2 | |
+|18	| 14 Mar | M7 - Inheritance | |
+|19	| 16 Mar | M7 - Inheritance | |
+|20	| 21 Mar | M8 - Visitor and Map-Reduce | Lab Test 3 (M6-7)|
+|21	| 23 Mar | M8 - Visitor and Map-Reduce | Lab Test 3 (M6-7)|
+|22	| 28 Mar | M9 - Concurrency | Lab Test 3 (M6-7)|
+|23	| 30 Mar | M9 - Concurrency | Lab Test 3 (M6-7)|
+|24	| 4 Apr | M10 - Topics in Software Design | Lab Test 4 (M8-9)|
+|25	| 6 Apr | M10 - Topics in Software Design | Lab Test 4 (M8-9)|
+|26	| 11 Apr | Review for the Final | Lab Test 4 (M8-9)|
 
+## Office Hours and Labs Schedule
+
+To be determined.
 
 ## License
 
