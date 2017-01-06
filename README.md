@@ -80,9 +80,17 @@ An overview of the contents can be found [on a separate page](Overview.md)
 
 | Lecture | Date | Module |Lab|
 | --- |---|---|---|
-|1	| 5 Jan | M00-Preparation | |
-|2	| 10 Jan | M01-Encapsulation | |
-|3	| 12 Jan | M01-Encapsulation | |
+|1	| 5 Jan | M0 - Preparation | |
+|2	| 10 Jan | M1 - Encapsulation | |
+|3	| 12 Jan | M1 - Encapsulation | |
+|4	| 17 Jan | M2 - Types and Polymorphism | |
+|5	| 19 Jan | M2 - Types and Polymorphism | |
+|6	| 24 Jan | M3 - Object State | |
+|7	| 26 Jan | M3 - Object State | |
+|8	| 31 Jan | M4 - Unit Testing | Lab Test 1 (M1-3)|
+|9	| 2 Feb | M4 - Unit Testing | Lab Test 1 (M1-3)|
+|10	| 7 Feb | M5 - Composition | Lab Test 1 (M1-3)|
+|11	| 9 Feb | M5 - Composition | Lab Test 1 (M1-3)|
 
 
 ## License
