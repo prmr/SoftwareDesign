@@ -80,7 +80,7 @@ An overview of the contents can be found [on a separate page](Overview.md)
 
 | Lecture | Date | Module |Lab|
 | --- |---|---|---|
-|1	| 5 Jan | M0 - Preparation | |
+|1	| 5 Jan | [M0 - Preparation](modules/Module-00.md) | |
 |2	| 10 Jan | M1 - Encapsulation | |
 |3	| 12 Jan | M1 - Encapsulation | |
 |4	| 17 Jan | M2 - Types and Polymorphism | |
