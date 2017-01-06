@@ -78,10 +78,10 @@ An overview of the contents can be found [on a separate page](Overview.md)
 
 ## Schedule
 
-| --- | --- | --- | --- |
-|Lecture|Date|Module|Lab|
-| --- | --- | --- | --- |
-|1|5 Jan | M00-Preparation | |
+| Lecture | Date | Module |Lab|
+| --- |---|---|---|
+|1	| 5 Jan | M00-Preparation | |
+
 
 ## License
 
