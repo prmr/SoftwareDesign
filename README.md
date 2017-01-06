@@ -81,6 +81,8 @@ An overview of the contents can be found [on a separate page](Overview.md)
 | Lecture | Date | Module |Lab|
 | --- |---|---|---|
 |1	| 5 Jan | M00-Preparation | |
+|2	| 10 Jan | M01-Encapsulation | |
+|3	| 12 Jan | M01-Encapsulation | |
 
 
 ## License
