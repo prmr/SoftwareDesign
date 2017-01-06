@@ -4,6 +4,13 @@
 
 How does one approach a software development project? Start hacking and hope for the best? Probably not. This would just be [inviting disaster](http://spectrum.ieee.org/static/the-staggering-impact-of-it-systems-gone-wrong). In this pseudo-module, I will present an overview of the important steps we need to take to prepare to develop quality software, from understanding the problem to mapping out a development process to choosing and setting up our tools to sketching an application.
 
+## Learning Objectives
+
+After this module you should:
+
+* Know about the concept of software process and the role it plays in software development;
+* Have a development environment set up.
+
 ## Notes
 
 Before jumping into software design, it's important to understand what software design is, and the place it occupies in the more general context of software development.
@@ -19,6 +26,7 @@ Acquiring experience with a software development process is not the main focus o
 ## Reading
 
 * Articles referred to in the notes
+* Textbook 2.1
 
 ## Exercises
 
