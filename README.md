@@ -74,7 +74,13 @@ General philosophy of the role of lectures, and related policies:
 
 These policies are subject to revision at any point during the term.
 
-An overview of the schedule can be found [on a separate page](Overview.md)
+An overview of the contents can be found [on a separate page](Overview.md)
+
+## Schedule
+
+| --- | --- | --- | --- |
+|Lecture|Date|Module|Lab|
+|1|5 Jan | M00-Preparation||
 
 ## License
 
