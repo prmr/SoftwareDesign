@@ -26,7 +26,7 @@ One of the first problem we will tackle in this module is to design an abstracti
 
 The fact that we can represent a card in many different ways is also a good illustration of the concept of a **design space**. The design space is an imaginary multi-dimensional vector space where every dimension corresponds to a design quality attribute (like understandability, reusability, ease of implementation, etc.). Within such a design space, each specific design decision corresponds to a point. The figure below illustrates the idea. Each decision is likely to be good in some dimension, but less good in others, something we call a **design trade-off**. Two sub-spaces of the design space that are useful to consider are the space of *possible solutions*, and the space of *acceptable solutions*. Note that the theoretically optimal solution, which best satisfies all dimensions at the same time, is unlikely to be possible. All this to say that design is a decision process for which there is rarely a single "right answer", only answers that are better or worse in some dimensions (including some answers that are pretty bad in most dimensions). In practice, the challenge of choosing a point in the design space is compounded by the fact that assessing the quality of a solution, even within a single dimension, is a very approximate process, and that we don't usually know what the optimal solution is.
 
-![Exploring the design space](figures/m00-DesignSpace.png)
+![Exploring the design space](figures/m01-DesignSpace.png)
 
 ### Designing Basic Abstractions
 
@@ -53,7 +53,7 @@ In other cases we want to use our own type (or one defined by a library):
 class Card {}
 ```
 
-If we started to design this type, we would quickly realize that our program also needs to manipulate two other types of values: *suits* and *ranks*. These types of values are a bit different because they are more like labels for domain objects than actual objects. What makes them fell like labels are that there are a finite number of them for a particular type of values (e.g., 4 for suits), and it appears to be useless to have two or more instances representing a given suit (e.g., clubs). In fact values of these types would be used more or less as *constants* in a program.
+If we started to design this type, we would quickly realize that our program also needs to manipulate two other types of values: *suits* and *ranks*. These types of values are a bit different because they are more like labels for domain objects than actual objects. What makes them feel like labels are that there are a finite number of them for a particular type of values (e.g., 4 for suits), and it appears to be useless to have two or more instances representing a given suit (e.g., clubs). In fact values of these types would be used more or less as *constants* in a program.
 
 ```
 private static int CLUBS = 0;
@@ -81,14 +81,67 @@ This is not a feature, but rather a consequence of how enumerated types are impl
 
 ### Basic Class Encapsulation Guidelines
 
-<!--
-* Object copying idiom
-* Object encapsulation: It should not be possible to change an object state without going through its methods
-* Design by contract
-* Scopes and escaping references
-* Object diagrams
-* Immutability, final fields
-* Collection copying -->
+The following guidelines, explained in class, will help you define well-encapsulated classes:
+
+* Make all fields private. Later in the course I will describe how in some specific cases it may make sense to define them as `protected`. Extremely rarely is it desirable to leave them `public` or `packaged-scope` (default).
+* Do not automatically supply a class with a "getter" (a.k.a. "accessor") and "setter" (a.k.a. "mutator") method for every field. 
+* Try to avoid defining methods that both change ("mutate") the state of an object and return ("access") a value.
+* Define your instance variables as `final` whenever possible. In Java the `final` designation for an instance or class variable indicates that it is not possible to re-assign (change) the value of the variable after it is initialized. However, remember that in Java values for references types are the references themselves, not the object they reference. This means that if the declared type for a final field is a reference type, although it will not be possible to assign the field to a different object, it will always be possible to change that object. More on this topic in Module 3.
+* Make your classes **immutable** whenever possible. An *immutable* class generates instances whose state it is impossible to change. For example, instances of the class `String` cannot be modified, so they are immutable.
+* Ensure your accessor methods do not return a reference to a mutable instance variable. In general, *it should never be possible to modify the internal state of an object without going through this object's instance methods*. If you need other objects to access instance variables that are held in mutable objects, return a copy of the object instead (see below). Note that values primitive types are copied by default.
+
+### Scope 
+
+A bit of important terminology about various variable *scopes* that impact encapsulation in Java. 
+
+* **Global Scope**: Class variables (a.k.a. static fields) denoted as `public` can be accessed by any other part of the program, and are said to be *global*. Similarly, instance variables (a.k.a. non-static fields) denoted as `public` can be accessed by any part of the program that transitively has a reference to the corresponding instance. These are also considered to be in the global scope. Ideally very few elements should be in the global scope, if any.
+
+* **Object Scope**: Instance variables (a.k.a. non-static fields) denoted as `private` can (only) be accessed by methods that take the same instance as implicit parameter (i.e., methods on the same object). These are considered to be in the object scope.
+
+* **Local Scope**: Local variables are only accessible within their immediately encompassing block scope (in most cases that is the innermost set of curly braces encompassing the variable definition. Locals variables are obviously restricted to their local scope, but also formal method parameters, exception variables, etc.
+
+* **Other Scopes**: There are other scopes to consider for more advanced design problems, including package scope, class-hierarchy scope, scopes for closures, etc. These will be introduced as necessary. For Module 1 only the three basic scopes are relevant.
+
+![Exploring the design space](figures/m01-scopes.png)
+
+One of the ways we can achieve good encapsulation is to always define variables in the tightest scope possible. Unfortunately, in Java values can **escape their scope**, and it's our job as a good programmer to make sure they can't. Here's are the four typical routes of escape in Java, illustrated with the code below for object scopes.
+
+* **There is no door:** If a variable is in the global scope, it escapes by default because it is not contained. This is somewhat of a degenerate case.
+* **The front door is open:**: If an accessor method returns a reference to an instance variable in the object scope, the reference escapes the object scope. One solution here is to copy the object before returning it.
+* **The door was not closed:** If an instance variable is assigned a value obtained from a parameter, the caller of the method retains a reference to the object, which means the value is not properly captured by the object scope. One solution here is to copy the object before assigning it.
+* **The back door is open:** If a reference to an instance variable is stored within an object that can be referenced from outside the object scope, then the reference escapes the object score. One solution here is to copy the object before storing it in the provided data structure, but in often this kind of convoluted design is can be improved to avoid the problem in the first place.
+
+```
+public class Deck
+{
+	/* There is no door */
+	public Stack<Card> aCards = new Stack<>();
+	
+	/* The front door is open */
+	public Stack<Card> getCards()
+	{ return aCards; }
+	
+	/* The door was not closed */
+	public void setStack(Stack<Card> pCards)
+	{ aCards = pCards; }
+	
+	/* The back door is open */
+	public void applyAll( List<Stack<Card>> pTaskList )
+	{ pTaskList.add(aCards); }
+}
+```
+
+### Copying Objects
+
+To be completed
+
+### Design by Contract
+
+To be completed
+
+### UML Object Diagrams
+
+To be completed
 
 ## Reading
 * Textbook 3.1-3.6
