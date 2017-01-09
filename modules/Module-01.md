@@ -79,6 +79,8 @@ suit = null;
 
 This is not a feature, but rather a consequence of how enumerated types are implemented in Java (as reference types). A good programming practice is to never consider the `null` value to be a legal value when using enumerated types.
 
+### Basic Class Encapsulation Guidelines
+
 <!--
 * Object copying idiom
 * Object encapsulation: It should not be possible to change an object state without going through its methods
@@ -90,7 +92,7 @@ This is not a feature, but rather a consequence of how enumerated types are impl
 
 ## Reading
 * Textbook 3.1-3.6
-* The Java Tutorian on [Enumerated Types](https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html)
+* The Java Tutorial on [Enumerated Types](https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html)
 * Solitaire v0.1 [Card.java](https://github.com/prmr/Solitaire/blob/v0.1/src/ca/mcgill/cs/stg/solitaire/cards/Card.java)
 * Solitaire v0.1 [Deck.java](https://github.com/prmr/Solitaire/blob/v0.1/src/ca/mcgill/cs/stg/solitaire/cards/Deck.java)
 * JetUML v1.0 [MultiLineString](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/MultiLineString.java)
