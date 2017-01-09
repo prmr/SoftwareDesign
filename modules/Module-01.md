@@ -28,6 +28,57 @@ The fact that we can represent a card in many different ways is also a good illu
 
 ![Exploring the design space](figures/m00-DesignSpace.png)
 
+### Designing Basic Abstractions
+
+One of the main activities of software design is to *define abstractions* using programming languages mechanisms. Ideally the abstractions we define will:
+
+* clearly map to concepts in the problem domain (to facilitate program understanding)
+* be well-encapsulated (see above)
+
+One of the main mechanisms we use to define abstractions in type-based object-oriented languages is, not surprisingly, the *type*. 
+
+Consider the following bad example:
+
+```
+int card = 0; // The ace of clubs
+```
+
+Here our decision is to use the integer primitive type as the abstraction to represent a playing card. Notice how this achieves neither of the two desirable properties above. The `int` type maps to the concept of integers (a type of number), not that of a playing card. You could rename the variable to `socialInsuranceNumber` while it still holds a value for a card, and achieve maximum confusion. It is also not well-encapsulated because you could assign the value 53 to the variable and corrupt it.
+
+For this reason it's generally a bad idea to try to shoehorn domain concepts into default types like integer or string. The `int` type should only be used to hold actual integers (and very similar concepts, such as currency), and similarly with strings. 
+
+In other cases we want to use our own type (or one defined by a library):
+
+```
+class Card {}
+```
+
+If we started to design this type, we would quickly realize that our program also needs to manipulate two other types of values: *suits* and *ranks*. These types of values are a bit different because they are more like labels for domain objects than actual objects. What makes them fell like labels are that there are a finite number of them for a particular type of values (e.g., 4 for suits), and it appears to be useless to have two or more instances representing a given suit (e.g., clubs). In fact values of these types would be used more or less as *constants* in a program.
+
+```
+private static int CLUBS = 0;
+private static int HEARTS = 1;
+...
+```
+
+There is a specific mechanism for representing these kinds of values called the [Enumerated Type](https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html), or "enum types" for short. It's better to avoid the single colloquial term "enum" because it's not clear whether it refers to an enumerated type or a value of this type. Enumerated types are a truly powerful feature for software design, and I will use them extensively throughout this course. The one slight weakness of enumerated types in Java is that in addition to the enumerated values:
+
+```
+public enum Suit
+{
+	CLUBS, DIAMONDS, SPADES, HEARTS
+}
+```
+
+a variable of an enumerated type can also take the value `null`:
+
+```
+Suit suit = Suit.CLUBS;
+suit = null;
+```
+
+This is not a feature, but rather a consequence of how enumerated types are implemented in Java (as reference types). A good programming practice is to never consider the `null` value to be a legal value when using enumerated types.
+
 <!--
 * Programming language types play a big role in helping to encapsulate abstractions. String vs in vs enum
 * Enum types
@@ -41,6 +92,7 @@ The fact that we can represent a card in many different ways is also a good illu
 
 ## Reading
 * Textbook 3.1-3.6
+* The Java Tutorian on [Enumerated Types](https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html)
 * Solitaire v0.1 [Card.java](https://github.com/prmr/Solitaire/blob/v0.1/src/ca/mcgill/cs/stg/solitaire/cards/Card.java)
 * Solitaire v0.1 [Deck.java](https://github.com/prmr/Solitaire/blob/v0.1/src/ca/mcgill/cs/stg/solitaire/cards/Deck.java)
 
