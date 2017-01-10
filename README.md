@@ -111,7 +111,14 @@ An overview of the contents can be found [on a separate page](Overview.md)
 
 ## Office Hours and Labs Schedule
 
-To be determined.
+TA office hours and labs are in TR 3120.
+
+| Time | TA |
+| --- |---|
+| Monday 1pm | Mathieu | 
+| Tuesday 2:30 pm | Mathieu | 
+| Wednesday 3pm | Paul |
+|  Friday 12pm | Paul |
 
 ## License
 
