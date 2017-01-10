@@ -192,7 +192,7 @@ of the official interface specification! When designing method interfaces, it is
 
 There will often be situations where we need to discuss various design problems and solutions that are too complex 
 or inconvenient to describe using either source code or natural language. For this purpose we can use the [Unified Modeling Language](https://en.wikipedia.org/wiki/Unified_Modeling_Language), or UML. The UML consists in a modeling language 
-roughly organized in terms of different *diagrams* that are a great way to illustrate different aspects of software without getting bogged down with all the details. They are also a language specialized for software design topic, a bit like musical notation is a language specialized for music. Try describing your favorite melody using only written English text: it's a similar idea with the UML.
+roughly organized in terms of different types of *diagrams* that are a great way to illustrate different aspects of software without getting bogged down with all the details. They are also a language specialized for describing software design, a bit like musical notation is a language specialized for music. Try describing your favorite melody using only written English text: it's a similar idea with software.
 
 Different people use UML in different ways for different reasons. For example, UML can be used to produce formal design documentation in Waterfall-type development processes. Others use UML to describe enough of the software to be able to automatically generate the code from the models. In COMP 303 I use UML simply for *communicating ideas about design*. The models we produce in this course are not expected to be formal or automatically transformable into code. I also use the smallest subset of the
 modeling language possible to cover the course material. 
@@ -200,11 +200,25 @@ modeling language possible to cover the course material.
 A very important thing to remember about UML diagrams, is that they are *models*. This means that they are not intended to capture
 every single little details of a solution. Ideally, a UML diagram should focus on illustrating a *single main idea* and only include the relevant information. In UML diagramming it is a common practice to leave the parts of a system that are not directly relevant to the point being illustrated. 
 
+In this course I will do all my diagramming with [JetUML](http://cs.mcgill.ca/~martin/jetuml/). 
+
 ### Object Diagrams
+
+Object diagrams represent an existing graph of objects, or class *instances*. In Java, whenever a `new` statement is executed, an object is created and a reference to this object is returned and passed around. It can often be useful to visually represent the resulting graph of objects and their inter-dependent references.
+
+In an Object Diagram a rectangle represents an object instance, with it's name and type indicated as `name:type`. Both name and type information are optional, but in general it's useful to have at least one of the two. By convention in UML the name of objects (as opposed to classes) are underlined in all diagrams. Objects can contain *fields*, which are just like Java field. They can contain a primitive value or a value that is a reference to another object. References are represented as arrow to what ever they refer to.
+
+Consider the diagram below:
 
 ![Example of Object Diagram 1](figures/m01-objectDiagram1.png)
 
+This diagram models an instance of the `Deck` class named `deck`. It would have been fine to omit this name and simply indicate `:Deck` in the rectangle, as in the case of `Stack`. This `deck` has a field `aCards` whose current value is a reference to a `Stack` object. The `Stack` object's `elementData` field references two `Card` objects. Here notice how, through modeling, we can skip over some useless details. In actual reality, in a `java.util.Stack` instance the `elementData` field refers to an array of `Object` types whose cells contain the actual data. This information is not useful here, and we link directly to the contained data. Note how the stack refers to two cards, and not 3 or 4 or 52. Another important point about Object Diagrams is that they represent a *snapshot in the execution of a program*. Here it was the point where the stack had two cards. An alternative explanation is that we didn't think it was useful to include all 52 cards to make the point that a deck is a stack of cards. The two `Card` instances, however, are modeled in full detail. Note how the values of enumerated types are distinguished by name, as it should, and that enumerated value `Suit.CLUBS` is *shared* between two cards. I will cover reference sharing in more detail in Module 3.
+
+The second sample diagram, below, illustrates some of the modeling simplifications we can do, when appropriate.
+
 ![Example of Object Diagram 2](figures/m01-objectDiagram2.png)
+
+Here the field `aName`, clearly of type `String`, has the string represented as if it were a value of a primitive type. To be completely accurate down to the last detail, the value should be a reference to an instance of class `String` that has a reference to an array of `char` objects, each with one letter. That level of detail would be both superfluous and counter-productive to the goal of indicating that a `Player` object store name information. In this second diagram, we also see that a player somehow keeps track of a number of cards, but how these are stored internally is not represented. The cards could be in an array, a list, a set, whatever. In this case it was not judged necessary to include this information. Finally, and this is maybe a bit of a stretch, the value of the `Card` instances are represented artificially by using an evocative name for the objects, instead of modeling the field values. This doesn't mean that these `Card` instances somehow don't have the `aRank` and `aSuit` field, it just means this detail has been elided on the diagram.
 
 ## Reading
 * Textbook 3.1-3.6
