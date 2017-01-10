@@ -188,9 +188,23 @@ of the official interface specification! When designing method interfaces, it is
 		...
 ```
 
-### UML Object Diagrams
+### The Unified Modeling Language
 
-To be completed
+There will often be situations where we need to discuss various design problems and solutions that are too complex 
+or inconvenient to describe using either source code or natural language. For this purpose we can use the [Unified Modeling Language](https://en.wikipedia.org/wiki/Unified_Modeling_Language), or UML. The UML consists in a modeling language 
+roughly organized in terms of different *diagrams* that are a great way to illustrate different aspects of software without getting bogged down with all the details. They are also a language specialized for software design topic, a bit like musical notation is a language specialized for music. Try describing your favorite melody using only written English text: it's a similar idea with the UML.
+
+Different people use UML in different ways for different reasons. For example, UML can be used to produce formal design documentation in Waterfall-type development processes. Others use UML to describe enough of the software to be able to automatically generate the code from the models. In COMP 303 I use UML simply for *communicating ideas about design*. The models we produce in this course are not expected to be formal or automatically transformable into code. I also use the smallest subset of the
+modeling language possible to cover the course material. 
+
+A very important thing to remember about UML diagrams, is that they are *models*. This means that they are not intended to capture
+every single little details of a solution. Ideally, a UML diagram should focus on illustrating a *single main idea* and only include the relevant information. In UML diagramming it is a common practice to leave the parts of a system that are not directly relevant to the point being illustrated. 
+
+### Object Diagrams
+
+![Example of Object Diagram 1](figures/m01-objectDiagram1.png)
+
+![Example of Object Diagram 2](figures/m01-objectDiagram2.png)
 
 ## Reading
 * Textbook 3.1-3.6
