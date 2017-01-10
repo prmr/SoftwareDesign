@@ -202,6 +202,7 @@ To be completed
 ## Exercises
 
 0. Implement class `Card` as a single enumerated type. For the purpose of the Solitaire application, does this look like a superior or inferior solution to version 7 of class `Card` seen in class? Why? Try writing down your answer in specific terms using terminology seen in the course. This will be an excellent practice for the exams.
+0. Extend the `Suit` enumerated type in `Card` to include a method `color()` that returns the color of the suit. The return type should be a new enumerated type `Color`.
 0. Extend version 7 of class `Card` to support the concept of a "Joker" (a special card that is not in any suit) while keeping the class as well-encapsulated as possible.
 0. Further extend your class to support any number of distinct jokers. For example, a "high" joker vs. a "low" joker, or even three jokers, etc. Again, try to keep things well-encapsulated and respectful of the class design guidelines seen in the reading.
 0. Add a method `getCards()` to the `Deck` class that returns the cards in the deck without breaking encapsulation.
