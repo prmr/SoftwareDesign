@@ -131,13 +131,47 @@ public class Deck
 }
 ```
 
-### Copying Objects
-
-To be completed
-
 ### Design by Contract
 
-To be completed
+The idea of [Design by Contract](https://en.wikipedia.org/wiki/Design_by_contract) is to follow a principled approach to the specification of interfaces. Although in practice, method signature already specify much of what is needed, they actually leave a lot of room for ambiguity.
+
+A typical case where design by contract can help is to specify whether `null` is a legal input or not. Consider the following constructor for a `Card` class:
+
+```
+public class Card
+{
+	public Card(Rank pRank, Suit pSuit)
+	{
+		...
+```
+
+Is it legal to pass in a `null` value for `pRank` and/or `pSuit`? Maybe, maybe not. A helpful programmer could put this in the Javadocs, which is better than nothing. Design by Contract goes further a provides a formal framework for reasoning about this kind of interface information. There's a lot to say about Design by Contract. Here I only summarize what I use in the course.
+
+The idea of Design by Contract is for method signatures (and complementary meta-data) to provide a sort of "contract" between the "client" (the caller method) and the "server" (the method being called). This contract takes the form of a set of **preconditions** and a set of **postconditions**. Given these, the contract is basically that *the method can only be expected to conform to the postconditions if the caller conforms to the preconditions*. If a client calls a method without respecting the preconditions, the behavior of the method is **unspecified**. In practice Design by Contract is a great way to force us to think about all possible ways to use a method.
+
+In this course I adopt a lightweight version of Design by Contract where preconditions are specified using Java statements in the Javadoc using the `@pre` tag and, more rarely, postconditions are specified using the tag `@post`. 
+
+```
+	/**
+	 * ...
+	 * @pre pRank != null && pSuit != null
+	 */
+	public Card(Rank pRank, Suit pSuit)
+	{
+		...
+```
+
+It is possible to make pre- and postconditions (and any other predicate) *checkable* in Java using the `assert` statement:
+
+```
+assert pRank != null && pSuit != null;
+```
+
+The `assert` statement basically evaluates the predicate in the statement and returns an `AssertionError` if the predicate evaluates to false. Unfortunately assertion checking is disabled by default in Java, so to use this properly you must add `-ea` (enable assertions) as a VM parameter when running Java programs.
+
+Correctly implemented, Design by Contract helps prevent the annoying idiom of *defensive* programming where corner cases (such as null values) are checked everywhere in the code. Additionally, the technique supports rapid *blame assignment* while debugging: If a precondition check fails, the client (caller method) is to blame. If a postcondition check fail, the actual method being called is to blame.
+
+More generally, `assert` statements are a simple yet very powerful tool to increase code quality and I encourage you to use it everywhere, not just for pre- and postconditions. Whenever an assertion check fails, you know exactly where the problem is, and thus can save hours of debugging time.
 
 ### UML Object Diagrams
 
