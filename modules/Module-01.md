@@ -190,7 +190,7 @@ of the official interface specification! When designing method interfaces, it is
 
 ### Exposing Encapsulated Information
 
-In a great majority of cases the classes we design will need to expose part of the information they encapsulate to other objects. How can we do this without breaking encapsulation, and in particular the cardinal rule that *it should never be possible to modify the internal state of an object without going through this object's instance methods*.
+In a great majority of cases the objects of the classes we design will need to expose part of the information they encapsulate to other objects. How can we do this without breaking encapsulation, and in particular the cardinal rule that *it should never be possible to modify the internal state of an object without going through this object's instance methods*.
 
 If the internal objects that need to be exposed are *immutable*, then there's no issue. For example, a `Card` object returns its rank:
 
@@ -222,11 +222,11 @@ If *it is really necessary* to provide information about the stack to other obje
 * To return an immutable wrapper for the collection using library methods such as `java.util.Collections.unmodifiableList(...)`. This strategy will be covered in more details in Module 5.
 * To return a copy of the collection. 
 
-[Copying objects](https://en.wikipedia.org/wiki/Object_copying) is one way to help design well-encapsulated classes, but it can be a complex topic. There are different ways to copy objects in Java:
+[Copying objects](https://en.wikipedia.org/wiki/Object_copying) is one way to help design well-encapsulated classes, but it can be a complex topic. There are different ways to copy objects in Java, each with their strengths and weaknesses:
 
-* To use the idiom of **copy constructors**
-* To use Java's special-purpose cloning mechanism.
-* To use tricks such as serialization-deserialization, reflection, etc.
+* To use the idiom of **copy constructors**;
+* To use Java's special-purpose *cloning* mechanism;
+* To use features such as serialization or reflection.
 
 Here we focus on copy constructors. The other strategies require more advanced material and their coverage is deferred to later modules.
 
