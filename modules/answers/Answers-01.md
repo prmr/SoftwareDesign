@@ -64,7 +64,7 @@ The code of a partial solution can be found [here](MultiDeck.java). The solution
 
 ## Exercise 7
 
-![Answer to exercise 7](figures/m01-objectDiagram2.png)
+![Answer to exercise 7](m01-a-multideck.png)
 
 ## Exercise 8
 
