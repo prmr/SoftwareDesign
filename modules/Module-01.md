@@ -92,7 +92,7 @@ The following guidelines, explained in class, will help you define well-encapsul
 
 ### Scope 
 
-A bit of important terminology about various variable *scopes* that impact encapsulation in Java. 
+A bit of important terminology about various variable *scopes* that impact encapsulation in Java. A scope for a variable refers to the subset of the program where that variable is visible and can be accessed.
 
 * **Global Scope**: Class variables (a.k.a. static fields) denoted as `public` can be accessed by any other part of the program, and are said to be *global*. Similarly, instance variables (a.k.a. non-static fields) denoted as `public` can be accessed by any part of the program that transitively has a reference to the corresponding instance. These are also considered to be in the global scope. Ideally very few elements should be in the global scope, if any.
 
@@ -187,6 +187,70 @@ of the official interface specification! When designing method interfaces, it is
 		if( pRank != null || pSuit != null ) throw new IllegalArgumentException()
 		...
 ```
+
+### Exposing Encapsulated Information
+
+In a great majority of cases the classes we design will need to expose part of the information they encapsulate to other objects. How can we do this without breaking encapsulation, and in particular the cardinal rule that *it should never be possible to modify the internal state of an object without going through this object's instance methods*.
+
+If the internal objects that need to be exposed are *immutable*, then there's no issue. For example, a `Card` object returns its rank:
+
+```
+public class Card
+{
+	Rank aRank = ...;
+	
+	public Rank getRank()
+	{
+		return aRank;
+	}
+	...
+```
+
+but the value returned is of the enumerated type `Rank`, which is immutable, so even if the reference to `aRank` is allowed to escape the object scope, whatever other parts of the program get a hold of it can't do anything to the `Rank` object that is referenced, so, it's all good.
+
+But what if the object that is referenced is *mutable*, as in the case of the stack encapsulated by a `Deck` class?
+
+```
+public class Deck
+{
+	private final Stack<Card> aCards = new Stack<>();
+```
+
+If *it is really necessary* to provide information about the stack to other objects, we don't want to do this by returning a reference to the mutable stack. Several options are possible:
+
+* To add methods to the `Deck` class that allow querying the state of the deck in a safe way. For example, by adding methods like `isEmpty()`, `size()`, `elementAt()`, etc. This strategy will be covered in more details in Module 2.
+* To return an immutable wrapper for the collection using library methods such as `java.util.Collections.unmodifiableList(...)`. This strategy will be covered in more details in Module 5.
+* To return a copy of the collection. 
+
+[Copying objects](https://en.wikipedia.org/wiki/Object_copying) is one way to help design well-encapsulated classes, but it can be a complex topic. There are different ways to copy objects in Java:
+
+* To use the idiom of **copy constructors**
+* To use Java's special-purpose cloning mechanism.
+* To use tricks such as serialization-deserialization, reflection, etc.
+
+Here we focus on copy constructors. The other strategies require more advanced material and their coverage is deferred to later modules.
+
+A copy constructor is simply a constructor that takes in a parameter of the same type as the class whose objects should be copied, and copies the 
+information from the argument object to the invoked object. For example for a `Card`:
+
+```
+public class Card
+{
+	private Rank aRank;
+	private Suit aSuit;
+	
+	/** Copy constructor */
+	public Card( Card pCard )
+	{
+		aRank = pCard.aRank;
+		aSuit = pCard.aSuit;
+	}
+}
+```
+
+It good to know that many Java collection classes support a kind of copy constructor, for example [ArrayList](http://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html#ArrayList-java.util.Collection-);
+
+Copying collections is a tricky topic because it requires various design decisions about the *depth* of the copy. Here it is assumed that the concepts of *shallow* vs. *deep* copying were adequately covered in the prerequisite courses, but the Wikipedia article on [object copying](https://en.wikipedia.org/wiki/Object_copying) provides a refresher, and we will cover this topic in more depth in Module 3.
 
 ### The Unified Modeling Language
 
