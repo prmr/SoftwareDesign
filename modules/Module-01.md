@@ -96,7 +96,7 @@ A bit of important terminology about various variable *scopes* that impact encap
 
 * **Global Scope**: Class variables (a.k.a. static fields) denoted as `public` can be accessed by any other part of the program, and are said to be *global*. Similarly, instance variables (a.k.a. non-static fields) denoted as `public` can be accessed by any part of the program that transitively has a reference to the corresponding instance. These are also considered to be in the global scope. Ideally very few elements should be in the global scope, if any.
 
-* **Object Scope**: Instance variables (a.k.a. non-static fields) denoted as `private` can (only) be accessed by methods that take the same instance as implicit parameter (i.e., methods on the same object). These are considered to be in the object scope. The "object scope" is a useful concept for design, especially when considering the problem of escaping references (see below). However, the concept of an object scope is not supported by the Java language, which has a strictly static view of scopes. In Java, instances variables ("fields") are placed in the *class scope*, which approximates the idea of the object scope, but provides additional flexibility when implementing things like copy constructors (or the `equals` method, something we will see later). Consider the code below:
+* **Object Scope**: Instance variables (a.k.a. non-static fields) denoted as `private` can (only) be accessed by methods that take the same instance as implicit parameters (i.e., methods on the same object). These are considered to be in the object scope. The "object scope" is a useful concept for design, especially when considering the problem of escaping references (see below). However, the concept of an object scope is not supported by the Java language, which has a strictly static view of scopes. In Java, instances variables ("fields") are placed in the *class scope*, which approximates the idea of the object scope, but provides additional flexibility when implementing things like copy constructors (or the `equals` method, something we will see later). Consider the code below:
 
 ```
 public class Card
@@ -112,7 +112,7 @@ public class Card
 	...
 ```
 
-Here the code in the constructor can see the private `aRank` and `aSuit` fields *of another `card` object*, because the references happens between members of the same class. This situation can be a bit confusing at first, but it's good to remember that it's somewhat of a special case. For all the code except the methods of `Card`, the object scope and the class scope will overlap. 
+Here the code in the constructor can see the private `aRank` and `aSuit` fields of a *different* `Card` object, because the references happen between members of the same class. This situation can be a bit confusing at first, but it's good to remember that it's somewhat of a special case. For all the code except the methods of `Card`, the object scope and the class scope will overlap. 
 	
 
 * **Local Scope**: Local variables are only accessible within their immediately encompassing block scope (in most cases that is the innermost set of curly braces encompassing the variable definition. Locals variables are obviously restricted to their local scope, but also formal method parameters, exception variables, etc.
