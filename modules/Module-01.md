@@ -126,7 +126,7 @@ One of the ways we can achieve good encapsulation is to always define variables 
 * **There is no door:** If a variable is in the global scope, it escapes by default because it is not contained. This is somewhat of a degenerate case.
 * **The front door is open:**: If an accessor method returns a reference to an instance variable in the object scope, the reference escapes the object scope. One solution here is to copy the object before returning it.
 * **The door was not closed:** If an instance variable is assigned a value obtained from a parameter, the caller of the method retains a reference to the object, which means the value is not properly captured by the object scope. One solution here is to copy the object before assigning it.
-* **The back door is open:** If a reference to an instance variable is stored within an object that can be referenced from outside the object scope, then the reference escapes the object score. One solution here is to copy the object before storing it in the provided data structure, but in often this kind of convoluted design is can be improved to avoid the problem in the first place.
+* **The back door is open:** If a reference to an instance variable is stored within an object that can be referenced from outside the object scope, then the reference escapes the object score. One solution here is to copy the object before storing it in the provided data structure, but often this kind of convoluted design can be improved to avoid the problem in the first place.
 
 ```
 public class Deck
@@ -265,7 +265,7 @@ public class Card
 }
 ```
 
-It good to know that many Java collection classes support a kind of copy constructor, for example [ArrayList](http://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html#ArrayList-java.util.Collection-);
+It's good to know that many Java collection classes support a kind of copy constructor, for example [ArrayList](http://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html#ArrayList-java.util.Collection-);
 
 Copying collections is a tricky topic because it requires various design decisions about the *depth* of the copy. Here it is assumed that the concepts of *shallow* vs. *deep* copying were adequately covered in the prerequisite courses, but the Wikipedia article on [object copying](https://en.wikipedia.org/wiki/Object_copying) provides a refresher, and we will cover this topic in more depth in Module 3.
 
