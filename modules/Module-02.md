@@ -113,7 +113,7 @@ The `Collections` class conveniently supplies us with a number of sorting functi
 Collections.sort(aCards); // Where aCards is a Stack<Card> instance
 ```
 
-without further thinking, we are rewarded with a moderately cryptic compilation error. This should not be surprising, though, because how exactly is a library method supported to know how we want to sort our cards? Not only is it impossible for the designers of library methods to anticipate all the user-defined types that can be invented, but even for a given type like `Card`, different orderings are possible (e.g., by rank, then suit, or vice-versa).
+without further thinking, we are rewarded with a moderately cryptic compilation error. This should not be surprising, though, because how exactly is a library method supposed to know how we want to sort our cards? Not only is it impossible for the designers of library methods to anticipate all the user-defined types that can be invented, but even for a given type like `Card`, different orderings are possible (e.g., by rank, then suit, or vice-versa).
 
 The [Comparable](http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html) interface helps solve this problem by defining a piece of behavior related specifically to the comparison of objects, in the form of a single `int compareTo(T)` method. Given the existence of this interface, the internal implementation of `Collections.sort` can now rely on it to compare the objects it should sort. You can imagine that the internal code of the `sort` implementation would have statements like:
 
@@ -143,7 +143,7 @@ Note also that the type-checking mechanism makes it possible for the compiler to
 
 [UML Class Diagrams](http://www.ibm.com/developerworks/rational/library/content/RationalEdge/sep04/bell/index.html) represent a *static*, or *compile-time* view of a software system. They are useful to represent how *classes* are defined and related, but are a very poor vehicule for showing any kind of *run-time* property of the code. UML class diagrams are the type of UML diagrams that is the closest to the code. However, it's important to remember that the point of UML diagrams is not to be an exact translation of the code. As models, they are useful to capture the essence of one or more design decision(s) without having to include all the details. 
 
-A good reference and tutorial for class diagrams [UML Class Diagrams](http://www.ibm.com/developerworks/rational/library/content/RationalEdge/sep04/bell/index.html) can be found on-line. Here is a cheat sheet of the notation I will use most commonly in the course. In the figure, all quotes are taken from [Unified Modeling Language Reference Manual, 2nd ed.](http://proquest.safaribooksonline.com/0321245628?tocview=true)
+A good reference and tutorial for [UML Class Diagrams](http://www.ibm.com/developerworks/rational/library/content/RationalEdge/sep04/bell/index.html) can be found on-line. Here is a cheat sheet of the notation I will use most commonly in the course. In the figure, all quotes are taken from [Unified Modeling Language Reference Manual, 2nd ed.](http://proquest.safaribooksonline.com/0321245628?tocview=true)
 
 ![UML Class Diagram Cheat Sheet](figures/m02-classDiagramNotation.png)
 
@@ -153,7 +153,7 @@ Here is an example of a Class Diagram modeling our card game so far:
 
 Notice the following:
 
-* The box representing class `Card` *does not have fields for* `aRank` and `Suit` because these are represented as aggregations to `Rank` and `Suit` enum types, respectively. *It is a modeling error* to have *both* a field *and* and aggregation representing a single value. Choose one.
+* The box representing class `Card` *does not have fields for* `aRank` and `Suit` because these are represented as aggregations to `Rank` and `Suit` enum types, respectively. *It is a modeling error* to have *both* a field *and* an aggregation representing a single value. Choose one.
 * The methods of `Card` are not represented, as they are just the constructor and accessors, hardly insightful information.
 * In UML, *there is no way* to indicate that a class *does not have* a certain method. So here if you want to convey the information that `Card` does not have setters for the two fields, you would have to include this using a note. 
 * Representing generic types is a bit problematic, because in some cases it makes more sense to represent the type parameter `Comparable<T>` and in some other cases it makes more sense to represent the type instance `Comparable<Card>`. In this sample diagram I went with the type parameter because I wanted to show how `Collections` depends on `Comparable` in general.
@@ -205,16 +205,13 @@ Collections.sort(aCards, new RankFirstComparator());
 Although simple, the use of a comparator object introduces many interesting design questions and trade-offs:
 * Where should the comparator classes be defined to ensure information hiding? Here [nested classes](https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html) can help.
 * Should a comparator have state, or be a pure (stateless) *function object*?
-* Do we need to refer to comparators classes by name, or is an [anonymous class](https://docs.oracle.com/javase/tutorial/java/javaOO/anonymousclasses.html) or [lambda expression](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html) sufficient? And if so, where should we define these?
+* Do we need to refer to comparator classes by name, or is an [anonymous class](https://docs.oracle.com/javase/tutorial/java/javaOO/anonymousclasses.html) or [lambda expression](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html) sufficient? And if so, where should we define these?
 
 
 
 <!--
 
 * Interface segregation principle
-* Function objects
-* Anonymous classes
-* Closures
 * Iterating over a deck
 * How the forall loop works
 * Design patterns
