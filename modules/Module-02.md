@@ -102,7 +102,7 @@ In Module 1 we solved the problem of shuffling a collection easily with the use 
 Collections.shuffle(aCards); // Where aCards is a Stack<Card> instance
 ```
 
-As you can imagine the library method `shuffle` randomly reorders the objects the argument collection. This is an example of **code reuse** because you can reuse the library method to re-order any kind of collection. Here reuse is trivially possible because to shuffle a collection, *we don't need to know anything about the items being shuffled*.
+As you can imagine the library method `shuffle` randomly reorders the objects in the argument collection. This is an example of **code reuse** because you can reuse the library method to re-order any kind of collection. Here reuse is trivially possible because to shuffle a collection, *we don't need to know anything about the items being shuffled*.
 
 But what if we want to reuse code to *sort* the cards in the deck? Sorting, like many classic computing problems, is supported by many existing high-quality implementations. In most realistic software development contexts it would not be acceptable to hand-craft your own sorting algorithm.
 
@@ -114,15 +114,13 @@ Collections.sort(aCards); // Where aCards is a Stack<Card> instance
 
 without further thinking, we are rewarded with a moderately cryptic compilation error. This should not be surprising, though, because how exactly is a library method supported to know how we want to sort our cards? Not only is it impossible for the designers of library methods to anticipate all the user-defined types that can be invented, but even for a given type like `Card`, different orderings are possible (e.g., by rank, then suit, or vice-versa).
 
-The [Comparable](http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html) interface helps solve this problem by defining a piece of behavior related specifically to the comparison of objects, in the form of a single `int compareTo(T)` method. Given the existence of this interface, the internal implementation of `Collections.shuffle` can now rely on it to compare the objects it should sort. You can imagine that the internal code of the `Collections.sort` implementation would have statements like:
+The [Comparable](http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html) interface helps solve this problem by defining a piece of behavior related specifically to the comparison of objects, in the form of a single `int compareTo(T)` method. Given the existence of this interface, the internal implementation of `Collections.sort` can now rely on it to compare the objects it should sort. You can imagine that the internal code of the `sort` implementation would have statements like:
 
 ```
 if( object1.compareTo(object2) > 0 )...
 ```
 
 So here it really does not matter what the object is, *as long as it is comparable with another object*. This is a great example of how interfaces and polymorphism support loose coupling: the code of `sort` depends on the *minimum possible* set of behavior required from its argument objects.
-
-Note that the type-checking mechanism makes it possible for the compiler to detect that a `Stack<Card>` object cannot be passed to `Collections.sort`. How this happens is outside the scope of this module because it requires a good understanding of the typing rules for Java generic types, something we will see later.
 
 To make it possible for us to sort a stack of cards, we therefore have to provide this *comparable* behavior and declare it through an interface implementation indication:
 
@@ -136,7 +134,9 @@ public class Card implements Comparable<Card>
 	}
 ```
 
-Note that this minimal implementation sorts cards by ascending rank, but leaves the order of suits undefined, which in practice leads to unpredictability. In the exercises you will improve this behavior to sort cards by taking suits into account as well.
+Note that this minimal implementation sorts cards by ascending rank, but leaves the order of suits undefined, which in practice leads to unpredictability. In the exercises you will improve this behavior to sort cards by taking suits into account as well. 
+
+Note also that the type-checking mechanism makes it possible for the compiler to detect that a `Stack<Card>` object cannot be passed to `Collections.sort` unless the `Card` class declares to implement the `Comparable` interface. How this happens is outside the scope of this module because it requires a good understanding of the typing rules for Java generic types, something we will see later.
 
 <!--
 
