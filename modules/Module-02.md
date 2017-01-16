@@ -92,6 +92,51 @@ Polymorphism as supported by Java interfaces supports two very useful quality fe
 * **Loose coupling**, because the code using a set of methods is not tied to a specific implementation of these methods.
 * **Extensibility**, because we can easily add new implementations of an interface (new "shapes" in the polymorphic relation).
 
+### The Comparable Interface
+
+Common design questions related to interfaces include: *do I need a separate interface?* and *what should this interface specify?* There are no general or template answers to that question, in each case the task is to determine if interfaces can help us solve a design problem or realize a particular feature. One good illustration of both the point and usefulness of interfaces in Java is the [Comparable](http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html) interface.
+
+In Module 1 we solved the problem of shuffling a collection easily with the use of a library:
+
+```
+Collections.shuffle(aCards); // Where aCards is a Stack<Card> instance
+```
+
+As you can imagine the library method `shuffle` randomly reorders the objects the argument collection. This is an example of **code reuse** because you can reuse the library method to re-order any kind of collection. Here reuse is trivially possible because to shuffle a collection, *we don't need to know anything about the items being shuffled*.
+
+But what if we want to reuse code to *sort* the cards in the deck? Sorting, like many classic computing problems, is supported by many existing high-quality implementations. In most realistic software development contexts it would not be acceptable to hand-craft your own sorting algorithm.
+
+The `Collections` class conveniently supplies us with a number of sorting functions, but if we opportunistically try 
+
+```
+Collections.sort(aCards); // Where aCards is a Stack<Card> instance
+```
+
+without further thinking, we are rewarded with a moderately cryptic compilation error. This should not be surprising, though, because how exactly is a library method supported to know how we want to sort our cards? Not only is it impossible for the designers of library methods to anticipate all the user-defined types that can be invented, but even for a given type like `Card`, different orderings are possible (e.g., by rank, then suit, or vice-versa).
+
+The [Comparable](http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html) interface helps solve this problem by defining a piece of behavior related specifically to the comparison of objects, in the form of a single `int compareTo(T)` method. Given the existence of this interface, the internal implementation of `Collections.shuffle` can now rely on it to compare the objects it should sort. You can imagine that the internal code of the `Collections.sort` implementation would have statements like:
+
+```
+if( object1.compareTo(object2) > 0 )...
+```
+
+So here it really does not matter what the object is, *as long as it is comparable with another object*. This is a great example of how interfaces and polymorphism support loose coupling: the code of `sort` depends on the *minimum possible* set of behavior required from its argument objects.
+
+Note that the type-checking mechanism makes it possible for the compiler to detect that a `Stack<Card>` object cannot be passed to `Collections.sort`. How this happens is outside the scope of this module because it requires a good understanding of the typing rules for Java generic types, something we will see later.
+
+To make it possible for us to sort a stack of cards, we therefore have to provide this *comparable* behavior and declare it through an interface implementation indication:
+
+```
+public class Card implements Comparable<Card>
+{
+	@Override
+	public int compareTo(Card pCard)
+	{
+		return pCard.getRank().ordinal() - getRank().ordinal();
+	}
+```
+
+Note that this minimal implementation sorts cards by ascending rank, but leaves the order of suits undefined, which in practice leads to unpredictability. In the exercises you will improve this behavior to sort cards by taking suits into account as well.
 
 <!--
 
