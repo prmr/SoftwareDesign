@@ -77,6 +77,7 @@ public class ImageIcon implements Icon
 ```
 
 The `implements` keyword has two related meanings:
+
 * It provides a formal guarantee that instances of the class type will have concrete implementations for all the methods in the interface type. This guarantee is enforced by the compiler.
 * It creates a **subtype** ("is-a") relationship between the implementing class and the interface type: here we can now say than an `ImageIcon` "is-a" type of `Icon`.
 
@@ -137,6 +138,32 @@ public class Card implements Comparable<Card>
 Note that this minimal implementation sorts cards by ascending rank, but leaves the order of suits undefined, which in practice leads to unpredictability. In the exercises you will improve this behavior to sort cards by taking suits into account as well. 
 
 Note also that the type-checking mechanism makes it possible for the compiler to detect that a `Stack<Card>` object cannot be passed to `Collections.sort` unless the `Card` class declares to implement the `Comparable` interface. How this happens is outside the scope of this module because it requires a good understanding of the typing rules for Java generic types, something we will see later.
+
+### UML Class Diagrams
+
+[UML Class Diagrams](http://www.ibm.com/developerworks/rational/library/content/RationalEdge/sep04/bell/index.html) represent a *static*, or *compile-time* view of a software system. They are useful to represent how *classes* are defined and related, but are a very poor vehicule for showing any kind of *run-time* property of the code. UML class diagrams are the type of UML diagrams that is the closest to the code. However, it's important to remember that the point of UML diagrams is not to be an exact translation of the code. As models, they are useful to capture the essence of one or more design decision(s) without having to include all the details. 
+
+A good reference and tutorial for class diagrams [UML Class Diagrams](http://www.ibm.com/developerworks/rational/library/content/RationalEdge/sep04/bell/index.html) can be found on-line. Here is a cheat sheet of the notation I will use most commonly in the course. In the figure, all quotes are taken from [Unified Modeling Language Reference Manual, 2nd ed.](http://proquest.safaribooksonline.com/0321245628?tocview=true).
+
+![UML Class Diagram Cheat Sheet](figures/m02-classDiagramNotation.png)
+
+Here is an example of a Class Diagram modeling our card game so far:
+
+![UML Class Diagram Example 1](figures/m02-classDiagramExample1.png)
+
+Notice the following:
+
+* The box representing class `Card` *does not have fields for* `aRank` and `Suit` because these are represented as aggregations to `Rank` and `Suit` enum type, respectively. *It is a modeling error* to have *both* a field *and* and aggregation representing a single value. Choose one.
+
+* The methods of `Card` are not represented, as they are just the constructor and accessors, hardly insightful information.
+
+* In UML, *there is no way* to indicate that a class *does not have* a certain method. So here if you want to convey the information that `Card` does not have setters for the two fields, you would have to include this using a note. 
+
+* Representing generic types is a bit problematic, because in some cases it makes more sense to represent the type parameter `Comparable<T>` and in some other cases it makes more sense to represent the type instance `Comparable<Card>`. In this sample diagram I went with the type parameter because I wanted to show how `Collections` depends on `Comparable` in general.
+
+* All UML tools have some sort of limitations one needs to get around. For simplicity, JetUML does not have different fonts to distinguish between static and non-static members. To indicate that a method is static in JetUML, simply add the word "static".
+
+* The model includes *cardinalities* to indicate, e.g., that a deck instance will aggregate between zero and 52 instances of `Card`.
 
 <!--
 
