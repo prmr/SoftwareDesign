@@ -143,7 +143,7 @@ Note also that the type-checking mechanism makes it possible for the compiler to
 
 [UML Class Diagrams](http://www.ibm.com/developerworks/rational/library/content/RationalEdge/sep04/bell/index.html) represent a *static*, or *compile-time* view of a software system. They are useful to represent how *classes* are defined and related, but are a very poor vehicule for showing any kind of *run-time* property of the code. UML class diagrams are the type of UML diagrams that is the closest to the code. However, it's important to remember that the point of UML diagrams is not to be an exact translation of the code. As models, they are useful to capture the essence of one or more design decision(s) without having to include all the details. 
 
-A good reference and tutorial for class diagrams [UML Class Diagrams](http://www.ibm.com/developerworks/rational/library/content/RationalEdge/sep04/bell/index.html) can be found on-line. Here is a cheat sheet of the notation I will use most commonly in the course. In the figure, all quotes are taken from [Unified Modeling Language Reference Manual, 2nd ed.](http://proquest.safaribooksonline.com/0321245628?tocview=true).
+A good reference and tutorial for class diagrams [UML Class Diagrams](http://www.ibm.com/developerworks/rational/library/content/RationalEdge/sep04/bell/index.html) can be found on-line. Here is a cheat sheet of the notation I will use most commonly in the course. In the figure, all quotes are taken from [Unified Modeling Language Reference Manual, 2nd ed.](http://proquest.safaribooksonline.com/0321245628?tocview=true)
 
 ![UML Class Diagram Cheat Sheet](figures/m02-classDiagramNotation.png)
 
@@ -153,23 +153,65 @@ Here is an example of a Class Diagram modeling our card game so far:
 
 Notice the following:
 
-* The box representing class `Card` *does not have fields for* `aRank` and `Suit` because these are represented as aggregations to `Rank` and `Suit` enum type, respectively. *It is a modeling error* to have *both* a field *and* and aggregation representing a single value. Choose one.
-
+* The box representing class `Card` *does not have fields for* `aRank` and `Suit` because these are represented as aggregations to `Rank` and `Suit` enum types, respectively. *It is a modeling error* to have *both* a field *and* and aggregation representing a single value. Choose one.
 * The methods of `Card` are not represented, as they are just the constructor and accessors, hardly insightful information.
-
 * In UML, *there is no way* to indicate that a class *does not have* a certain method. So here if you want to convey the information that `Card` does not have setters for the two fields, you would have to include this using a note. 
-
 * Representing generic types is a bit problematic, because in some cases it makes more sense to represent the type parameter `Comparable<T>` and in some other cases it makes more sense to represent the type instance `Comparable<Card>`. In this sample diagram I went with the type parameter because I wanted to show how `Collections` depends on `Comparable` in general.
-
 * All UML tools have some sort of limitations one needs to get around. For simplicity, JetUML does not have different fonts to distinguish between static and non-static members. To indicate that a method is static in JetUML, simply add the word "static".
-
 * The model includes *cardinalities* to indicate, e.g., that a deck instance will aggregate between zero and 52 instances of `Card`.
+
+### The Comparator Interface
+
+Implementing the `Comparable` interfaces allows instances of `Card` to compare themselves with other instances of `Card` using one strategy, for instance, by comparing the card's rank. What if we are designing a game where it makes sense to sort cards according to different strategies, and occasionally switch between them? One could tweak the code of `compareTo`, for instance by setting a flag in an instance of `Card` and switching the comparison strategy on this flag. However, hairbrained schemes of this nature would destroy the immutability of cards and generally degrade the cleanliness of the design. A better solution here is to move the comparison code to a separate object.
+
+This solution is supported by the [Comparator](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html) interface. This interface also has a single method, but it takes two arguments:
+```
+int compare(T pObject1, T pObject2)
+```
+
+Not surprisingly, library methods were also designed to work with this interface. For example:
+```
+sort(List<T> list, Comparator<? super T> c)
+```
+
+This method can sort a list of objects that are not necessarily comparable, by taking into account an object guaranteed to be able to compare two instances of the items in the list. One can now define a "rank first" comparator:
+
+```
+public class RankFirstComparator implements Comparator<Card>
+{
+	@Override
+	public int compare(Card pCard1, Card pCard2)
+	{ /* Comparison code */ }
+}
+```
+
+and another "suit first" comparator:
+
+```
+public class SuitFirstComparator implements Comparator<Card>
+{
+	@Override
+	public int compare(Card pCard1, Card pCard2)
+	{ /* Comparison code */ }
+}
+```
+
+and sort with the desired comparator:
+
+```
+Collections.sort(aCards, new RankFirstComparator());
+```
+
+Although simple, the use of a comparator object introduces many interesting design questions and trade-offs:
+* Where should the comparator classes be defined to ensure information hiding? Here [nested classes](https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html) can help.
+* Should a comparator have state, or be a pure (stateless) *function object*?
+* Do we need to refer to comparators classes by name, or is an [anonymous class](https://docs.oracle.com/javase/tutorial/java/javaOO/anonymousclasses.html) or [lambda expression](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html) sufficient? And if so, where should we define these?
+
+
 
 <!--
 
-* Sorting cards, using Collections. Using Comparable, using comparator
 * Interface segregation principle
-* UML class diagram primer
 * Function objects
 * Anonymous classes
 * Closures
