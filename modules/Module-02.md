@@ -204,7 +204,7 @@ Collections.sort(aCards, new RankFirstComparator());
 
 Although simple, the use of a comparator object introduces many interesting design questions and trade-offs.
 
-First, it comparator classes are **defined as standalone top-level Java classes**, the code of their `compare` methods will not have access to the private members of the objects they compare. In some cases the information available from access methods is sufficient to implement the comparison, but in many situations implementing the `compare` method will require access to private members. In such cases one option is to declare the comparator classes as [nested classes](https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html) of the class being compared:
+First, if comparator classes are **defined as standalone top-level Java classes**, the code of their `compare` methods will not have access to the private members of the objects they compare. In some cases the information available from accessor methods is sufficient to implement the comparison, but in many situations implementing the `compare` method will require access to private members. In such cases one option is to declare the comparator classes as [nested classes](https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html) of the class being compared:
 
 ```
 public class Card
@@ -220,13 +220,13 @@ public class Card
 	...
 ```
 
-and to client code the design would be almost the same, except for the additional name frament for the comparator:
+and to client code the design would be almost the same, except for the additional name fragment for the comparator:
 
 ```
 Collections.sort(aCards, new Card.CompareBySuitFirst());
 ```
 
-Another option is to define comparator classes "on-the-fly" as [anonymous class](https://docs.oracle.com/javase/tutorial/java/javaOO/anonymousclasses.html). In cases where the comparator
+Another option is to define comparator classes "on-the-fly" as [anonymous classes](https://docs.oracle.com/javase/tutorial/java/javaOO/anonymousclasses.html). In cases where the comparator
 does not hold any state, and is only referred to once, this makes a lot of sense:
 
 ```
@@ -242,7 +242,7 @@ public class Deck
 	}
 ```
 
-Optionally, since we are using Java 8, we can also pretend that comparators are a function reference, and use the practically equivalent syntax of [lambda expression](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html):
+Optionally, since we are using Java 8, we can also pretend that comparators are a function references, and use the practically equivalent syntax of [lambda expressions](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html):
 
 ```
 public class Deck 
@@ -253,7 +253,7 @@ public class Deck
 	}
 ```
 
-In Module 2 lambda expression are covered as an "extra" that is more or less equivalent to function objects.
+In this module lambda expression are covered as an "extra" that is more or less equivalent to function objects.
 
 In the two examples above, we have however brought back the problem of encapsulation, since the code in the anonymous class implementing 
 the comparison is defined outside of the `Card` class. We can fix this with the help of a static **factory method** whose role is simply to create and return a comparator
