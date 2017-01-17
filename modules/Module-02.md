@@ -207,6 +207,26 @@ Although simple, the use of a comparator object introduces many interesting desi
 * Should a comparator have state, or be a pure (stateless) *function object*?
 * Do we need to refer to comparator classes by name, or is an [anonymous class](https://docs.oracle.com/javase/tutorial/java/javaOO/anonymousclasses.html) or [lambda expression](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html) sufficient? And if so, where should we define these?
 
+## Reading
+* Textbook 4.1-4.5, 5.1, 5.2, 5.4.3
+* Solitaire v0.3 [PlayingStrategy.java](https://github.com/prmr/Solitaire/blob/v0.3/src/ca/mcgill/cs/stg/solitaire/ai/PlayingStrategy.java) as a simple example of a Strategy interface;
+* JetUML v1.0 [SegmentationStyle.java](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/SegmentationStyle.java) as a more elaborate example use of the Strategy Design Pattern.
+
+## Exercises
+
+Exercises prefixed with **(+)** are optional, more challenging question aimed to provide you with additional design and programming experience. Exercises prefixed with **(P)** (for "project") will incrementally guide you towards the ultimate completion of a complete Solitaire application.
+
+0. Design and implement a well-encapsulated abstraction to represent a "hand" of cards in a players hand as a Java class `Hand`. A `Hand` should be able to contain between 0 and `N` cards, where `N` is a a parameterizable upper bound that will correspond to the card game being played (e.g., 5 for draw poker, 13 for bridge, etc.). Implement the following services on a `Hand`: `add(Card)`, `remove(Card)`, `isEmpty()`, `size()`, and `isFull`. Ensure that all the rules of encapsulation are respected and use Design by Contract to clarify valid and invalid inputs.
+
+0. Make is possible to compare two hands using the [Comparable](http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html) interface. Sort hands by increasing number of cards in the hand. Write a small driver program to test your class.
+
+0. (+) Modify your `Hand` class to support a poker game and sort hands in terms of their strengths as [poker hands](https://en.wikipedia.org/wiki/List_of_poker_hands). How should you deal with hands that do not have exactly five cards?
+
+0. Make is possible to compare two hands using the [Comparator](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html) interface. Implement two different hand comparison strategies. Define *factory methods* in the `Hand` class to return anonymous instances of comparators for the different sorting strategies.
+
+0. (P) Create a fresh Eclipse project named "Solitaire" (e.g., by copying the [COMP303Starter repo](https://github.com/prmr/COMP303Starter). Add this project to a git repository and create a new package `comp303.solitaire.cards`. Copy the 3 files of the [Solitaire `cards` package](https://github.com/prmr/Solitaire/tree/v0.3/src/ca/mcgill/cs/stg/solitaire/cards) into your own package and adjust the package statements as required. You should now have a fully compilable version of the first three classes of the Solitaire application.
+
+0. (P) Design a well-encapsulated class to represent "suit stacks". A "suit stack" is a stack where players accumulate finished sequences of cards of a same suit, with the Ace at the bottom and subsequent cards on top of it in strictly increasing order of rank. Call your class `SuitStack`. Try to anticipate the services this class will need, and implement them as methods of the class.
 
 
 <!--
@@ -219,16 +239,6 @@ Although simple, the use of a comparator object introduces many interesting desi
 * Return to strategy
 
 -->
-
-## Reading
-* Textbook 4.1-4.5, 5.1, 5.2, 5.4.3
-* Solitaire v0.3 [PlayingStrategy.java](https://github.com/prmr/Solitaire/blob/v0.3/src/ca/mcgill/cs/stg/solitaire/ai/PlayingStrategy.java) as a simple example of a Strategy interface;
-* JetUML v1.0 [SegmentationStyle.java](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/SegmentationStyle.java) as a more elaborate example use of the Strategy Design Pattern.
-
-## Exercises
-
-
-
 ---
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a>
