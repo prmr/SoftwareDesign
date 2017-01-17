@@ -202,10 +202,82 @@ and sort with the desired comparator:
 Collections.sort(aCards, new RankFirstComparator());
 ```
 
-Although simple, the use of a comparator object introduces many interesting design questions and trade-offs:
-* Where should the comparator classes be defined to ensure information hiding? Here [nested classes](https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html) can help.
-* Should a comparator have state, or be a pure (stateless) *function object*?
-* Do we need to refer to comparator classes by name, or is an [anonymous class](https://docs.oracle.com/javase/tutorial/java/javaOO/anonymousclasses.html) or [lambda expression](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html) sufficient? And if so, where should we define these?
+Although simple, the use of a comparator object introduces many interesting design questions and trade-offs.
+
+First, it comparator classes are **defined as standalone top-level Java classes**, the code of their `compare` methods will not have access to the private members of the objects they compare. In some cases the information available from access methods is sufficient to implement the comparison, but in many situations implementing the `compare` method will require access to private members. In such cases one option is to declare the comparator classes as [nested classes](https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html) of the class being compared:
+
+```
+public class Card
+{
+	static class CompareBySuitFirst implements Comparator<Card>
+	{
+		@Override
+		public int compare(Card pCard1, Card pCard2)
+		{
+			// Comparison code
+		}
+	}
+	...
+```
+
+and to client code the design would be almost the same, except for the additional name frament for the comparator:
+
+```
+Collections.sort(aCards, new Card.CompareBySuitFirst());
+```
+
+Another option is to define comparator classes "on-the-fly" as [anonymous class](https://docs.oracle.com/javase/tutorial/java/javaOO/anonymousclasses.html). In cases where the comparator
+does not hold any state, and is only referred to once, this makes a lot of sense:
+
+```
+public class Deck 
+{
+	public void sort()
+	{				
+		Collections.sort(aCards, new Comparator<Card>() {
+			@Override
+			public int compare(Card pCard1, Card pCard2)
+			{ /* Comparison code */ }
+		});
+	}
+```
+
+Optionally, since we are using Java 8, we can also pretend that comparators are a function reference, and use the practically equivalent syntax of [lambda expression](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html):
+
+```
+public class Deck 
+{
+	public void sort()
+	{				
+		Collections.sort(aCards, (pCard1, pCard2) -> pCard1.getRank().compareTo(pCard2.getRank()));	
+	}
+```
+
+In Module 2 lambda expression are covered as an "extra" that is more or less equivalent to function objects.
+
+In the two examples above, we have however brought back the problem of encapsulation, since the code in the anonymous class implementing 
+the comparison is defined outside of the `Card` class. We can fix this with the help of a static **factory method** whose role is simply to create and return a comparator
+of the desired type:
+
+```
+public class Card
+{
+	...
+	public static Comparator<Card> createByRankComparator()
+	{
+		return new Comparator<Card>() 
+		{
+			@Override
+			public int compare(Card pCard1, Card pCard2)
+			{
+				// Comparison code
+			}};
+	}
+```
+
+A final question to consider for comparators is whether a comparator should have state. For example, instead of having different comparators for sorting cards by ranks and suits,
+we could define a `UniversalComparator` that has an enum type field capturing the desired type of comparison. Although this solution is workable, it can lead to code that
+is harder to understand, for reasons explained in Module 3.
 
 ## Reading
 * Textbook 4.1-4.5, 5.1, 5.2, 5.4.3
@@ -223,6 +295,8 @@ Exercises prefixed with **(+)** are optional, more challenging questions aimed t
 0. (+) Modify your `Hand` class to support a poker game and sort hands in terms of their strengths as [poker hands](https://en.wikipedia.org/wiki/List_of_poker_hands). How should you deal with hands that do not have exactly five cards?
 
 0. Make is possible to compare two hands using the [Comparator](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html) interface. Implement two different hand comparison strategies. Define *factory methods* in the `Hand` class to return anonymous instances of comparators for the different sorting strategies.
+
+0. Implement a `UniversalComparator` that stores the type of desired comparison as an enumerated type, and switches on that type.
 
 0. (P) Create a fresh Eclipse project named "Solitaire" (e.g., by copying the [COMP303Starter repo](https://github.com/prmr/COMP303Starter). Add this project to a git repository and create a new package `comp303.solitaire.cards`. Copy the 3 files of the [Solitaire `cards` package](https://github.com/prmr/Solitaire/tree/v0.3/src/ca/mcgill/cs/stg/solitaire/cards) into your own package and adjust the package statements as required. You should now have a fully compilable version of the first three classes of the Solitaire application.
 
