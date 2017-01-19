@@ -279,6 +279,77 @@ A final question to consider for comparators is whether a comparator should have
 we could define a `UniversalComparator` that has an enum type field capturing the desired type of comparison. Although this solution is workable, it can lead to code that
 is harder to understand, for reasons explained in Module 3.
 
+### Iterating Over An Aggregation
+
+In Module 1 I introduced the problem of how to gain access to a collection of objects encapsulated by another object without violating encapsulation and information hiding. One solution proposed was to return copies of the internal state, for example, returning a copy of the `Stack` of cards encapsulated within a `Deck` instance. One issue with this is that it can lead to *coupling* between the precise data structure returned and the clients. For instance, if we choose to return a deck's cards as a list:
+
+```
+public Stack<Card> getCards() {...}
+```
+
+The clients of the `Deck` will may start relying on the operations defined on a list, or make the assumption that cards are internally stored in a list within a `Deck`. For a cleaner design, it would be best to allow clients access to the internal objects of another objects, without exposing anything about the internal structure of the encapsulating object. This design feature is supported by the concept of an *Iterator*. An iterator is relatively easy to use, but implementing this idea required careful coordination between at least three types of objects, so it's a another great illustration of the effective use of interfaces and polymorphism.
+
+To support iteration we must first have a specification of what it means to iterate. As usual, this specification is captured in an interface, in this case the [Iterator](http://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html) interface. This interface defines two non-default methods: `hasNext()` and `next()`. So, according to the rules of polymorphism, one a piece of code gains access to a reference to an object of any subtype of `Iterator`, the client code can iterate over it, independently of what the actual class of the object is.
+
+To enable iteration over the cards of a `Deck`, let's simply redefine the `getCards` method to return an iterator instead of a list:
+
+```
+public Iterator<Card> getCards() {...}
+```
+
+This way to print all the cards of a deck, we can do:
+
+```
+Iterator<Card> iterator = deck.getCards();
+while( iterator.hasNext() )
+{
+  	System.out.println(iterator.next());
+}
+```
+
+Although this design achieves our decoupling goal and is already pretty good, we can generalize it a bit, to great effect. A first important insight is that in most large programs there will typically be many different types of object that it would be useful to iterate over. Lists are an obvious example. In our case we have a deck. But in practice the list is infinite. In a university management system, there may be a class `CourseSection` that contains `Student` objects, and we would want to iterate over the students in the course, etc. The issue with the iterator system as we have it now, is that every class defines a different way to obtain an iterator. For class `List`, it's through the method `iterator()`. For our `Deck` class, it's through method `getCards()`. Although the behavior in both cases is identical (return an iterator), the *name* of the service is different. We can solve this issue with... an interface, naturally. The [https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html](Iterable) interface specifies the smallest "slice" of behavior necessary to make it possible to iterate over an object. Not surprisingly, to be able to iterate over an object, the only thing we need from this object it that is supplies us with an iterator. So the only non-default method of the `Iterable` interface is `Iterator<T> iterator()`. 
+
+We can make our `Deck` class iterable by extending the `Iterable` interface and renaming the `getCards()` method to `iterator()`:
+
+```
+public class Deck implements Iterable<Card?
+{
+	...
+	public Iterator<Card> iterator() {...}
+}
+
+This way an instance of `Deck` can be supplied anywhere an `Iterable` interface is expected. As it turns out, one of the main ways to use `Iterable` objects is with the Java `forall` loop. In Java the `forall` loop:
+
+```
+List<String> theList = ...;
+for( String string : theList )
+{
+	System.out.println(string);
+}
+```
+
+is just [syntactic sugar](https://en.wikipedia.org/wiki/Syntactic_sugar) for
+
+```
+List<String> theList = ...;
+for(Iterator<String> iterator = list.iterator(); iterator.hasNext(); )
+{
+	String next = iterator.next();
+	System.out.println(next);
+}
+```
+
+So to iterate over a deck, we can now do:
+
+```
+for( Card card : deck )
+{
+	System.out.println(card);
+}
+```
+
+The way the `forall` loop can work, is that under the cover it expects the rightmost part of the loop head to be an instance of a class that is a subtype of `Iterable`.
+
 ## Reading
 * Textbook 4.1-4.5, 5.1, 5.2, 5.4.3
 * Solitaire v0.3 [PlayingStrategy.java](https://github.com/prmr/Solitaire/blob/v0.3/src/ca/mcgill/cs/stg/solitaire/ai/PlayingStrategy.java) as a simple example of a Strategy interface;
