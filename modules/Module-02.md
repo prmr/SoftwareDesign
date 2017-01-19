@@ -365,6 +365,20 @@ public class Deck implements Iterable<Card>
 }
 ```
 
+### The Concept of Design Patterns
+
+Some of the design solutions we saw in this module (comparator objects, iterable objects) are actually *reusable instances of solution templates for common design problems*. In the mid-1990s it was observed that some design elements tended to be redudant between many object-oriented applications. The idea of reusing elements of object-oriented design was captured in the concept of a (object-oriented software) [Design Pattern](https://en.wikipedia.org/wiki/Software_design_pattern) in the book [Design Patterns: Elements of Reusable Object-Oriented Software](https://en.wikipedia.org/wiki/Design_Patterns). This book, often referred to as the "Gang of Four" book (from the author list), is one of the most influential software design book in existence. Following the concept of an "architectural pattern" originally proposed by [Christopher Alexander](https://en.wikipedia.org/wiki/Christopher_Alexander) and colleagues, the book describes 23 patterns for solving common object-oriented design problems. Since then countless other patterns have been proposed. In this course we will cover a subset of the original patterns.
+
+According to the original Gang of Four book, "a pattern has four essential elements". The following quotes are from the book:
+
+> 0. The **pattern name** is a handle we can use to describe a design problem, its solutions, and consequences in a word or two. Naming a pattern immediately increases our design vocabulary. It lets us design at a higher level of abstraction. Having a vocabulary for patterns lets us talk about them with our colleagues, in our documentation, and to ourselves...
+>
+> 1. The **problem** describes when to apply the pattern. It explains the problem and its context...
+>
+
+
+
+
 ## Reading
 * Textbook 4.1-4.5, 5.1, 5.2, 5.4.3
 * Solitaire v0.3 [PlayingStrategy.java](https://github.com/prmr/Solitaire/blob/v0.3/src/ca/mcgill/cs/stg/solitaire/ai/PlayingStrategy.java) as a simple example of a Strategy interface;
@@ -392,10 +406,7 @@ Exercises prefixed with **(+)** are optional, more challenging questions aimed t
 <!--
 
 * Interface segregation principle
-* Iterating over a deck
-* How the forall loop works
 * Design patterns
-* Iterator
 * Return to strategy
 
 -->
