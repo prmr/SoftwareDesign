@@ -391,13 +391,39 @@ The iterator solution for the `Deck` class turns out to be an instance of the [I
 
 ![Iterator Pattern - Abstract](figures/m02-iterator1.png)
 
-An important note about this pattern is that the client does not need to interact with concrete iterator. Typically in Java, iterator objects will be instances of anonymous classes.
+An important note about this pattern is that the client does not need to interact with concrete a iterator. Typically in Java, iterator objects will be instances of anonymous classes.
 
 **Example:** 
 
 In the case of the iterable version of the `Deck` class, we instantiate the pattern as follows:
 
 ![Iterator Pattern - Concrete](figures/m02-iterator2.png)
+
+### The Strategy Design Pattern
+
+It also turns out that the use of a function object like the comparator is an instance of a pattern called the [Strategy Pattern](https://en.wikipedia.org/wiki/Strategy_pattern).
+
+**Context:** "Define a family of algorithms, encapsulate each one, and make them interchangeable. Strategy lets the algorithms vary independently from clients that use it." [GoF]
+
+**Solution:** 
+
+![Strategy Pattern - Abstract](figures/m02-strategy1.png)
+
+The Strategy design pattern looks exceedingly simply. In fact in many cases it can be indistinguishable from a basic use of polymorphism. I find it useful to think of a part of the design as an instance of the Strategy pattern when that part of the design is focused on allowing the switch between algorithms. One example, illustrated below, is the use of different card comparators for a deck of cards. Another example is the implementation of different playing strategies for a computer player. 
+
+Although nominally simply, in practice instantiating a Strategy pattern required thinking about many design questions:
+
+* Does a strategy need one or multiple methods to define the algorithm. Typically the answer is one, but in some more complex cases it may be justified to have more.
+* Should the strategy method return anything or have a side-effect on the argument?
+* Does a strategy need to keep state or can it be purely stateless?
+* What should be the type of the return value and/or method parameters, as applicable? Ideally we want to choose these types to minimize coupling between a strategy and its client(s).\
+
+**Example:** 
+
+![Strategy Pattern - Abstract](figures/m02-strategy2.png)
+
+Here the design of the Strategy interface is already decided because we are reusing the `Comparator` interface. This strategy is purely functional as it does not have any side-effect and returns the result of applying the (comparison) algorithm. At this point it should become a bit clearer that implementing the `Comparator` inteface as a `UniversalComparator` that holds a value to decide what kind of comparison to do, is not a proper instances of the Strategy pattern.
+
 
 ## Reading
 * Textbook 4.1-4.5, 5.1, 5.2, 5.4.3
