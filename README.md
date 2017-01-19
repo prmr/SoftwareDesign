@@ -118,7 +118,7 @@ TA office hours and labs are in TR 3120.
 | Monday 1pm | Mathieu | 
 | Tuesday 2:30 pm | Mathieu | 
 | Wednesday 3pm | Paul |
-|  Friday 12pm | Paul |
+|  Friday 11am | Paul |
 
 ## License
 
