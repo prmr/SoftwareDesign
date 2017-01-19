@@ -375,6 +375,12 @@ According to the original Gang of Four book, "a pattern has four essential eleme
 >
 > 1. The **problem** describes when to apply the pattern. It explains the problem and its context...
 >
+> 2. The **solution** describes the elements that make up the design, their relationships, responsibilities, and collaborations. The solution doesn't describe a particular concrete design or implementation, because a pattern is like a template...
+> 
+> 3. The **consequences** are the results and trade-offs of applying the pattern...
+
+In this course I will use a lightweight representation that focuses on the link between the problem and solution. I also prefer to refer to the problem as the **context** for applying a pattern, because design problems can sometimes be difficult to isolate. Finally, the solution will often be expressed as a UML Class Diagram that captures the name of the *abstract design elements* of the pattern. A typical task when attempting to apply a design pattern to a context is to map the abstract pattern element to concrete design elements in our own code.
+
 
 
 
