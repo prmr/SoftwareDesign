@@ -379,11 +379,25 @@ According to the original Gang of Four book, "a pattern has four essential eleme
 > 
 > 3. The **consequences** are the results and trade-offs of applying the pattern...
 
-In this course I will use a lightweight representation that focuses on the link between the problem and solution. I also prefer to refer to the problem as the **context** for applying a pattern, because design problems can sometimes be difficult to isolate. Finally, the solution will often be expressed as a UML Class Diagram that captures the name of the *abstract design elements* of the pattern. A typical task when attempting to apply a design pattern to a context is to map the abstract pattern element to concrete design elements in our own code.
+In this course I will use a lightweight representation that focuses on the link between the problem and solution. I also prefer to refer to the problem as the **context** for applying a pattern, because design problems can sometimes be difficult to isolate. Finally, the solution will often be expressed as a UML Class Diagram that captures the name of the *abstract design elements* of the pattern. A typical task when attempting to apply a design pattern to a context is to map the abstract pattern element to concrete design elements in our own code. In these notes I will occasionally leave out the last part (consequences) if there is not much to say besides the fact that the design pattern achieves its goal.
 
+### The Iterator Design Pattern
 
+The iterator solution for the `Deck` class turns out to be an instance of the [Iterator Pattern](https://en.wikipedia.org/wiki/Iterator_pattern).
 
+**Context:** "Provide a way to access the elements of an aggregate object sequentially without exposing its underlying representation" [GoF]
 
+**Solution:** 
+
+![Iterator Pattern - Abstract](figures/m02-iterator1.png)
+
+An important note about this pattern is that the client does not need to interact with concrete iterator. Typically in Java, iterator objects will be instances of anonymous classes.
+
+**Example:** 
+
+In the case of the iterable version of the `Deck` class, we instantiate the pattern as follows:
+
+![Iterator Pattern - Concrete](figures/m02-iterator2.png)
 
 ## Reading
 * Textbook 4.1-4.5, 5.1, 5.2, 5.4.3
