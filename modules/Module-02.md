@@ -409,14 +409,14 @@ It also turns out that the use of a function object like the comparator is an in
 
 ![Strategy Pattern - Abstract](figures/m02-strategy1.png)
 
-The Strategy design pattern looks exceedingly simply. In fact in many cases it can be indistinguishable from a basic use of polymorphism. I find it useful to think of a part of the design as an instance of the Strategy pattern when that part of the design is focused on allowing the switch between algorithms. One example, illustrated below, is the use of different card comparators for a deck of cards. Another example is the implementation of different playing strategies for a computer player. 
+The Strategy design pattern looks exceedingly simple. In fact in many cases it can be indistinguishable from a basic use of polymorphism. I find it useful to think of a part of the design as an instance of the Strategy pattern when that part of the design is focused on allowing the switch between algorithms. One example, illustrated below, is the use of different card comparators for a deck of cards. Another example is the implementation of different playing strategies for a computer player. 
 
-Although nominally simply, in practice instantiating a Strategy pattern required thinking about many design questions:
+Although nominally simple, in practice instantiating a Strategy pattern requires thinking about many design questions:
 
-* Does a strategy need one or multiple methods to define the algorithm. Typically the answer is one, but in some more complex cases it may be justified to have more.
+* Does a strategy need one or multiple methods to define the algorithm? Typically the answer is one, but in some more complex cases it may be justified to have more.
 * Should the strategy method return anything or have a side-effect on the argument?
 * Does a strategy need to keep state or can it be purely stateless?
-* What should be the type of the return value and/or method parameters, as applicable? Ideally we want to choose these types to minimize coupling between a strategy and its client(s).\
+* What should be the type of the return value and/or method parameters, as applicable? Ideally we want to choose these types to minimize coupling between a strategy and its client(s).
 
 **Example:** 
 
