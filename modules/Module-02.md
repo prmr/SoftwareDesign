@@ -312,7 +312,7 @@ Although this design achieves our decoupling goal and is already pretty good, we
 We can make our `Deck` class iterable by extending the `Iterable` interface and renaming the `getCards()` method to `iterator()`:
 
 ```
-public class Deck implements Iterable<Card?
+public class Deck implements Iterable<Card>
 {
 	...
 	public Iterator<Card> iterator() {...}
@@ -350,6 +350,20 @@ for( Card card : deck )
 ```
 
 The way the `forall` loop can work, is that under the cover it expects the rightmost part of the loop head to be an instance of a class that is a subtype of `Iterable`.
+
+The final issue to solve to complete our iterator-based design for `Deck` is to find a way to return an instance of `Iterator` to return when the `iterator()` method is called. Although it is always possible to hand-craft our own user-defined class that implements the `Iterator<Card>` interface, here it's much easier to simply observe that the `Stack` contained within a `Deck` is also `Iterable`, and the `Iterator` it returns does everything that we want. So:
+
+```
+public class Deck implements Iterable<Card>
+{
+	private Stack<Card> aCards ...
+	...
+	public Iterator<Card> iterator() 
+	{
+		return aCards.iterator();
+	}
+}
+```
 
 ## Reading
 * Textbook 4.1-4.5, 5.1, 5.2, 5.4.3
