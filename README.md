@@ -85,8 +85,8 @@ An overview of the contents can be found [on a separate page](Overview.md)
 |3	| 12 Jan | [M1 - Encapsulation](modules/Module-01.md) | |
 |4	| 17 Jan | [M2 - Types and Polymorphism](modules/Module-02.md) | |
 |5	| 19 Jan | [M2 - Types and Polymorphism](modules/Module-02.md) | |
-|6	| 24 Jan | M3 - Object State | |
-|7	| 26 Jan | M3 - Object State | |
+|6	| 24 Jan | [M3 - Object State](modules/Module-03.md) | |
+|7	| 26 Jan | [M3 - Object State](modules/Module-03.md) | |
 |8	| 31 Jan | M4 - Unit Testing | Lab Test 1 (M1-3)|
 |9	| 2 Feb | M4 - Unit Testing | Lab Test 1 (M1-3)|
 |10	| 7 Feb | M5 - Composition | Lab Test 1 (M1-3)|
