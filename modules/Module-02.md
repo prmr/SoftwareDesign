@@ -454,7 +454,9 @@ What this means in practice for your design activities is that whenever you incl
 
 Exercises prefixed with **(+)** are optional, more challenging questions aimed to provide you with additional design and programming experience. Exercises prefixed with **(P)** (for "project") will incrementally guide you towards the ultimate completion of a complete Solitaire application.
 
-0. Design and implement a well-encapsulated abstraction to represent a "hand" of cards in a player's hand as a Java class `Hand`. A `Hand` should be able to contain between 0 and `N` cards, where `N` is a a parameterizable upper bound that will depend on the card game being played (e.g., 5 for draw poker, 13 for bridge, etc.). Implement the following services on a `Hand`: `add(Card)`, `remove(Card)`, `isEmpty()`, `size()`, and `isFull()`. Ensure that all the rules of encapsulation seen in Module 1 are respected and use Design by Contract to clarify valid and invalid inputs.
+For maximum learning effectiveness, I recommend peeking at the [answers](answers/Answers-02.md) only after giving the problems an honest try.
+
+0. Design and implement a well-encapsulated abstraction to represent a "hand" of cards in a player's hand as a Java class `Hand`. A `Hand` should be able to contain between 0 and `N` cards, where `N` is a a parameterizable upper bound that will depend on the card game being played (e.g., 5 for draw poker, 13 for bridge, etc.). Implement the following services on a `Hand`: `add(Card)`, `remove(Card)`, `contains(Card)`, `isEmpty()`, `size()`, and `isFull()`. Find a way to provide access to the cards in the hand. Ensure that all the rules of encapsulation seen in Module 1 are respected and use Design by Contract to clarify valid and invalid inputs.
 
 0. Make is possible to compare two hands using the [Comparable](http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html) interface. Sort hands by increasing number of cards in the hand. Write a small driver program to test your class.
 
