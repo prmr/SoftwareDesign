@@ -20,6 +20,22 @@ After this module you should:
 
 ### General Concepts and Definitions
 
+There are different way we can look at a software system. One way is in terms of the software elements declared in the source code and the relations between them. For example, a `Deck` class declares a field `aCards` field that is a stack of `Card` instances. This is a **static view** of the system. The static view is best represented by the source code or a UML class diagram. A different, but complementary, way to look at a system, is in terms of *values* and *objects* in a running program. For example, at one point a `Deck` contains three cards, then one card is drawn, which leads to the instance of `Deck` containing two cards. This is the **dynamic (or run-time) view** of the system. The dynamic view corresponds to what we see in a debugger while stepping through the execution of a program. The dynamic view is *cannot* easily be represented by any one diagram. Instead, we rely on object diagrams, *state diagrams* (introduced in this module), and *sequence diagrams* (introduced in Module 5). The static and dynamic views are two complementary perspectives in software design. Sometimes it's best to think of a problem and solution in static terms, sometimes in dynamic terms, and sometimes we really need both. This module focuses on understanding important *dynamic* properties of software.
+
+<!--
+
+* Understanding state: abstract vs concrete state 
+* State diagrams 
+* Review of mutability: a single unique state
+* Sharing of references, orthogonal from mutability. Example
+* Aside: sharing with instances of anonymous classes and lambda expressions
+* Uniqueness and identity
+* Flyweight pattern
+* Singleton 
+* Cloning
+* Equality
+
+-->
 
 ## Reading
 
