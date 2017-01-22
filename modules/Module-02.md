@@ -424,6 +424,26 @@ Although nominally simple, in practice instantiating a Strategy pattern requires
 
 Here the design of the Strategy interface is already decided because we are reusing the `Comparator` interface. This strategy is purely functional as it does not have any side-effect and returns the result of applying the (comparison) algorithm. At this point it should become a bit clearer that implementing the `Comparator` inteface as a `UniversalComparator` that holds a value to decide what kind of comparison to do, is not a proper instances of the Strategy pattern.
 
+### The Interface Segregation Principle
+
+Throughout this module we saw the importance of defining specialized interfaces that specify a small and coherent slice of behavior that clients depend on. This way clients are not coupled with the details of an implementation, but only the methods they actually require. For example, the `Collections.sort` method works because it can rely on just the fact that the items in the collection are `Comparable`. This idea is actually an instance of a general design principle called the *Interface Segregation Principle*. Simply put, the ISP states that *clients should not be forced to depend on interfaces they do not need*. 
+
+The idea of the ISP is easier to explain by presenting a situation where the principle is *not respected*. Consider the following problem domain that models some of the tasks of a university processor.
+
+![Not using the ISP](figures/m02-isp1.png)
+
+If, in a software system supporting this domain, the various clients depend directly on (are tightly coupled to) instances of a `Professor` class, the following two problems surface:
+
+* Clients depend on services they do not need. For instance, `Course` depends on a class that supplies a service `reviewScientificPaper`. This situation is at best confusing, but in worse cases it would limit further changes to the design of the system, because with the current interface, to be able to lecture the object also needs to supply an implementation of a service for reviewing papers.
+* It prevents the two virtues of polymorphism stated above, namely **extensibility** and **loose coupling**. For instance, with this design it is not possible to have any object besides an instance of `Professor` provide the `lecture` functionality. In practice this could be done by faculty lecturers or sessional instructors, etc.
+
+The following design respects the ISP:
+
+![Not using the ISP](figures/m02-isp2.png)
+
+This design is much improved because now instead of depending on a complete implementation, clients depend on *interfaces* that represent specific *roles* directly relevant to each client. Although it's still possible to have a single class implement *all roles* (like a `Professor` instances), it's now also possible to supply different implementations for only a given interface (as in the case of `SessionalInstructor` or `LabScientist`.
+
+What this means in practice for your design activities is that whenever you include, as part of your design, a relation between two classes, it's important to consider whether the client class really needs to depend on the entire interface to the class, or whether it should only depend on a *role* objects of this class will fulfill. In the latter case, it makes sense to define a new interface for that class, and have the client depend only on the interface. This is a common design operation called *extracting an interface from a concrete type*. Eclipse provides advanced tool support for extracting interface, which you can access through the `Refactoring` menu.
 
 ## Reading
 * Textbook 4.1-4.5, 5.1, 5.2, 5.4.3
@@ -448,14 +468,6 @@ Exercises prefixed with **(+)** are optional, more challenging questions aimed t
 
 0. (P) Design a well-encapsulated class to represent "suit stacks". A "suit stack" is a stack where players accumulate finished sequences of cards of a same suit, with the Ace at the bottom and subsequent cards on top of it in strictly increasing order of rank. Call your class `SuitStack`. Try to anticipate the services this class will need, and implement them as methods of the class.
 
-
-<!--
-
-* Interface segregation principle
-* Design patterns
-* Return to strategy
-
--->
 ---
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a>
