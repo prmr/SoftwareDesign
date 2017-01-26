@@ -39,11 +39,16 @@ public class BankAccount
 
 the cardinality of the space of possible concrete states for `BankAccount` is `2^32`, or about 4 billion states. As soon as objects have fields of reference types, the size of the state space explodes dramatically. For example, the state space of a `Deck` object includes all possible permutations of any number of cards in the deck, a number in the range of 2e68 (two times 10 to the 68th power). In the case of the `BankAccount` object, adding an `aName` field of type `String` blows up the size of the state space to something that is only limited by the physical memory of the computing system. For this reason, when designing software, it is more practical to think in terms of *abstract states*. 
 
-In principle, an **abstract state** is an arbitrarily-defined subset of the concrete state space. For example "even balance" could be an abstract state for the `BankAccount` object that groups the roughly `2^31` states representing an even number of some currency in the account. Likewise for an instance of the `Deck` class, the abstract state "three kings" could represent any possible configuration of the deck where exactly three cards of rank `Rank.KING` are present. These two examples illustrate the fact that because abstract states are *arbitrary* partitions of the state space, they can really be defined as anything. It should however be evident that neither of these two states would be particularly useful for designing a software solution to either the problem of bank management or card game playing. In practice, the software design task is to define abstract states that correspond to characteristics that will help construct a clean solution. A more useful abstract state for `BankAccount` would be "positive balance", and one for `Deck` would be "empty" (no cards in the deck), which in this case corresponds to a single concrete state.
+In principle, an **abstract state** is an arbitrarily-defined subset of the concrete state space. For example "even balance" could be an abstract state for the `BankAccount` object that groups the roughly `2^31` states representing an even number of some currency in the account. Likewise for an instance of the `Deck` class, the abstract state "three kings" could represent any possible configuration of the deck where exactly three cards of rank `Rank.KING` are present. These two examples illustrate the fact that because abstract states are *arbitrary* partitions of the state space, they can really be defined as anything. It should however be evident that neither of these two abstract states would be particularly useful for designing a software solution to either the problem of bank management or card game playing. In practice, the software design task is to define abstract states that correspond to characteristics that will help construct a clean solution. A more useful abstract state for `BankAccount` would be "positive balance", and one for `Deck` would be "empty" (no cards in the deck), which in this case corresponds to a single concrete state.
+
+### UML State Diagrams
+
+**UML Class Diagrams** represent a *dynamic*, or *run-time* view of a software system. They are useful to represent how objects can *transition* from one abstract state to another during their lifetime as a reaction to external event (typically, method calls). 
+
+![UML State Diagram Cheat Sheet](figures/m03-stateDiagram.png)
 
 <!--
 
-* Understanding state: abstract vs concrete state 
 * State diagrams 
 * Review of mutability: a single unique state
 * Sharing of references, orthogonal from mutability. Example
