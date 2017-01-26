@@ -43,7 +43,7 @@ In principle, an **abstract state** is an arbitrarily-defined subset of the conc
 
 ### UML State Diagrams
 
-**UML Class Diagrams** represent a *dynamic*, or *run-time* view of a software system. They are useful to represent how objects can *transition* from one abstract state to another during their lifetime as a reaction to external event (typically, method calls). 
+**UML State Diagrams** represent a *dynamic*, or *run-time* view of a software system. They are useful to represent how objects can *transition* from one abstract state to another during their lifetime as a reaction to external events (typically, method calls). 
 
 ![UML State Diagram Cheat Sheet](figures/m03-stateDiagram.png)
 
