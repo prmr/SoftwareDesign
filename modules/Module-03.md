@@ -59,17 +59,41 @@ The `shuffle` transition out of the `Complete` state illustrates the idea of **s
 
 It is also possible to annotate transitions with an **action** that describes what happens as the result of the transition. The action that corresponds to the `draw` event is "remove card from the deck". The action information is optional and here I chose to leave it out of the diagram because it is obvious, and therefore adds no value to the diagram. 
 
-The two transitions out of the `Incomplete` state illustrate the importance of **conditions**, because here without the concept of a condition we would not be able to model the distinction between a `draw` event that leads to the `Empty` state, and a `draw` event that keeps the object in the `Incomplete` state. In this course, the language I use for modeling condition does not need to follow a formal specification, but I nevertheless like to specify the conditions using pseudo-code that is very close to what could be reasonably tested on an instance of the object. Here the conditions would assume the presence of an (at least private) `size` method in the `Deck` class.
+The two transitions out of the `Incomplete` state illustrate the importance of **conditions**, because here without the concept of a condition we would not be able to model the distinction between a `draw` event that leads to the `Empty` state, and a `draw` event that keeps the object in the `Incomplete` state. In this course, the language I use for modeling conditions does not need to follow a formal specification, but I nevertheless like to specify the conditions using pseudo-code that is very close to what could be reasonably tested on an instance of the object. Here the conditions would assume the presence of an (at least private) `size` method in the `Deck` class.
 
 Finally, this diagram does not include any **end state**. The end state model element is used to specify if an object *must* be in a certain state at the end of its lifetime (i.e., in Java, when it is garbage collected). In many designs, objects can end their life (stop being used) in any state, in which case the end state model element does not apply.
 
 An important benefit of State Diagrams is that they allow us to self-evaluate the impact of design decisions on the complexity of the abstract state space that must be considered when working with an object. Here the state space is very simple (3 states) *because of the decision to bundle the deck initialization code together with the shuffling code*. Separating this behavior into distinct `initialize` and `shuffle` events, or including a `sort` event, leads to a much more complicated behavior for the object.
 
-Another important benefit of State Diagrams (or state modeling in general) is that is supports a systematic reasoning about the behavior of an object of a given class. When modeling the state of an object, a good practice is to visit each state and consider each possible type of event. This simple procedure is an excellent way to avoid overlooking certain paths through a program (e.g., shuffling an incomplete deck).
+Another important benefit of State Diagrams (or state modeling in general) is that it supports a systematic reasoning about the behavior of an object of a given class. When modeling the state of an object, a good practice is to visit each state and consider each possible type of event. This simple procedure is an excellent way to avoid overlooking certain paths through a program (e.g., shuffling an incomplete deck).
 
 When getting started with modeling object state with UML State Diagrams, one common tendency is to use the state diagram notation to model a type of "data-flow" information, where states represent "processing", and arrows represent the flow of data between processing stages. This is an incorrect use of the notation. A good tip for avoiding this pitfall is to think about the names of the states. If the names assigned to "states" include verbs or generally feel like they are describing actions (e.g. "draw card"), it is probably a sign that the diagram does not represent a good model of the state space.
 
-Finally, it will be readily apparent that the concept of state diagrams is very similar to that of [Deterministic finite automata (DFA)](https://en.wikipedia.org/wiki/Deterministic_finite_automaton). This is not a coincidence, as both notations are intended to model some sort of stateful phenomenon. However, the purpose of each notation is different. While the purpose of DFAs is to support the formal modeling of computation, the purpose of UML state diagrams is to support software engineering tasks such as software design, testing, and documentation.
+Finally, it will be readily apparent that the concept of state diagram is very similar to that of [Deterministic finite automata (DFA)](https://en.wikipedia.org/wiki/Deterministic_finite_automaton). This is not a coincidence, as both notations are intended to model some sort of stateful phenomenon. However, the purpose of each notation is different. While the purpose of DFAs is to support the formal modeling of computation, the purpose of UML state diagrams is to support software engineering tasks such as software design, testing, and documentation.
+
+### Object Identity, Equality, and Uniqueness
+
+Three important concepts to keep in mind when designing with objects are those of *identity*, *equality*, and *uniqueness*.
+
+**Identity** refers to the fact that we are referring to a particular object, even if this object is not in a named variable. In terms of programming environments, the identity of an object usually refers its "memory location". However, in modern programming systems the memory management of object is heavily abstracted, and for this reason it's best to simply think in terms of object identity. Most integrated development environments will supply a convenient handle to represent an object's identity. For example, in the Eclipse debugger this is represented by the object id.
+
+![Object Identity Example](figures/m03-debugger.png)
+
+In this small example two `Card` objects are created, and consequently result in two distinct objects with two distinct identities, presented with internal object identifiers 21 and 22. In the object diagram below, the `main` method and its two variables is represented as an object. The diagram shows how object identity corresponds to both object model elements and the references to these objects. If, for instance, a reference to the `Card` object with id 21 is added to a list, there will be two shared references to a single identity.
+
+![Object Identity Example](figures/m03-objectDiagram1.png)
+
+The last statement in the `main` method, in the figure above, is a reminder that in Java, the `==` returns `true` if the two operands evaluate to the same value. In the case of values of reference types, "the same value" means referring to the same object (identity). So here the statement returns false because, although both cards represent an ace of clubs, there are references to distinct objects.
+
+
+
+### The Flyweight Design Pattern
+
+### The Singleton Design Pattern
+
+### A Review of Object Characteristics
+
+### Appendix: Sharing References with Anonymous Classes and Lambda Expressions
 
 <!--
 
@@ -80,7 +104,6 @@ Finally, it will be readily apparent that the concept of state diagrams is very 
 * Uniqueness and identity
 * Flyweight pattern
 * Singleton 
-* Cloning
 * Equality
 
 -->
