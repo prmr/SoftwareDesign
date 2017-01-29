@@ -75,7 +75,7 @@ Finally, it will be readily apparent that the concept of state diagram is very s
 
 Three important concepts to keep in mind when designing with objects are those of *identity*, *equality*, and *uniqueness*.
 
-**Identity** refers to the fact that we are referring to a particular object, even if this object is not in a named variable. In terms of programming environments, the identity of an object usually refers its "memory location". However, in modern programming systems the memory management of object is heavily abstracted, and for this reason it's best to simply think in terms of object identity. Most integrated development environments will supply a convenient handle to represent an object's identity. For example, in the Eclipse debugger this is represented by the object id.
+**Identity** refers to the fact that we are referring to a particular object, even if this object is not in a named variable. In terms of programming environments, the identity of an object usually refers to its "memory location". However, in modern programming systems the memory management of objects is heavily abstracted, and for this reason it's best to simply think in terms of object identity. Most integrated development environments will supply a convenient handle to represent an object's identity. For example, in the Eclipse debugger this is represented by the object id.
 
 ![Object Identity Example](figures/m03-debugger.png)
 
@@ -83,8 +83,45 @@ In this small example two `Card` objects are created, and consequently result in
 
 ![Object Identity Example](figures/m03-objectDiagram1.png)
 
-The last statement in the `main` method, in the figure above, is a reminder that in Java, the `==` returns `true` if the two operands evaluate to the same value. In the case of values of reference types, "the same value" means referring to the same object (identity). So here the statement returns false because, although both cards represent an ace of clubs, there are references to distinct objects.
+The last statement in the `main` method, in the figure above, is a reminder that in Java, the `==` returns `true` if the two operands evaluate to the same value. In the case of values of reference types, "the same value" means referring to the same object (identity). So here the statement returns false because, although both cards represent an ace of clubs, they are references to distinct objects.
 
+The situation above, where two distinct `Card` objects represent the ace of clubs, illustrates the concept of **object equality**. In the general case, *equality* between two objects must be programmer-defined because the meaning of equality cannot always be inferred from the design of the object's class. In simple cases (like objects of class `Card`), one could say that two objects are *equal* if all their fields have the same value, but for many objects of more complex classes, this would be too strict. For example, if some objects cache values or have non-deterministic internal representations, they could be "equal" in the practical sense, without having *precisely* the same value for each field, transitively. 
+
+For this reason, Java provides a mechanism to allow programmers to specify what it means for two objects of a class to be equal. This specification is realized by *overriding* the [equals](http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-) and [hashCode](http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--) methods. The default implementation of the `equals` method defines *equality as identity*. In other words, if the `equals` method is not redefined for a class, `a.equals(b)` is the same as `a == b`. In many situations, like our example of playing cards, this is not what we need, and we must supply our own implementation of the `equals` method. Implementations of `equals` can usually follow this example as a template:
+
+```
+public boolean equals(Object pObject)
+	{
+		if( pObject == null ) // As required by the specification
+		{
+			return false;
+		}
+		else if( pObject == this ) // Performance optimization
+		{
+			return true;
+		}
+		else if( pObject.getClass() != getClass()) // Ensures the objects are of the same class
+		{
+			return false;
+		}
+		else // Actual comparison code. Assumes the downcast is safe.
+		{
+			return aRank == ((Card)pObject).aRank && ((Card)pObject).aSuit == aSuit;
+		}
+	}
+```
+
+We will revisit some of the details of the overriding mechanism in Module 7. For now, it suffices to say that if the `equals` method is *redefined* (or *overriden*) in a class, calling `equals` on an object of this class will result in the redefined method being executed. In our case, 
+
+```
+card1.equals(card2)
+```
+
+will return true.
+
+A very important note when overriding `equals` in Java, is that any class that overrides `equals` must also override `hashCode` so that the following constraint is respected: "If two objects are equal according to the equals(Object) method, then calling the hashCode method on each of the two objects must produce the same integer result." [Javadocs](http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--). This constraint is necessary because, among other, many classes of the collections framework rely interchangeably on equality testing and on an object’s hashCode for indexing objects in internal data structures. 
+
+A final consideration related to identity and equality is the concept of **uniqueness**. In our example program, we could rightfully wonder what is the use of tolerating duplicate objects that represent exactly the same card (e.g., ace of clubs). A sometimes very useful property for the object of a class is *uniqueness*. Objects of a class are unique if it is not possible for two distinct objects to be equal. If the objects of a class can be guaranteed to be unique, then we no longer need to define equality, because in this specific case, equality become identical to identity and we can compare objects using the `==` operator. Although strict guarantees of uniqueness are almost impossible to achieve in Java due to mechanisms such as reflection and serialization, in practice the use of two design pattern and the conscious avoidance of these mechanisms provides a "pretty good" guarantee that can help greatly simplify some designs.
 
 
 ### The Flyweight Design Pattern
