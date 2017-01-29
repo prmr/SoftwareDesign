@@ -133,21 +133,35 @@ The [Flyweight Pattern](https://en.wikipedia.org/wiki/Flyweight_pattern) is prov
 
 The general idea is to manage the creation of objects of a certain class, call the `Flyweight` class, through a factory method. The three main components of the Flyweight pattern are:
 
-0. A private constructor for the Flyweight private, so clients cannot create duplicate objects;
+0. A private constructor for the Flyweight, so clients cannot create duplicate objects;
 0. A data structure keeping a list of Flyweight instances, stored in a static field;
 0. A static factory method that returns the unique Flyweight object that corresponds to the input parameter.
 
 **Example:** 
 
-* Solitaire v0.3: [Card](https://github.com/prmr/Solitaire/blob/v0.3/src/ca/mcgill/cs/stg/solitaire/cards/Card.java) as an example of the Flyweight pattern in action.
+See Solitaire v0.3: [Card](https://github.com/prmr/Solitaire/blob/v0.3/src/ca/mcgill/cs/stg/solitaire/cards/Card.java).
 
 **Discussion:**
 
-An important concern when implementing the Flyweight pattern is whether to pre-initialize the flyweight objects, or whether to do this lazily, by creating objects as they are requested through the factory method. The answer is problem-dependent. In general, in cases where there exists a small and finite set of flyweights, it may make sense to pre-initialize them (as in the example). In other cases, additional logic must be added to the factory method to check if the object exists in the collection.
+An important concern when implementing the Flyweight pattern is whether to pre-initialize the flyweight objects, or whether to do this lazily, by creating objects as they are requested through the factory method. The answer is problem-dependent. In general, in cases where there exists a small and finite set of flyweights, it may make sense to pre-initialize them (as in the example). In other cases, additional logic must be added to the factory method to check if the object exists in the collection. It is also important to note that Flyweight objects should be *immutable* to ensure that they can be shared and compared throughout the program.
 
 ### The Singleton Design Pattern
 
+The Singleton design pattern provides a principled way to ensure that there is *only one instance of a given class* as any point in the execution of a program. This design pattern is useful to simplify the access to stateful objects that typically assume the role of a controller of some sort.
+
+**Solution:** 
+
+0. A private constructor for the Singleton, so clients cannot create duplicate objects;
+0. A static final field keeping a reference to the single instance of the singleton object.
+0. A static accessor method, usually called `instance()`, that returns the unique instance of the Singleton.
+
+**Discussion:**
+
+The Singleton pattern differs from the Flyweight in that it attempts to guarantee that there is *a single instance of a class*, as opposed to *unique instances of a class*. Singleton objects are typically stateful, wheras Flyweights should be immutable. 
+
 ### A Review of Object Characteristics
+
+
 
 ### Appendix: Sharing References with Anonymous Classes and Lambda Expressions
 
