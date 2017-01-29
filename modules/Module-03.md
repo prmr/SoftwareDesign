@@ -161,7 +161,13 @@ The Singleton pattern differs from the Flyweight in that it attempts to guarante
 
 ### A Review of Object Characteristics
 
-
+| Characteristic | Description |
+| --- |---|
+|**Immutability:** | An object is immutable if it is not possible to change its state.|
+|**Equality:** | Two objects are equal if they have the same value from the point of view of the user of the object. Equality is a programmer-defined characteristics that cannot be automatically determined by the program. |
+|**Identity:** | The system-level definition of an object. Two variables storing a reference to the same object identity refer to the same object. |
+|**Sharing:** | A reference to an object is shared if it can be referred to from different places (e.g., scopes) in a program. |
+|**Uniqueness:** | Objects can be said to be unique if it is not possible to have two objects that are equal. |
 
 ### Appendix: Sharing References with Anonymous Classes and Lambda Expressions
 
