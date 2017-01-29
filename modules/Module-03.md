@@ -123,8 +123,27 @@ A very important note when overriding `equals` in Java, is that any class that o
 
 A final consideration related to identity and equality is the concept of **uniqueness**. In our example program, we could rightfully wonder what is the use of tolerating duplicate objects that represent exactly the same card (e.g., ace of clubs). A sometimes very useful property for the object of a class is *uniqueness*. Objects of a class are unique if it is not possible for two distinct objects to be equal. If the objects of a class can be guaranteed to be unique, then we no longer need to define equality, because in this specific case, equality become identical to identity and we can compare objects using the `==` operator. Although strict guarantees of uniqueness are almost impossible to achieve in Java due to mechanisms such as reflection and serialization, in practice the use of two design patterns and the conscious avoidance of these mechanisms provides a "pretty good" guarantee that can help greatly simplify some designs.
 
-
 ### The Flyweight Design Pattern
+
+The [Flyweight Pattern](https://en.wikipedia.org/wiki/Flyweight_pattern) is provides a useful way to cleanly manage collections of low-level immutable objects. Although often use to address *performance concerns*, the Flyweight is also valuable to ensure the uniqueness of objects of a class.
+
+**Context:** Instances of a class are heavily shared and compared throughout the software system.
+
+**Solution:** 
+
+The general idea is to manage the creation of objects of a certain class, call the `Flyweight` class, through a factory method. The three main components of the Flyweight pattern are:
+
+0. A private constructor for the Flyweight private, so clients cannot create duplicate objects;
+0. A data structure keeping a list of Flyweight instances, stored in a static field;
+0. A static factory method that returns the unique Flyweight object that corresponds to the input parameter.
+
+**Example:** 
+
+* Solitaire v0.3: [Card](https://github.com/prmr/Solitaire/blob/v0.3/src/ca/mcgill/cs/stg/solitaire/cards/Card.java) as an example of the Flyweight pattern in action.
+
+**Discussion:**
+
+An important concern when implementing the Flyweight pattern is whether to pre-initialize the flyweight objects, or whether to do this lazily, by creating objects as they are requested through the factory method. The answer is problem-dependent. In general, in cases where there exists a small and finite set of flyweights, it may make sense to pre-initialize them (as in the example). In other cases, additional logic must be added to the factory method to check if the object exists in the collection.
 
 ### The Singleton Design Pattern
 
