@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import comp303m02.Card.Rank;
+
 /**
  * A collection of cards in a player's hand.
  */
@@ -111,6 +113,41 @@ public class Hand implements Iterable<Card>, Comparable<Hand>
 			{
 				return pHand2.aCards.size() - pHand1.aCards.size();
 			}};
+	}
+	
+	/**
+	 * Creates a comparator that compares hands in terms of ascending number
+	 * of cards of rank pRank in the hand.
+	 * 
+	 * @param pRank The rank to test against.
+	 * @return A new Comparator instance that can compare by number
+	 * of cards of the specified rank.
+	 */
+	public static Comparator<Hand> createByRankComparator(Rank pRank)
+	{
+		return new Comparator<Hand>()
+		{
+			@Override
+			public int compare(Hand pHand1, Hand pHand2)
+			{
+				return countCards(pHand1, pRank) - countCards(pHand2, pRank);
+			}
+			
+			private int countCards(Hand pHand, Rank pRank)
+			{
+				int total = 0;
+				for( Card card : pHand)
+				{
+					if( card.getRank() == pRank )
+					{
+						total++;
+					}
+				}
+				return total;
+			}
+		};
+		
+		
 	}
 	
 	/**
