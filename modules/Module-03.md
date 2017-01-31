@@ -91,24 +91,24 @@ For this reason, Java provides a mechanism to allow programmers to specify what 
 
 ```
 public boolean equals(Object pObject)
+{
+	if( pObject == null ) // As required by the specification
 	{
-		if( pObject == null ) // As required by the specification
-		{
-			return false;
-		}
-		else if( pObject == this ) // Performance optimization
-		{
-			return true;
-		}
-		else if( pObject.getClass() != getClass()) // Ensures the objects are of the same class
-		{
-			return false;
-		}
-		else // Actual comparison code. Assumes the downcast is safe.
-		{
-			return aRank == ((Card)pObject).aRank && ((Card)pObject).aSuit == aSuit;
-		}
+		return false;
 	}
+	else if( pObject == this ) // Performance optimization
+	{
+		return true;
+	}
+	else if( pObject.getClass() != getClass()) // Ensures the objects are of the same class
+	{
+		return false;
+	}
+	else // Actual comparison code. Assumes the downcast is safe.
+	{
+		return aRank == ((Card)pObject).aRank && ((Card)pObject).aSuit == aSuit;
+	}
+}
 ```
 
 We will revisit some of the details of the overriding mechanism in Module 7. For now, it suffices to say that if the `equals` method is *redefined* (or *overriden*) in a class, calling `equals` on an object of this class will result in the redefined method being executed. In our case, 
@@ -121,7 +121,7 @@ will return true.
 
 A very important note when overriding `equals` in Java, is that any class that overrides `equals` must also override `hashCode` so that the following constraint is respected: "If two objects are equal according to the equals(Object) method, then calling the hashCode method on each of the two objects must produce the same integer result." [Javadocs](http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--). This constraint is necessary because, among other, many classes of the collections framework rely interchangeably on equality testing and on an object’s hashCode for indexing objects in internal data structures. 
 
-A final consideration related to identity and equality is the concept of **uniqueness**. In our example program, we could rightfully wonder what is the use of tolerating duplicate objects that represent exactly the same card (e.g., ace of clubs). A sometimes very useful property for the object of a class is *uniqueness*. Objects of a class are unique if it is not possible for two distinct objects to be equal. If the objects of a class can be guaranteed to be unique, then we no longer need to define equality, because in this specific case, equality become identical to identity and we can compare objects using the `==` operator. Although strict guarantees of uniqueness are almost impossible to achieve in Java due to mechanisms such as reflection and serialization, in practice the use of two design patterns and the conscious avoidance of these mechanisms provides a "pretty good" guarantee that can help greatly simplify some designs.
+A final consideration related to identity and equality is the concept of **uniqueness**. In our example program, we could rightfully wonder what is the use of tolerating duplicate objects that represent exactly the same card (e.g., ace of clubs). A sometimes very useful property for the objects of a class is *uniqueness*. Objects of a class are unique if it is not possible for two distinct objects to be equal. If the objects of a class can be guaranteed to be unique, then we no longer need to define equality, because in this specific case, equality become identical to identity and we can compare objects using the `==` operator. Although strict guarantees of uniqueness are almost impossible to achieve in Java due to mechanisms such as reflection and serialization, in practice the use of two design patterns and the conscious avoidance of these mechanisms provides a "pretty good" guarantee that can help greatly simplify some designs.
 
 ### The Flyweight Design Pattern
 
@@ -164,7 +164,7 @@ The Singleton pattern differs from the Flyweight in that it attempts to guarante
 | Characteristic | Description |
 | --- |---|
 |**Immutability:** | An object is immutable if it is not possible to change its state.|
-|**Equality:** | Two objects are equal if they have the same value from the point of view of the user of the object. Equality is a programmer-defined characteristics that cannot be automatically determined by the program. |
+|**Equality:** | Two objects are equal if they have the same value from the point of view of the user of the object. Equality is a programmer-defined characteristic that cannot be automatically determined by the program. |
 |**Identity:** | The system-level definition of an object. Two variables storing a reference to the same object identity refer to the same object. |
 |**Sharing:** | A reference to an object is shared if it can be referred to from different places (e.g., scopes) in a program. |
 |**Uniqueness:** | Objects can be said to be unique if it is not possible to have two objects that are equal. |
