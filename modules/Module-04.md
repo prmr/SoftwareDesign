@@ -124,7 +124,7 @@ This idiom is a bit convoluted, but does exactly what we want. If the UUT (the `
 
 ### Encapsulation and Unit Testing
 
-A common question when writing tests is, how can we test private methods? There are possible avenues for answering that questions, but experts disagree about which one is the right one:
+A common question when writing tests is, how can we test private methods? There are possible avenues for answering that question, but experts disagree about which one is the right one:
 
 * Private methods are internal elements of other, accessible methods, and therefore are not really "units" that should be tested. Following this logic, the code in private methods should be tested indirectly through the execution of the accessible methods that call them;
 * The `private` access modifier is a tool to help us structure the project code, and tests can ignore it.
@@ -185,6 +185,65 @@ public void testCreateFileFilteAcceptDirectory()
 ```
 
 except that it does not directly call the UUT, but a wrapper that uses metaprogramming to call the UUT while bypassig the access restriction of the `private` keyword.
+
+### Testing with Stubs
+
+The key to unit testing is to tests small parts of the program *in isolation*. But what happens if the part we want to test triggers the execution of a large chunk of the program. This situation is illustrated in the following design, which is a simplified version of the Solitaire sample application. The `GameEngine` has an `automove()` method that triggers the computation of the next move by dynamically delegating the task to a strategy, which could be any of the three options. Here we would like to write a unit test for the `GameEngine.automove()` method.
+
+![Test Suite Organization](figures/m04-TestSuiteOrganization.png)
+
+In this task we face at least three questions:
+
+* Calling the `void executeMove(...)` method on any strategy will trigger the execution of presumably complex behavior by the strategy, which possible depends on many other parts of the code. This does not align well with the concept of unit testing, where we test small pieces of code in isolation.
+* How can we know which strategy would be used by the game engine? Presumably we need to determine an oracle for the results.
+* How is this different from testing the strategies individually?
+
+The way out of this conundrum is the realization that the responsibility of `GameEngine.automove()` is *not* to compute the next move, but rather *to delegate this to a strategy*. So, to write a unit test that tests that the UUT does what it is expected, we *only need to verify that it relays the automove computation to a strategy*. This can be achieved with the writing of a *stub* (a.k.a. [mock object](https://en.wikipedia.org/wiki/Mock_object), although there's no agreement on terminology).
+
+An object stub is a greatly simplified version of an object that mimics its behavior sufficiently to support the testing of a UUT that uses this object. Using stubs is heavily dependent on types and polymorphism (see Module 2). Continuing with our `automove` situation, here we simply want to test that the method calls a strategy, so we will define a dummy strategy in the test method:
+
+```
+public class TestGameEngine
+{
+	@Test
+	public void testAutoPlay() throws Exception
+	{
+		class StubStrategy implements PlayingStrategy
+		{
+			private boolean aExecuted = false;
+			
+			public boolean hasExecuted() { return aExecuted; }
+			
+			@Override
+			public void executeMove(GameEngine pGameEngine)
+			{
+				aExecuted = true;				
+			}
+		}
+```
+
+This strategy does nothing except remember that its `executeMove` method has been called. We can then use an instance of this stub instead of a "real" strategy in the rest of the test. To inject the stub in the game engine, we again rely on metaprogramming:
+
+```
+@Test
+public void testAutoPlay() throws Exception
+{
+	...
+	Field strategyField = GameEngine.class.getDeclaredField("aStrategy");
+	strategyField.setAccessible(true);
+	StubStrategy strategy = new StubStrategy();
+	GameEngine engine = GameEngine.instance();
+	strategyField.set(engine, strategy);
+```
+
+at which point completing the test is simply a matter of calling the UUT (`automove`) and verifying that it did properly call the strategy:
+
+```
+engine.autoMove();
+assertTrue(strategy.hasExecuted());
+```
+
+The use of mock objects in unit testing can get extremely sophisticated, and framework exists to support this task (e.g., [jMock](http://www.jmock.org/)). In this course, the use of stubs/mocks will be limited to simple situations like the one illustrated here.
 
 ## Reading
 
