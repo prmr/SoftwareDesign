@@ -190,7 +190,7 @@ except that it does not directly call the UUT, but a wrapper that uses metaprogr
 
 The key to unit testing is to tests small parts of the program *in isolation*. But what happens if the part we want to test triggers the execution of a large chunk of the program. This situation is illustrated in the following design, which is a simplified version of the Solitaire sample application. The `GameEngine` has an `automove()` method that triggers the computation of the next move by dynamically delegating the task to a strategy, which could be any of the three options. Here we would like to write a unit test for the `GameEngine.automove()` method.
 
-![Test Suite Organization](figures/m04-TestSuiteOrganization.png)
+![Test Suite Organization](figures/m04-Stubs.png)
 
 In this task we face at least three questions:
 
