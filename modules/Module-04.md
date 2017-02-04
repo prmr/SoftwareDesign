@@ -188,7 +188,7 @@ except that it does not directly call the UUT, but a wrapper that uses metaprogr
 
 ### Testing with Stubs
 
-The key to unit testing is to tests small parts of the program *in isolation*. But what happens if the part we want to test triggers the execution of a large chunk of the program. This situation is illustrated in the following design, which is a simplified version of the Solitaire sample application. The `GameEngine` has an `automove()` method that triggers the computation of the next move by dynamically delegating the task to a strategy, which could be any of the three options. Here we would like to write a unit test for the `GameEngine.automove()` method.
+The key to unit testing is to test small parts of the program *in isolation*. But what happens if the part we want to test triggers the execution of a large chunk of the program? This situation is illustrated in the following design, which is a simplified version of the Solitaire sample application. The `GameEngine` has an `automove()` method that triggers the computation of the next move by dynamically delegating the task to a strategy, which could be any of the three options. Here we would like to write a unit test for the `GameEngine.automove()` method.
 
 ![Test Suite Organization](figures/m04-Stubs.png)
 
@@ -243,7 +243,7 @@ engine.autoMove();
 assertTrue(strategy.hasExecuted());
 ```
 
-The use of mock objects in unit testing can get extremely sophisticated, and framework exists to support this task (e.g., [jMock](http://www.jmock.org/)). In this course, the use of stubs/mocks will be limited to simple situations like the one illustrated here.
+The use of mock objects in unit testing can get extremely sophisticated, and frameworks exist to support this task (e.g., [jMock](http://www.jmock.org/)). In this course, the use of stubs/mocks will be limited to simple situations like the one illustrated here. Note that the situation illustrated here is boiled down to its essence for pedagogical purposes. In a realistic development scenario it would probably be judged overkill to use a stub to test a single method call.
 
 ## Reading
 
