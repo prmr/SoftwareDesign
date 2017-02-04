@@ -86,6 +86,42 @@ public void setup()
 
 which is executed before the execution of every `@Test`-annotated method.
 
+### Tests and Exceptional Conditions
+
+An important point when writing unit tests is that what we are testing is *that the UUT does what it's supposed to*. This means that when using design by contract, it does not make sense to test code with input that does not respect the UUT's preconditions, because the resulting behavior is *unspecified*. For example, for method [peek](https://github.com/prmr/Solitaire/blob/master/src/ca/mcgill/cs/stg/solitaire/model/SuitStackManager.java#L104), which has as precondition `assert !aStacks.get(pIndex).isEmpty();`, it would be awkward to try to write a test for an empty stack. What would be the oracle?
+
+The situation is very different, however, when exceptional behavior *is explicitly part of the interface*. For instance, for method [peek](https://docs.oracle.com/javase/8/docs/api/java/util/Stack.html#peek--) of the Java `Stack` class, peeking an empty stack *should* result in an `EmptyStackException`. If it does not, then the `peek` method does not do what is expected, and this means it is faulty.
+
+This situation raises the question of how to test for exceptional conditions. In JUnit there are two idioms. One is to use the `expected` property of the `@Test` annotation:
+
+```
+@Test(expected = EmptyStackException.class)
+public void testPeekEmpty1()
+{
+	Stack<String> stack = new Stack<>();
+	stack.peek();
+}
+``` 
+
+With this feature, JUnit will automatically *fail the test* if the execution of the corresponding test method completes *without* raising an exception of the specified type. This testing idiom is very useful, but limited in the sense that the exceptional behavior must be the last thing to happen in the test. In cases where it is desirable to execute additional testing code after testing the exceptional behavior, the following idiom can be used:
+
+```
+@Test
+public void testPeekEmpty2()
+{
+	Stack<String> stack = new Stack<>();
+	try
+	{
+		stack.peek();
+		fail();
+	}
+	catch(EmptyStackException e )
+	{}
+}
+```
+
+This idiom is a bit convoluted, but does exactly what we want. If the UUT (the `peek` method here) is faulty in the sense that it does not raise an exception when it should, the program will keep executing normally and reach the following statement, which will force a test failure. If the UUT is (at least partially) correct in that it does raise the exception when it should, control-flow will immediately jump to the catch clause, thereby skipping the `fail();` statement. It is then possible to add additional code below the catch clause.
+
 ## Reading
 
 * Textbook 3.7, 7.2, 7.6;
