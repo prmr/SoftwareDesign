@@ -72,7 +72,19 @@ A collection of tests for a project is known as a **test suite**. A common quest
 
 ![Test Suite Organization](figures/m04-TestSuiteOrganization.png)
 
+### Test Fixtures
 
+In test classes that group multiple test methods, it will often be convenient to define a number of "default" objects or values to be used as receiver objects and/or oracles. This practice will avoid the duplication of setup code in each test method. Baseline objects used for testing are often referred to as a *test fixture*, and declared as fields of a test class. However, when designing a test suite with JUnit, is it extremely important to know that JUnit **provides no ordering guarantee of any kind* for the execution of unit tests. In consequence, unit tests must be independent of each other so that they can be executed in any order. This further implies that no test method should rely on the fixture being left in a given state by another test. In most cases this precludes the use of the class constructor to initialize the fixuture, because the constructor is only called once. The workaround is to nominate a method of the test class to execute before any test method. In JUnit this method is nominated using te `@Before` annotation. Fixture initialization code should therefore be located in this method. The use of test fixtures in JUnit is illustrated by most test classes in both sample projects. For example, in the Solitaire application's [TestSuitStackManager](https://github.com/prmr/Solitaire/blob/master/test/ca/mcgill/cs/stg/solitaire/model/TestSuitStackManager.java) class, the fixture consists of a single field `aSuitStackManager` which is initialized with a fresh object in method `setup`:
+
+```
+@Before
+public void setup()
+{
+	aSuitStackManager = new SuitStackManager();
+}
+```
+
+which is executed before the execution of every `@Test`-annotated method.
 
 ## Reading
 
