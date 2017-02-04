@@ -122,6 +122,70 @@ public void testPeekEmpty2()
 
 This idiom is a bit convoluted, but does exactly what we want. If the UUT (the `peek` method here) is faulty in the sense that it does not raise an exception when it should, the program will keep executing normally and reach the following statement, which will force a test failure. If the UUT is (at least partially) correct in that it does raise the exception when it should, control-flow will immediately jump to the catch clause, thereby skipping the `fail();` statement. It is then possible to add additional code below the catch clause.
 
+### Encapsulation and Unit Testing
+
+A common question when writing tests is, how can we test private methods? There are possible avenues for answering that questions, but experts disagree about which one is the right one:
+
+* Private methods are internal elements of other, accessible methods, and therefore are not really "units" that should be tested. Following this logic, the code in private methods should be tested indirectly through the execution of the accessible methods that call them;
+* The `private` access modifier is a tool to help us structure the project code, and tests can ignore it.
+
+Although I understand the rationale of the first approach, I personally fall in the second camp. There are many cases where a neat little method can be restricted to a class's scope, but it would still be valuable to test it in isolation. This situation is exemplified by the tests added to test [this fix](https://github.com/prmr/JetUML/issues/188).
+
+To by-pass the `private` access modifier, it is necessary to use [metaprogramming](https://docs.oracle.com/javase/tutorial/reflect/).
+
+The following code sample illustrates the main steps:
+
+```
+public class TestEditorFrame 
+{ 
+	private Method aCreateFileFilter;
+	private EditorFrame aEditorFrame; 
+	
+	@Before
+	public void setup() throws Exception
+	{
+		aCreateFileFilter = EditorFrame.class.getDeclaredMethod("createFileFilter", String.class);
+		aCreateFileFilter.setAccessible(true);
+		aEditorFrame = new EditorFrame(UMLEditor.class);
+	}
+```
+
+This test class definition includes, as part of its fixture, a field that stores a reference to an instance of class `Method` that represents the private method we want to test. The field is initialized in the `setup` method, and made accessible outside the class scope using the `setAccessible` method. This last part is what bypasses the `private` keyword.
+
+In the test class, we can then define a *convenience method* that launches the execution of the UUT (`createFileFilter`):
+
+```
+private FileFilter createFileFilter(String pFormat)
+{
+	try
+	{
+		return (FileFilter) aCreateFileFilter.invoke(aEditorFrame, pFormat);
+	}
+	catch(InvocationTargetException | IllegalAccessException pException)
+	{
+		TestCase.fail();
+		return null;
+	}
+}
+```
+
+In the methods of the test class, calling `createFileFilter` now has the same effect as calling `createFileFilter` on an instance of `EditorFrame`. This way the rest of the test looks pretty normal:
+
+```
+@Test
+public void testCreateFileFilteAcceptDirectory()
+{
+	FileFilter filter = createFileFilter("PNG");
+	File temp = new File("foo");
+	temp.mkdir();
+	assertTrue(temp.isDirectory());
+	assertTrue(filter.accept(temp));
+	temp.delete();
+}
+```
+
+except that it does not directly call the UUT, but a wrapper that uses metaprogramming to call the UUT while bypassig the access restriction of the `private` keyword.
+
 ## Reading
 
 * Textbook 3.7, 7.2, 7.6;
