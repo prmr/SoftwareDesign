@@ -66,6 +66,14 @@ The `@Test` [Annotation](https://docs.oracle.com/javase/tutorial/java/annotation
 
 For additional instructions on how to use JUnit, read [this tutorial](http://www.vogella.com/tutorials/JUnit/article.htm). To fully understand how JUnit works it is necessary to first read the [Annotations](https://docs.oracle.com/javase/tutorial/java/annotations/index.html) and [Reflection](https://docs.oracle.com/javase/tutorial/reflect/) tutorials.
 
+### Test Suite Organization
+
+A collection of tests for a project is known as a **test suite**. A common question is how to organize our tests in a sensible matter. There are different approaches, but in Java a common way to organize tests is to have one *test class* per *project class*, where the test class collects all the tests that test methods of that class. Furthermore, it is common practice to located all the testing code in a different *source folder* with a package structure that *mirrors the project's package structure*. The rationale for this idiom is that in Java classes in the same package are in the same *package scope* independently of their location on the disk. This means that classes and methods in the test package can refer to non-public (but non-private) members of the original project. This often simplifies the test code. The figure below illustrates this idea.
+
+![Test Suite Organization](figures/m04-TestSuiteOrganization.png)
+
+
+
 ## Reading
 
 * Textbook 3.7, 7.2, 7.6;
