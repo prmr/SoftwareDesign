@@ -29,18 +29,48 @@ In practice, a **unit test** consists in one execution of a **unit under test (U
 Math.abs(5) == 5
 ```
 
-technically qualifies as a test. Here the UUT is the library method `Math.abs(int)`, the input data is the integer 5, and the oracle is, in this case, also the value 5.
+technically qualifies as a test. Here the UUT is the library method `Math.abs(int)`, the input data is the integer 5, and the oracle is, in this case, also the value 5. When testing non-static method, it's important to remember that the input data includes the receiver object (the object that receives the method call).
 
 Although it is possible to test a system manually, in practice unit testing is done automatically. Since in software development the way to automate anything is to write a program to do it, to automate software testing we also write code to test other code. 
 
 This task is typically supported by a **unit testing framework** like [xUnit](https://en.wikipedia.org/wiki/XUnit), which in the case of Java means [JUnit](https://en.wikipedia.org/wiki/JUnit). JUnit automates a lot of the mundane parts of unit testing, including collecting tests, running them, and reporting the results.
 
-To understand how to use JUnit, please read [this tutorial](http://www.vogella.com/tutorials/JUnit/article.htm).
+### Basics of JUnit
+
+In JUnit a unit test maps to a method. The code below illustrates a very simple unit test with JUnit.
+
+```
+public class AbsTest
+{
+	@Test
+	public void testAbsPositive()
+	{
+		assertEquals(5,Math.abs(5));
+	}
+	
+	@Test
+	public void testAbsNegative()
+	{
+		assertEquals(5,Math.abs(-5));
+	}
+	
+	@Test
+	public void testAbsMax()
+	{
+		assertEquals(Integer.MAX_VALUE,Math.abs(Integer.MIN_VALUE));
+	}
+}
+```
+
+The `@Test` [Annotation](https://docs.oracle.com/javase/tutorial/java/annotations/index.html) indicates that the method should be run as a unit test. This annotation is defined in the JUnit library, which must be added to a project's classpath before it is visible. The test method should typically contain at least one call to a UUT. The way to automatically verify that the execution of a UUT has the expected effect is to execute various calls to `assert*` methods. Assert methods are different from the `assert` statement in Java. They are declared as static methods of the class `org.junit.Assert*` and all they do is basically verify a predicate and, if the predicate is not true, report a *test failure*. The JUnit framework includes a GUI component called a *test runner*. To execute the JUnit test running from within Eclipse, right-click on a project that contains at least one jUnit test method, and select `Run As | JUnit Test`. When executing, all the JUnit test runner does is inspect the program, collect all methods flagged as unit tests using annotations, and invoke them, then report whether the tests passed on failed.
+
+For additional instructions on how to use JUnit, read [this tutorial](http://www.vogella.com/tutorials/JUnit/article.htm). To fully understand how JUnit works it is necessary to first read the [Annotations](https://docs.oracle.com/javase/tutorial/java/annotations/index.html) and [Reflection](https://docs.oracle.com/javase/tutorial/reflect/) tutorials.
 
 ## Reading
 
 * Textbook 3.7, 7.2, 7.6;
 * The [Java Tutorial - Annotations](https://docs.oracle.com/javase/tutorial/java/annotations/index.html)
+* The [Java Tutorial - Reflection](https://docs.oracle.com/javase/tutorial/reflect/)
 * The [Vogella Unit Testing Tutorial](http://www.vogella.com/tutorials/JUnit/article.html)
 * Solitaire v0.3 [TestGameModel](https://github.com/prmr/Solitaire/blob/v0.3/test/ca/mcgill/cs/stg/solitaire/model/TestGameModel.java) as a sample unit test demonstrating the use of reflection and simple mock objects.
 
