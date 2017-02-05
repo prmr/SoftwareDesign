@@ -293,6 +293,36 @@ To support formal reasoning about code structure, we need to rely on the concept
 
 ![CFG Example](figures/m04-CFG.png)
 
+### Test Adequacy Criteria
+
+We can now return to the problem of selecting test cases so that our test suite is "good enough". In structural testing, to know whether a test suite is "good enough" we rely on **test suite adequacy criteria** defined using the CFG. A *test suite adequacy criterion* is a predicate that is true or false for a pair (program, test suite). For example, a development team could decided that for a test suite to be good enough for their program, "80% of all statements should be executed when the test suite is executed".
+
+**Statement coverage** is the simplest criterion. It is defined as `(number of statements executed)/(number of statements in the program)`. The rational for achieving statement coverage is simply that if a defect is present in a statement, it can't be detected if the statement is not executed. Statement coverage corresponds to going through all the nodes in a CFG during the execution of a test suite. 
+
+**Branch coverage** is defined as `(number of branches executed)/(number of branches in the program)`. Branch coverage corresponds to going through all the edges in a CFG during the execution of a test suite. 
+
+**Path coverage** is defined as `(number of path executed)/(number of paths in the program)`. Path coverage corresponds to going through all the possible path in a CFG during the execution of a test suite. Path coverage is considered a *theoretical criterion* because although it can be a useful concept to reason about testing in general, it cannot be achieved in practice.
+
+Because many defects can lurk in conditional statements, a number of coverage criteria target condition coverage specifically:
+
+**Basic conditions coverage** is defined as "each basic condition must have a True and a False outcome at least once during the execution of the test suite". 
+
+**Branch and conditions coverage** is defined as satisfying both the branch and basic conditions criteria.
+
+**Compound conditions** is defined as achieved each possible evaluation of compound conditions. In the general case the compound conditions criterion is also considered "theoretical" because of the the large number of resulting combinations.
+
+Some of the coverage criteria have a **subsumption relation** between them. For criterion A to *subsume* criterion B means that if A is achieved, B is implicitly achieved. The following subsumptions relations exist between the criteria seen in this module (the relation is [transitive](https://en.wikipedia.org/wiki/Transitive_relation)):
+
+* Branch subsumes Statement
+* Path subsumes Branch
+* Branch and conditions subsumes both branch and basic conditions (by definition)
+* Compound conditions subsumes branch and conditions
+
+
+
+
+
+
 
 
 ## Reading
