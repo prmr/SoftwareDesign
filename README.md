@@ -89,8 +89,8 @@ An overview of the contents can be found [on a separate page](Overview.md)
 |7	| 26 Jan | [M3 - Object State](modules/Module-03.md) | |
 |8	| 31 Jan | [M4 - Unit Testing](modules/Module-04.md) | Lab Test 1 (M1-3)|
 |9	| 2 Feb | [M4 - Unit Testing](modules/Module-04.md) | Lab Test 1 (M1-3)|
-|10	| 7 Feb | M5 - Composition | Lab Test 1 (M1-3)|
-|11	| 9 Feb | M5 - Composition | Lab Test 1 (M1-3)|
+|10	| 7 Feb | [M5 - Composition](modules/Module-05.md) | Lab Test 1 (M1-3)|
+|11	| 9 Feb | [M5 - Composition](modules/Module-05.md) | Lab Test 1 (M1-3)|
 |12	| 14 Feb | Review Session | Lab Test 2 (M4-5)|
 |13	| 16 Feb | Midterm 1 | Lab Test 2 (M4-5)|
 |14	| 21 Feb | M6 - Inversion of Control | Lab Test 2 (M4-5)|
