@@ -309,20 +309,22 @@ Because many defects can lurk in conditional statements, a number of coverage cr
 
 **Branch and conditions coverage** is defined as satisfying both the branch and basic conditions criteria.
 
-**Compound conditions** is defined as achieved each possible evaluation of compound conditions. In the general case the compound conditions criterion is also considered "theoretical" because of the the large number of resulting combinations.
+**Compound conditions** is defined as achieving each possible evaluation of compound conditions. In the general case the compound conditions criterion is also considered "theoretical" because of the the large number of resulting combinations.
 
-Some of the coverage criteria have a **subsumption relation** between them. For criterion A to *subsume* criterion B means that if A is achieved, B is implicitly achieved. The following subsumptions relations exist between the criteria seen in this module (the relation is [transitive](https://en.wikipedia.org/wiki/Transitive_relation)):
+Some of the coverage criteria have a **subsumption relation** between them. For criterion A to *subsume* criterion B means that if A is achieved, B is implicitly achieved. The following subsumption relations exist between the criteria seen in this module (the relation is [transitive](https://en.wikipedia.org/wiki/Transitive_relation)):
 
 * Branch subsumes Statement
 * Path subsumes Branch
 * Branch and conditions subsumes both branch and basic conditions (by definition)
 * Compound conditions subsumes branch and conditions
 
+### Practical Coverage Analysis
 
+Test coverage is typically computed by tools that *instrument* the source or bytecode and report how much coverage is achieved for different criteria supported by the tool. In this course we use the EclEmma Eclipse plug-in to compute coverage. EclEmma supports instruction, line (a proxy for statement), and branch coverage. See the Module 0 exercises for instructions on how to install and run EclEmma.
 
+### Acknowledgements
 
-
-
+The part of this module on test case selection and structural testing was adapted from a lecture originally created by Prof. Andreas Zeller based on material from the book "Software Testing and Analysis: Process, Principles, and Techniques”, by Pezze & Young, Wiley, 2008
 
 
 ## Reading
@@ -336,6 +338,15 @@ Some of the coverage criteria have a **subsumption relation** between them. For 
 ## Exercises
 
 Exercises prefixed with **(+)** are optional, more challenging questions aimed to provide you with additional design and programming experience. Exercises prefixed with **(P)** (for "project") will incrementally guide you towards the ultimate completion of a complete Solitaire application.
+
+The best way to practice unit testing is, unsurprisingly, to write tests for as much code as possible. The exercises below provide some suggestions, but for additional practice you can write tests for practically any available code.
+
+0. Write unit tests for the Java `Math.abs()` and `Math.min(...)`.
+0. Write unit tests for the Java `Stack` methods `pop`, `push`, and `peek`.
+0. Create CFGs for all the methods of class [RecentFilesQueue](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/RecentFilesQueue.java), except for `serialize` and `deserialize`. With the help of EclEmma, write tests that achieve branch coverage. Manually compute the coverage for all three condition criteria.
+0. (+) Extend the previous exercise to include the `serialize` and `deserialize` methods.
+0. (P) Write unit tests for all the classes of the Solitaire application you have developed so far. Compute the coverage of your test suite with EclEmma.
+0. (+) Run EclEmma on JetUML and identify some untested code. Write a new unit test and submit it as a pull request. 
 
 ---
 
