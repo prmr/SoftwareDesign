@@ -11,3 +11,7 @@ The key insight here is that the state of the door (open or closed) needs to be 
 ## Exercise 2
 
 ![](m03-2.png)
+
+## Exercise 3
+
+See the implemented [Card](https://github.com/prmr/Solitaire/blob/v0.3/src/ca/mcgill/cs/stg/solitaire/cards/Card.java) class. Note that there are different ways to implement the flyweight collection. In class I showed a version using lazy initialization of a double hash table.
