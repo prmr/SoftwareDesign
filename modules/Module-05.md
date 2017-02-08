@@ -13,6 +13,7 @@ After this module you should:
 * Be able to use the Decorator design pattern effectively;
 * Be able to use the Command design pattern effectively;
 * Be able to use the Prototype design pattern effectively;
+* Understand the concept of polymorphic copying and be able to correctly use the Java cloning mechanism;
 * To understand the Law of Demeter and be able to apply it;
 * Generally solve design problems that involve manipulating object graphs;
 
@@ -21,7 +22,7 @@ After this module you should:
 
 ## Reading
 
-* Textbook 3.4.5, 5.5-5.8, 10.2
+* Textbook 3.4.5, 5.5-5.8, 7.4, 10.2
 * JetUML v1.0: The [ToolBar](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/ToolBar.java) class and its [design docs](https://github.com/prmr/JetUML/blob/v1.0/doc/functional/toolbar.md) show a near-classic implementation of the Prototype design pattern.
 * Solitaire v0.3 implements the Command pattern though interface [Move](https://github.com/prmr/Solitaire/blob/v0.3/src/ca/mcgill/cs/stg/solitaire/model/Move.java)
 * Solitaire v0.3 implements the Composite pattern though class [CompositeMove](https://github.com/prmr/Solitaire/blob/master/src/ca/mcgill/cs/stg/solitaire/model/CompositeMove.java)
