@@ -64,7 +64,18 @@ An example of the resulting structure is illustrated by the object diagram below
 
 ![](figures/m05-composite2.png)
 
-When instantiating the Composite design pattern as part of a design, a few important issues must be considered:
+When instantiating the Composite design pattern as part of a design, the implementation of the methods of the primitive's interface should most likely involve an iteration through all the composed elements. As a simple example, in the above design the implementation of method `CompositeFigure.draw(Graphics)` would most likely be:
+```
+public void draw(Graphics pGraphics)
+{
+	for( Figure figure : aFigures )
+	{
+		figure.draw(pGraphics);
+	}
+}
+```
+
+A few other important implementation issues must be considered:
 
 * Whether to have a single composite class for all different types of composite, or whether to have an abstract composite class that is subclassed by other more specific types of composites. Because inheritance is covered later in the course, we set this issue aside for now.
 * The composite needs a way to add the instances of the primitive that it composes. This can be done using the constructor, or an `add` method. In the case of an `add` method, the question becomes whether to include the `add` method in the `Primitive` or not. The more common solution is to not include it in the primitive, but there may be some situations where it makes more sense to include it on the interface, for example to simplify code that makes heavy use of the `instanceof` operator.
@@ -72,6 +83,39 @@ When instantiating the Composite design pattern as part of a design, a few impor
 Some practical aspects related to using the pattern are independent from the structure of the pattern itself. These include:
 * The location of the creation of the composite.
 * Any logic required to preserve the integrity of the object graph induced by this design (e.g., to prevent cycles, or non-sensical groups). Because these concerns are problem-dependent, their solution will depend on the specific design problem at hand.
+
+### The Decorator Design Pattern
+
+In some case we would like to optionally add some "features" to an object, but still be able to treat the object like any other object of the same type. Continuing with the example of the drawing editor, we might want to add a border to some figures, or maybe give it transparency, or a non-photorealistic rendering, etc. Implementing features such as these *statically*, as attributes of the classes, has several drawbacks. First, not all objects will necessarily have an attribute, which means that the methods of the object would have to implement support for a feature that is never used. Second, and perhaps more importantly, the number of potential combination of features increases exponentially with the number of figures, and so it goes with the general complexity of the code. For example, for the `Rectangle` class to be able to handle three features, the code of methods such as `draw` would have to account for 8 different possibilities. A better solution is to compose features *dynamically*. The **Decorator Design Pattern** captures the main underlying idea. 
+
+![](figures/m05-decorator1.png)
+
+The Decorator design pattern looks very much like the Composite Design Pattern, except that instead of a Composite object we have a Decorator object. However, the constraints on the Decorator are very similar as those of the Composite:
+
+0. It aggregates *one object* of type `Figure`. Using the primitive (interface) type is very important, as it allows the decorator to "decorate" any other kind of primitives, including other decorators (and composites!).
+0. It implements the primitive interface. This is basically what allows decorator objects to be treated by the rest of the program in exactly the same way as "leaf" elements.
+
+The main question to resolve when implementing the Decorator is what the methods of the Decorator class should do. In a classic use of the Decorator design pattern, the implementation of the interface's methods should basically involve two steps, illustrated with the code for the `draw` method:
+```
+public void draw(Graphics pGraphics)
+{
+	// 1. Delegate the original request to the decorated object
+	aDecorated.draw(pGraphics);
+	
+	// 2. Implement the decoration
+	// Draw the border using the Graphics object
+}
+```
+
+There is no prescribed order for these two steps, although in some case the problem domain may impose and order. The following sequence diagram illustrates the delegation sequence when using a Decorator (note that the order is reversed from that of the code example):
+
+![](figures/m05-decorator-sequence.png)
+
+When implementing the Decorator design pattern in Java, it's a good idea to specify as `final` the field that stores a reference to the decorated object, and to initialize it in the constructor. A common expectation when using the Decorator Design Pattern is that a decorator object will decorate the same object through its life-time.
+
+Finally, Decorator and Composite classes can easily co-exist in a class hierarchy. The object diagram below illustrates an object graph induced by a combination of composite and decorator objects.
+
+![](figures/m05-compositedecorator.png)
 
 ## Reading
 
