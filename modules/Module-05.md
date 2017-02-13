@@ -117,6 +117,93 @@ Finally, Decorator and Composite classes can easily co-exist in a class hierarch
 
 ![](figures/m05-compositedecorator.png)
 
+### Polymorphic Object Copying
+
+In [Module 1](Module-01.md) I discussed situations where it's useful to copy some objects, and introduced the idea of copy constructors, which allow a client to make a copy of an object passe as argument:
+
+```
+Card cardCopy = new Card(pCard);
+```
+
+Copy constructors work fine in many situations, but their main limitation is that to call a constructor it is necessary to make a static reference to a specific class (here, class `Card`). In designs that make use of polymorphism, this is a problem. Consider the scenario of a drawing editor illustrated above. Assume that in the `Drawing` class we collect reference to a number of `Figure` instances. 
+
+```
+public class Drawing
+{
+	private List<Figure> aFigures = ...;
+	...
+}
+
+In this design, an instance of `Drawing` would collect references to `Figure` instances of different concrete types (e.g., `RectangleFigure`, `TextFigure`, etc.). Say we want to make copies of all the figures in `aFigures`. How to proceed, since we don't know the exact type of each figure object? (We could use metaprogramming to discover it, but that's messy).
+
+The solution to this problem is to use a mechanism that provides us with *polymorphic object copying*. In other words, we want to be able to make copies of objects without knowing the exact concrete type of the object. In Java this feature is supported by a mechanism called **cloning**. 
+
+Cloning is one of Java's most convoluted and counter-intuitive mechanisms. There are many tutorials available on Java cloning (e.g., [this one](http://howtodoinjava.com/core-java/cloning/a-guide-to-object-cloning-in-java/). Here I only discuss the main recipe for achieving cloning, and report some of the more in-depth discussion of the rationale some of the mechanism's design decisions to Module 7 because the explanations required knowledge of inheritance. 
+
+To make it possible to clone a class, the first step is to **tag the class as cloneable** using the `Cloneable` tagging interface:
+
+```
+public class Card implements Cloneable {
+```
+
+This allows other objects to check whether an object can be cloned, e.g.:
+
+```
+if( o instanceof Cloneable ) { clone = o.clone(); }
+```
+
+The second step is to **override the `clone` method**. The method `Object clone()` is defined in class `Object`, but its access modifier is `protected`, so methods that don't have access to the cloneable class's target method can't see it. When overriding `clone`, it is therefore necessary to *widen its visibily* to `public`.
+
+```
+@Override
+public Card clone()
+{
+```
+
+Note that since Java 5 it is possible to change the return type from the original `Object` to the more specific `Card` (this feature is called a *covariant return type*).
+
+The overriden clone method needs to create a new object of the same class. For reason that will become clearer in Module 7, this **should only be done by calling `super.clone()`**, not by calling a constructor.
+
+```
+@Override
+public Card clone()
+{
+	Card clone = super.clone();
+	// NOT Card clone = new Card();
+```
+
+The statement `super.clone` calls the `clone` method in the superclass, which here means method `Object.clone`. This method is very special. It uses metaprogramming features to return *an object of the class from where the call to the method originates*. This is specialy because although the method is implemented in the library class `Object`, it still returns a new instance of class `Card`.
+Method `Object.clone` is special because it also does not create a "fresh" instance of the class by internally calling the default constructor (sometimes there isn't even a default constructor). Instead, it reflectively creates a new instance of the class initialized by making a shallow copy of all the instances fields. Whenever a shallow copy is not sufficient, the overriden `clone` method must perform additional steps to more deeply copy some of the fields.
+
+For example, a reasonble implementation of `clone` of a class `Deck` would look like this:
+
+```
+public Deck clone()
+{
+	try
+	{
+		Deck lReturn = (Deck)super.clone();
+		lReturn.aCards = new Stack<>();
+		for( Card card : aCards )
+		{
+			lReturn.aCards.add(card);
+		}
+		return lReturn;
+	}
+	catch (CloneNotSupportedException e)
+	{
+		return null;
+	}
+```
+
+As you notice, the call to `super.clone` declares to throw a `CloneNotSupportedException` that must be caught. This exception is only raised if `super.clone` is called from within a class that is *not* declared to implement `Cloneable`. If we properly declared our class (`Card` or `Deck`) to be `Cloneable`, then we can be assured that this exception will never be raised, and we can safely squash it by catching it and doing nothing. The reason for this awkward exception-handling requirement is that because the default cloning behavior implemented by `Object.clone` (shallow copying) is potentially not appropriate for a class (like `Deck`), a programmer should not be able to call `clone` "accidentally". Having to catch the exception is supposed to force programmers to remember this, although it's not clear to what extent this trick was successful.
+
+The last, optional, step when using cloning is to add the `clone` method to the super type of a hierarchy of object that we want to clone. In the `DrawingEditor` example, we would probably want to add `clone` to the `Figure` interface. Unfortunately, the `Cloneable` interface does not include the `clone` method, so that the `clone` method will not automatically be visible to clients of `Cloneable` types. Another useful trick is to make the hierarchy supertype extend clone instead of making all the concrete type declare to implement it individually, e.g.,;
+```
+public interface Figure extend Cloneable 
+...
+```
+
 ## Reading
 
 * Textbook 3.4.5, 5.5-5.8, 7.4, 10.2
