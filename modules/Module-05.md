@@ -133,6 +133,7 @@ public class Drawing
 	private List<Figure> aFigures = ...;
 	...
 }
+```
 
 In this design, an instance of `Drawing` would collect references to `Figure` instances of different concrete types (e.g., `RectangleFigure`, `TextFigure`, etc.). Say we want to make copies of all the figures in `aFigures`. How to proceed, since we don't know the exact type of each figure object? (We could use metaprogramming to discover it, but that's messy).
 
