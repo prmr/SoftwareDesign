@@ -205,6 +205,34 @@ public interface Figure extend Cloneable
 ...
 ```
 
+### The Prototype Design Pattern
+
+One use of polymorphic copying is to support the design of a class that specializes in the creation of objects. Consider the toolbar in [JetUML](https://github.com/prmr/JetUML).
+
+![](figures/m05-toolbar.png)
+
+The buttons on the panel all basically do the same thing: place an object on the diagram. The only thing that changes for different buttons is the type of graph node that gets *created*. So it would be desirable, from a code reuse point of view, to have only one class that can handle the creation of any kind of button. In the actual design, the toolbar is implemented by class [Toolbar](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/ToolBar.java) which manages the button and has a method that can return what "tool" is selected. The class *does not* manage the creation of any `Node` objects, but instead can return *the type of node* that corresponds to the button that is selected:
+
+```
+public GraphElement getSelectedTool()
+```
+
+Whenever a user clicks a button on the toolbar, the code that responds to the input from the user can now simply create the new node by cloning it:
+
+```
+private void handleNodeCreation(MouseEvent pEvent)
+{
+	Node newNode = ((Node)aSideBar.getSelectedTool()).clone();
+	boolean added = aGraph.addNode(newNode, getMousePoint(pEvent));
+	...
+```
+
+This is the idea of using a **prototype object**. Here the toolbar can provided a prototype object to the part of the program in charge of adding a `GraphElement` to the diagram, and to accomplish this task the client code can simply clone the prototype object. A simpler, synthetic example that summarizes this idea is illustrated with class [ElementCreator](artifacts/module-05/module05/ElementCreator.java). 
+
+In this code example, an instance of `ElementCreator` is capable of creating any number of new objects of any type that is a subtype of `Element`. To enable the creation of new objects, the `ElementCreator` instance must store a reference to a prototype object. Once this prototype is available, it is possible to create new objects simply by cloning the prototype. In a more elaborate design, it might also be possible to change the prototype during the life-cycle of an `ElementCreator` instance, so that whatever is created by calling `createElement()` can also change. The idea of using a prototype object to manage the creation of new object of a statically undefined type is referred to as the **Prototype Design Pattern**.
+
+
+
 ## Reading
 
 * Textbook 3.4.5, 5.5-5.8, 7.4, 10.2
