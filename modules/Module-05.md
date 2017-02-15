@@ -231,7 +231,13 @@ This is the idea of using a **prototype object**. Here the toolbar can provided 
 
 In this code example, an instance of `ElementCreator` is capable of creating any number of new objects of any type that is a subtype of `Element`. To enable the creation of new objects, the `ElementCreator` instance must store a reference to a prototype object. Once this prototype is available, it is possible to create new objects simply by cloning the prototype. In a more elaborate design, it might also be possible to change the prototype during the life-cycle of an `ElementCreator` instance, so that whatever is created by calling `createElement()` can also change. The idea of using a prototype object to manage the creation of new object of a statically undefined type is referred to as the **Prototype Design Pattern**.
 
+### The Command Design Pattern
 
+Conceptually a command is a piece of code that accomplishes something: saving a file, adding a node to a diagram, etc. Intuitively the way to represent a command in a program easily maps to the concept of a function or method, since that is an abstraction that corresponds to a piece of code that will execute. However, an often-useful design idom is to instead use an entire object to represent a command and to act on commands polymorphically. The UML Class Diagram below shows how this can be achieved.
+
+![](figures/m05-command.png)
+
+In this design a client interacts with **abstract commands** represented by the `Command` interface. To execute a command, the client simply calls method `execute()` on an object of type `Command`, and the implementation of `execute` in the corresponding **concrete command** gets selected polymorphically.
 
 ## Reading
 
