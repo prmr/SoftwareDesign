@@ -259,7 +259,9 @@ Exercises prefixed with **(+)** are optional, more challenging questions aimed t
 3. Implement the solution using the [module's source code samples](../artifacts/module-05/module05) as a template. When you solve this exercise, executing the main method of the `BridgeDealer` class should show a graphical window where card icons are laid out according to your solution.
 
 4. (+) Write unit tests for the `getIconHeight()` and `getIconWidth()` method using stubs.
- 
+
+5. Make the [Hand](artifacts/module-02/comp303m02/Hand.java) class cloneable. Write a small driver program that creates a new `Hand` object and clones it. Create a UML object diagram to represent a cloned Hand. Use the debugger to verify the correctness of your diagram.
+
 ---
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a>
