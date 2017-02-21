@@ -245,7 +245,7 @@ When designing a piece of software using the principle of delegation, one can of
 
 ![](figures/m05-demeter1.png)
 
-In this design, a `GameEngine` objects holds a reference to an instance of `SuitStackManager` to manage the four stacks of cards of a single suit. In turn, a `SuitStack` manager holds references to four `SuitStack` instances, which are specialized wrappers around `Stack` objects, etc. 
+In this design, a `GameEngine` object holds a reference to an instance of `SuitStackManager` to manage the four stacks of cards of a single suit. In turn, a `SuitStackManager` holds references to four `SuitStack` instances, which are specialized wrappers around `Stack` objects, etc. 
 
 There are different ways to use such delegation chains. Let's consider the scenario of adding a card to a suit stack. One way is illustrated as follows:
 
@@ -257,7 +257,7 @@ In this design the `GameEngine` is in charge of all the details of adding a card
 * Any new object created within the method;
 * (If need be) globally available objects.
 
-So, to respect this guideline is becomes necessary to provide additional services in classes that occupy an intermediate position in a delegation chain so that the clients do not need to manipulate the internal objects encapsulated by these objects. The solution in our example would be:
+So, to respect this guideline it becomes necessary to provide additional services in classes that occupy an intermediate position in a delegation chain so that the clients do not need to manipulate the internal objects encapsulated by these objects. The solution in our example would be:
 
 ![](figures/m05-demeter3.png)
 
