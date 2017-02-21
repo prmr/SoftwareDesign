@@ -239,6 +239,30 @@ Conceptually a command is a piece of code that accomplishes something: saving a 
 
 In this design a client interacts with **abstract commands** represented by the `Command` interface. To execute a command, the client simply calls method `execute()` on an object of type `Command`, and the implementation of `execute` in the corresponding **concrete command** gets selected polymorphically.
 
+### The Law of Demeter
+
+When designing a piece of software using the principle of delegation, one can often end up with long delegation chains between objects. For example, in the Solitaire application, we could have the following situation:
+
+![](figures/m05-demeter1.png)
+
+In this design, a `GameEngine` objects holds a reference to an instance of `SuitStackManager` to manage the four stacks of cards of a single suit. In turn, a `SuitStack` manager holds references to four `SuitStack` instances, which are specialized wrappers around `Stack` objects, etc. 
+
+There are different ways to use such delegation chains. Let's consider the scenario of adding a card to a suit stack. One way is illustrated as follows:
+
+![](figures/m05-demeter2.png)
+
+In this design the `GameEngine` is in charge of all the details of adding a card to a stack, and must handle every intermediate object in the delegation chain. This design violates the principle of *information hiding* by requiring the code of the `GameEngine` class to know about the precise navigation structure required to add a card to the system. The intuition that designs such as this one tend to be suboptimal is captured by the [Law of Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter). The "law" of Demeter is actually a design guideline that states that the code of a method should only access:
+* The instance variables of its implicit parameter;
+* The arguments passed to the method;
+* Any new object created within the method;
+* (If need be) globally available objects.
+
+So, to respect this guideline is becomes necessary to provide additional services in classes that occupy an intermediate position in a delegation chain so that the clients do not need to manipulate the internal objects encapsulated by these objects. The solution in our example would be:
+
+![](figures/m05-demeter3.png)
+
+In this solution, objects do not return references to their internal structure, but instead provide the complete service required by the client at each step in the delegation chain. 
+
 ## Reading
 
 * Textbook 3.4.5, 5.5-5.8, 7.4, 10.2
