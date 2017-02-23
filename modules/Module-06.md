@@ -37,6 +37,18 @@ Furthermore, these limitations all increase quadratically in the number of panel
 
 The way out of this design antipattern is to separate program elements responsible for *storing state* from program elements responsible for *viewing state*, from program elements responsible for *changing state*, and to use various mechanisms to achieve loose coupling between these. This profoundly influential idea is commonly known as **the Observer Design Pattern** or (somewhat alternatively) **the Model-View-Controller** architecture (MVC). In this course I stick to the "Observer pattern" terminology, but it's good to be aware that in other contexts people may talk about the MVC and refer to essentially the same thing.
 
+### The Observer Design Pattern
+
+The central idea of the Observer design pattern is to store state of interest in specialized objects, and to allow other objects to *observe* this state. The class diagram below illustrates how this is realized for the LuckyNumber application.
+
+![](figures/m06-basicObserver.png)
+
+In this situation, the object in charge of keeping state is an instance of `Model`. The `Model` class in the Oberver design pattern can alternately be called "Subject", or even "Observable". Here an instance of `Model` simply keeps track of an integer and allows clients to query and mutate this integer. Where things become interesting is that the `Model` class also includes an aggregation to an `Observer` interface, with methods to add and remove `Observer` instances from its collection. This is also called *(de)registering* observers. Classes that define objects that would be interested in observing the state of the model must then declare to implement the `Observer` interface. Through polymorphism, we thus achieve loose coupling between the model and its observers. Specifically:
+
+* The model can be used without any observers;
+* The model is aware that it can be observed, but its implementation does not depend on any concrete observer class.
+* It is possible to register and de-register observers at run-time.
+
 ## Reading
 
 * Textbook 5.3, 8.1, 8.4;
