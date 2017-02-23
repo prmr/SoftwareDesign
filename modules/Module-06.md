@@ -14,6 +14,28 @@ After this module you should:
 
 ## Notes
 
+### Motivation
+
+One of the main problems that motivates inversion of control in design is situations where a number of objects need to be kept consistent with a certain state. An example from the programming domain itself is an integrated development environment like Eclipse, which presents different views of the code. For example, the Outline View shows the outline of a class that can also be viewed in the text editor, etc.
+I illustrate a simpler instance of this problem with the [LuckyNumber](artifacts/module-06/module6/LuckyNumber.java) toy application. When launched this application shows a number between 1 and 10 in three different ways (or with three different *views*:
+
+![](figures/m06-luckyNumber.png)
+
+Each view of the number also allows the user to change the number, and the change is immediately reflected in all views.
+
+A naive (and inferior) way to implement this functionality is through *complete pairwise dependencies*.
+
+![](figures/m06-dependencies.png)
+
+This design suffers from (at least) the following two inter-related limitations:
+
+* **High coupling**: Each panel explicitly depends on many other panels.
+* **Complexity**: Complex idiosyncratic program logic is required to keep the different panels consistent.
+* **Low Extensibility**: To add or remove a panel, it is necessary to modify all other panels. 
+
+Furthermore, these limitations all increase quadratically in the number of panels, given that there are `n*(n-1)` directed edges in a complete graph with `n` vertices.
+
+The way out of this design antipattern is to separate program elements responsible for *storing state* from program elements responsible for *viewing state*, from program elements responsible for *changing state*, and to use various mechanisms to achieve loose coupling between these. This profoundly influential idea is commonly known as **the Observer Design Pattern** or (somewhat alternatively) **the Model-View-Controller** architecture (MVC). In this course I stick to the "Observer pattern" terminology, but it's good to be aware that in other contexts people may talk about the MVC and refer to essentially the same thing.
 
 ## Reading
 
