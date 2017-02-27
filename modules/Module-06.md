@@ -49,6 +49,19 @@ In this situation, the object in charge of keeping state is an instance of `Mode
 * The model is aware that it can be observed, but its implementation does not depend on any concrete observer class.
 * It is possible to register and de-register observers at run-time.
 
+Two key questions about the relation between a model an its observers are:
+
+* How do the observers learn that there is new information in the model that they need to know about?
+* How do they access this information?
+
+The answer to the first question is that whenever the model determines that there is a change in the model worth reporting to observers, it cycles through the observers and calls a certain method on them. This method has to be defined on the `Observer` interface and is usually called a "callback" because of the inversion of control that it represents. We talk of inversion of control because to find out information from the model the observers do not call a method on the model, they instead "wait" for the model to call them. This is often referred to as the "Hollywood Principle" ("don't call us, we'll call you"). That is also why the method that is called by the model on the observer is called a "callback". The following sequence diagram illustrates what happens when we change the model on the "LuckyNumber" application.
+
+![](figures/m06-callbacks1.png)
+
+Here, inside the state-changing method `setNumber(int)`, we added logic to loop through each observer and call the method `newNumber` on each. This `newNumber` method is a "callback" that the observers will expect to be called every time there is a state change in the model. The implementation of the callback dictates how each observer reacts to the change in state. 
+
+Another way to think about callback methods is as "events", with the model being the "event source". With this paradigm, the model generates a series of "events" that correspond to different state changes, and other objects are in charge of reacting to these events. What events correspond to in practice is simply methods calls.
+
 ## Reading
 
 * Textbook 5.3, 8.1, 8.4;

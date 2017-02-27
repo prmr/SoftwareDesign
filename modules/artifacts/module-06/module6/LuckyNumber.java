@@ -39,6 +39,7 @@ public class LuckyNumber extends JFrame
 		
 		add(new SliderPanel(lModel));  	// Top component
 		add(new IntegerPanel(lModel)); 	// Middle component
+		add(new IntegerPanel(lModel)); 	// Middle component
 		add(new TextPanel(lModel));   	// Bottom component
 		setDefaultCloseOperation(EXIT_ON_CLOSE); // Activates the close button.
 		pack(); 						// Computes optimal size of the window
