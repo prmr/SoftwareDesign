@@ -72,6 +72,8 @@ Another way to think about callback methods is as "events", with the model being
 
 Exercises prefixed with **(+)** are optional, more challenging questions aimed to provide you with additional design and programming experience. Exercises prefixed with **(P)** (for "project") will incrementally guide you towards the ultimate completion of a complete Solitaire application.
 
+0. Extend the code of [LuckyNumber](artifacts/module-06/module6/LuckyNumber.java) to include a Roman Numerals panel.
+
 ---
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a>
