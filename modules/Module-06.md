@@ -62,9 +62,61 @@ Here, inside the state-changing method `setNumber(int)`, we added logic to loop 
 
 Another way to think about callback methods is as "events", with the model being the "event source". With this paradigm, the model generates a series of "events" that correspond to different state changes, and other objects are in charge of reacting to these events. What events correspond to in practice is simply methods calls.
 
-The figure below provides a summary of the main roles of the Observer patterns and their relation.
+The figure below provides a summary of the main roles of the Observer pattern and their relation.
 
 ![](figures/m06-ObserverSummary.png)
+
+Variation points for the Observer design pattern include:
+
+* Whether to make the `notifyObserver` methods public or private. If public, clients with references to the model get to control when notification are issued. If private, it is assumed that the method is called at appropriate places in the state-changing methods of the model.
+* What callbacks methods to define on an abstract observer. An abstract observer can have any number of callbacks that can correspond to different types of events.
+* What data flow method to use to move data between the model and observers (push, pull, none, or both, as appropriate).
+* Whether to use a single abstract observer or multiple ones. Multiple abstract observers with different combinations of callbacks give clients more flexibility to respond to certain events or not.
+* How to couple observers with the model if observers need to query or control the model. Here the use of the interface segregation principle is recommended.
+
+### Observer Design Case Study
+
+Let's consider how we would approach the following question:
+
+> We are interested in an inventory system capable of keeping track of electronic equipment. An `Item` of equipment records a serial number (`int`) and production year (`int`). An `Inventory` object aggregates a bunch of `Item`s. Clients can add or remove `Item`s from the `Inventory` at any time. Various entities are interested in changes to the state of the `Inventory`. For example, it should be possible to show the items in the `Inventory` in a `ListView`. It should also be possible to view a `PieChart` representing the proportion of `Item`s in the `Inventory` for each production year (e.g., 2004=25%; 2005=30%, etc.). Views should be updated whenever items are added or removed from the Inventory.
+
+As a first take on this problem we can model the basic elements of the domain with a class diagram:
+
+![](figures/m06-cs1.png)
+
+This diagram captures all the relevant domain elements but, little else. The following step is to instantiate a basic Observer pattern. At this stage this simply requires realizing which domain object plays which role. Here the object containing the observable state would be instances of `Inventory`, and the objects observing this state would be `PieChart` and `ListView`.
+
+![](figures/m06-cs2.png)
+
+Now the basic mechanism for linking observers with the `Inventory` is visible, but some of the interesting questions are left unanswered. At this point we need to design callback methods. Since there are only two possible events in this simple problem (adding and removing items), there are two choices for callbacks:
+
+* A single callback that indicates that an item was added or removed;
+* One callback for items added and one for items removed.
+
+Here the first option would end up being called something like `itemAddedOrRemoved` and concrete observer would have to check a boolean flag to determine what happened. This option clearly has the smell of being not quite right. Indeed the second one is the more elegant choice. The final question how to tell observers which item has been added or removed. Using the pull method, we could include a reference to the `Inventory` that changed as part of the callback, and add a method `getLastItemAddedOrRemoved()`:
+
+![](figures/m06-cs3.png)
+
+Although potentially workable, this solution both looks and is clumsy. A much more natural option here seems to be to simply pass the added/removed item to the callback, to have something like `itemAdded(Item)`. Another somewhat more radical option, is to make the `Inventory` `Iterable<Item>` and to expect the observers to refresh themselves completely every time they receive an event. In some cases this make sense, but here let's stick to the use of the push model.
+
+The last question is how to trigger notifications. Here we'll choose to add a private `notifyObservers` method that is automatically called whenever `addItem` or `removeItem` is called.
+
+The current class diagram is thus:
+
+![](figures/m06-cs4.png)
+
+Assuming two observers (one of each type) are registered with the inventory, a sequence that illustrates an item being added is thus:
+
+![](figures/m06-cs5.png)
+
+Note the following details:
+
+* The `notifyObservers` method takes in a parameter to facilitate its implementation. Why that is will become apparent in the practice exercises.
+* The names of the methods on the `Observable` describe *commands* such as `addItem`, whereas the names of the call back describe the corresponding *result of the command as an event in the past*, such as `itemAdded`. The use of effective names greatly contributes to the usability of the Observer pattern.
+
+Finally, let's assume that after using this design in a version of the system, a new type of observer is added, called the `TransactionLogger`. This type of observers is only interested in items being added to the inventory. In the current design, the class would have to implement the `itemRemoved` callback to do nothing. In this case, we can improve the design to allow different types of observers to register to only the events they care about. However, note that this doubles the number of observer management methods on the model.
+
+![](figures/m06-cs6.png)
 
 ## Reading
 
@@ -77,6 +129,8 @@ The figure below provides a summary of the main roles of the Observer patterns a
 Exercises prefixed with **(+)** are optional, more challenging questions aimed to provide you with additional design and programming experience. Exercises prefixed with **(P)** (for "project") will incrementally guide you towards the ultimate completion of a complete Solitaire application.
 
 0. Extend the code of [LuckyNumber](artifacts/module-06/module6/LuckyNumber.java) to include a Roman Numerals panel.
+0. Write a JavaFX application with a button and a label, which writes the current date and time in the label every time the button is pressed. You can obtain the current date and time with the following API call `new Date().toString();` 
+0. Write the code that implements a skeleton application that corresponds to the Observer Design Case Study. Write a driver program that adds and removes item to make sure everything works as expected. Experiment with different design variants.
 
 ---
 
