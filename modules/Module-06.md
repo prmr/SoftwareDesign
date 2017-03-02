@@ -62,6 +62,10 @@ Here, inside the state-changing method `setNumber(int)`, we added logic to loop 
 
 Another way to think about callback methods is as "events", with the model being the "event source". With this paradigm, the model generates a series of "events" that correspond to different state changes, and other objects are in charge of reacting to these events. What events correspond to in practice is simply methods calls.
 
+The figure below provides a summary of the main roles of the Observer patterns and their relation.
+
+![](figures/m06-ObserverSummary.png)
+
 ## Reading
 
 * Textbook 5.3, 8.1, 8.4;
