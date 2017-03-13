@@ -46,6 +46,8 @@ The idea of inversion of control is one of the most powerful intellectual tools 
 
 *Inheritance* is a programming language-supported mechanism that allows us to assemble state and computation from different classes into a single object. It is a powerful feature that offers a natural solution to many design problems related to code extensibility and dynamic configuration. At the same time, it is a complex mechanism that can all too easily be misused. In this module, I will offer a review of inheritance and present the major design rules and patterns involving it.
 
+[Module Notes](modules/Module-07.md)
+
 ## Module 8 - Visitor and Map-Reduce
 
 This module will cover two common and important design ideas: the Visitor Design Pattern, and map-reduce designs for data-intensive computation.

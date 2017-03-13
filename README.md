@@ -99,8 +99,8 @@ An overview of the contents can be found [on a separate page](Overview.md)
 | 	| 2 Mar | Reading Week | |
 |16	| 7 Mar | Review Session | |
 |17	| 9 Mar | Midterm 2 | |
-|18	| 14 Mar | M7 - Inheritance | |
-|19	| 16 Mar | M7 - Inheritance | |
+|18	| 14 Mar | [M6 - M7 - Inheritance](modules/Module-07.md) | |
+|19	| 16 Mar | [M6 - M7 - Inheritance](modules/Module-07.md) | |
 |20	| 21 Mar | M8 - Visitor and Map-Reduce | Lab Test 3 (M6-7)|
 |21	| 23 Mar | M8 - Visitor and Map-Reduce | Lab Test 3 (M6-7)|
 |22	| 28 Mar | M9 - Concurrency | Lab Test 3 (M6-7)|
