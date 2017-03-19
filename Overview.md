@@ -48,9 +48,11 @@ The idea of inversion of control is one of the most powerful intellectual tools 
 
 [Module Notes](modules/Module-07.md)
 
-## Module 8 - Visitor and Map-Reduce
+## Module 8 - Design Patterns
 
-This module will cover two common and important design ideas: the Visitor Design Pattern, and map-reduce designs for data-intensive computation.
+This module will explore design solutions that incorporate design patterns an inheritance and introduce the Visitor design pattern.
+
+[Module Notes](modules/Module-08.md)
 
 ## Module 9 - Concurrency
 

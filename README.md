@@ -101,8 +101,8 @@ An overview of the contents can be found [on a separate page](Overview.md)
 |17	| 9 Mar | Midterm 2 | |
 |18	| 14 Mar | [M6 - M7 - Inheritance](modules/Module-07.md) | |
 |19	| 16 Mar | [M6 - M7 - Inheritance](modules/Module-07.md) | |
-|20	| 21 Mar | M8 - Visitor and Map-Reduce | Lab Test 3 (M6-7)|
-|21	| 23 Mar | M8 - Visitor and Map-Reduce | Lab Test 3 (M6-7)|
+|20	| 21 Mar | [M8 - Design Patterns](modules/Module-08.md) | Lab Test 3 (M6-7)|
+|21	| 23 Mar | [M8 - Design Patterns](modules/Module-08.md) | Lab Test 3 (M6-7)|
 |22	| 28 Mar | M9 - Concurrency | Lab Test 3 (M6-7)|
 |23	| 30 Mar | M9 - Concurrency | Lab Test 3 (M6-7)|
 |24	| 4 Apr | M10 - Topics in Software Design | Lab Test 4 (M8-9)|
