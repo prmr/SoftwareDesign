@@ -341,12 +341,31 @@ Exercises prefixed with **(+)** are optional, more challenging questions aimed t
 
 The best way to practice unit testing is, unsurprisingly, to write tests for as much code as possible. The exercises below provide some suggestions, but for additional practice you can write tests for practically any available code.
 
-0. Write unit tests for the Java `Math.abs()` and `Math.min(...)`.
-0. Write unit tests for the Java `Stack` methods `pop`, `push`, and `peek`.
-0. Create CFGs for all the methods of class [RecentFilesQueue](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/RecentFilesQueue.java), except for `serialize` and `deserialize`. With the help of EclEmma, write tests that achieve branch coverage. Manually compute the coverage for all three condition criteria.
-0. (+) Extend the previous exercise to include the `serialize` and `deserialize` methods.
-0. (P) Write unit tests for all the classes of the Solitaire application you have developed so far. Compute the coverage of your test suite with EclEmma.
-0. (+) Run EclEmma on JetUML and identify some untested code. Write a new unit test and submit it as a pull request. 
+For maximum learning effectiveness, I recommend peeking at the [answers](answers/Answers-04.md) only after giving the problems an honest try.
+
+**Exercise 1.**
+
+Write unit tests for the Java `Math.abs()` and `Math.min(...)`.
+
+**Exercise 2.**
+
+Write unit tests for the Java `Stack` methods `pop`, `push`, and `peek`.
+
+**Exercise 3.**
+
+Create CFGs for all the methods of class [RecentFilesQueue](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/RecentFilesQueue.java), except for `serialize` and `deserialize`. With the help of EclEmma, write tests that achieve branch coverage. Manually compute the coverage for all three condition criteria.
+
+**Exercise 4 (+).**
+
+Extend the previous exercise to include the `serialize` and `deserialize` methods.
+
+**Exercise 5 (P).**
+
+Write unit tests for all the classes of the Solitaire application you have developed so far. Compute the coverage of your test suite with EclEmma.
+
+**Exercise 6 (+).**
+
+Run EclEmma on JetUML and identify some untested code. Write a new unit test and submit it as a pull request. 
 
 ---
 
