@@ -22,7 +22,7 @@ Textbook: Section 10.6;
 
 ### Design Pattern Review Scenario
 
-We will explore how to combine design patterns by creating a design for a hypothetical mobile robotics system. In this system, a `Robot` class represents a three-wheeled robot with two active wheels and one free wheel that can also rotate around a pivot. The `Robot` class provides very basic control primitives through a method `void moveLeft(double pRadians)` and a similar method for moving the right wheel. The `pRadians` parameter specifies how much to turn the wheel, e.g., `pRadians=2&#960;` turns the wheel a full circle.
+We will explore how to combine design patterns by creating a design for a hypothetical mobile robotics system. In this system, a `Robot` class represents a three-wheeled robot with two active wheels and one free wheel that can also rotate around a pivot. The `Robot` class provides very basic control primitives through a method `void moveLeft(double pRadians)` and a similar method for moving the right wheel. The `pRadians` parameter specifies how much to turn the wheel, e.g., `pRadians=2*PI;` turns the wheel a full circle.
 
 ![](figures/m08-robot.png)
 
