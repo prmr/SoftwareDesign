@@ -58,6 +58,8 @@ This module will explore design solutions that incorporate design patterns an in
 
 *Concurrent programming* is a paradigm that allows developers to write code that can execute in parallel (on multi-core systems) or with the illusion of parallelism (on single-core ones). Concurrent programming is very, very challenging and is ideally only used in support of well-defined and well-understood design problems, such as performing background operations or displaying animations. In fact, many typical concurrent programming problems already have a framework-based solution that hides the use of concurrency primitives. In this module, I will present the foundations of object-oriented concurrent programming and a few examples of the use of concurrency in practice.
 
+[Module Notes](modules/Module-09.md)
+
 ## Module 10 - Topics in Software Design: Serialization and Refactoring
 
 Sometimes, the data in a running program needs to be transferred out of the program, for example to be stored in a file or transmitted over a network. In this module, I will cover the main techniques for serializing object graphs using a variety of frameworks including Java's binary serialization and JavaBeans frameworks and JSON serialization APIs. This module will also feature an introduction to the agile development practice called refactoring.
