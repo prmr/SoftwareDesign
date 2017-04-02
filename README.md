@@ -105,8 +105,8 @@ An overview of the contents can be found [on a separate page](Overview.md)
 |21	| 23 Mar | [M8 - Design Patterns](modules/Module-08.md) | Lab Test 3 (M6-7)|
 |22	| 28 Mar | [M9 - Concurrency](modules/Module-09.md) | Lab Test 3 (M6-7)|
 |23	| 30 Mar | [M9 - Concurrency](modules/Module-09.md) | Lab Test 3 (M6-7)|
-|24	| 4 Apr | M10 - Topics in Software Design | Lab Test 4 (M8-9)|
-|25	| 6 Apr | M10 - Topics in Software Design | Lab Test 4 (M8-9)|
+|24	| 4 Apr | [M10 - Topics in Software Design](modules/Module-10.md) | Lab Test 4 (M8-9)|
+|25	| 6 Apr | [M10 - Topics in Software Design](modules/Module-10.md) | Lab Test 4 (M8-9)|
 |26	| 11 Apr | Review for the Final | Lab Test 4 (M8-9)|
 
 ## Office Hours and Labs Schedule

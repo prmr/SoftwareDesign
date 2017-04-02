@@ -60,6 +60,8 @@ This module will explore design solutions that incorporate design patterns an in
 
 [Module Notes](modules/Module-09.md)
 
-## Module 10 - Topics in Software Design: Serialization and Refactoring
+## Module 10 - Serialization
 
 Sometimes, the data in a running program needs to be transferred out of the program, for example to be stored in a file or transmitted over a network. In this module, I will cover the main techniques for serializing object graphs using a variety of frameworks including Java's binary serialization and JavaBeans frameworks and JSON serialization APIs. This module will also feature an introduction to the agile development practice called refactoring.
+
+[Module Notes](modules/Module-10.md)
