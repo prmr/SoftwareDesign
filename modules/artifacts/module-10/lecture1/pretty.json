@@ -1,0 +1,13 @@
+[
+   {   "id"        : 1,
+       "name"      : "TV",
+       "properties": {
+                         "screen":"bw",
+                         "weight":"950"
+                      }
+   },
+   
+   {"id":2,"name":"Phone","properties":{"os":"Win"}},
+   
+   {"id":3,"name":"Radio","properties":{"default":"CBC"}}
+]
