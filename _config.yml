@@ -1,0 +1,8 @@
+title: Software Design
+description: Introduction to Software Design with Java
+show_downloads: false
+theme: jekyll-theme-minimal
+
+gems:
+  - jekyll-mentions
+  - jekyll-readme-index
