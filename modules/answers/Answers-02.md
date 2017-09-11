@@ -18,7 +18,7 @@ You can also clone the [Solitaire GitHub repo](https://github.com/prmr/Solitaire
 
 Sample answers can be found in the [Solitaire GitHub repo](https://github.com/prmr/Solitaire). Note that in my solution I bypassed the creation of individual `SuitStack` classes and managed everything through a single `SuitStackManager`. However, it's not a bad idea to try it as suggested first.
 
-## Exercise 8
+## Exercise 9
 
 Since this is a model, small variants are possible. For example, the model would also be correct and useful without the interfaces `Edge` and `Node`. I added them because I thought that was a neat way to answer the question "What is a `GraphElement`?". I also only included a subset of the methods in `SelectionList` which I thought gave the best idea of how the class "worked", and left out a bunch of state querying methods.
 
