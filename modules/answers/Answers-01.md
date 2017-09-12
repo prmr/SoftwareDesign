@@ -12,31 +12,31 @@ Notice how you can define the color enumerated type as an inner type of the `Sui
 
 ```
 public enum Suit
+{
+	CLUBS, DIAMONDS, SPADES, HEARTS;
+		
+	enum Color
 	{
-		CLUBS, DIAMONDS, SPADES, HEARTS;
+		RED, BLACK;
+	}
 		
-		enum Color
+	public Color getColor()
+	{
+		if( this == CLUBS || this == SPADES )
 		{
-			RED, BLACK;
+			return Color.BLACK;
 		}
-		
-		public Color getColor()
+		else
 		{
-			if( this == CLUBS || this == SPADES )
-			{
-				return Color.BLACK;
-			}
-			else
-			{
-				return Color.RED;
-			}
-		}
-		
-		public String toString()
-		{
-			return name().substring(0,1) + name().substring(1, name().length()).toLowerCase();
+			return Color.RED;
 		}
 	}
+		
+	public String toString()
+	{
+		return name().substring(0,1) + name().substring(1, name().length()).toLowerCase();
+	}
+}
 ```
 
 ## Exercise 3

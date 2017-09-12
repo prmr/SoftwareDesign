@@ -302,9 +302,8 @@ The second sample diagram, below, illustrates some of the modeling simplificatio
 Here the field `aName`, clearly of type `String`, has the string represented as if it were a value of a primitive type. To be completely accurate down to the last detail, the value should be a reference to an instance of class `String` that has a reference to an array of `char` objects, each with one letter. That level of detail would be both superfluous and counter-productive to the goal of indicating that a `Player` object stores name information. In this second diagram, we also see that a player somehow keeps track of a number of cards, but how these are stored internally is not represented. The cards could be in an array, a list, a set, whatever. In this case it was not judged necessary to include this information. Finally, and this is maybe a bit of a stretch, the value of the `Card` instances are represented artificially by using an evocative name for the objects, instead of modeling the field values. This doesn't mean that these `Card` instances somehow don't have the `aRank` and `aSuit` fields, it just means this detail has been elided on the diagram.
 
 ## Reading
-* Textbook 3.1-3.6
+* [Module 1 Code Samples](https://github.com/prmr/SoftwareDesignCode/tree/master/module01/ca/mcgill/cs/swdesign/m1)
 * The Java Tutorial on [Enumerated Types](https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html)
-* Solitaire v0.1 [Card.java](https://github.com/prmr/Solitaire/blob/v0.1/src/ca/mcgill/cs/stg/solitaire/cards/Card.java)
 * Solitaire v0.1 [Deck.java](https://github.com/prmr/Solitaire/blob/v0.1/src/ca/mcgill/cs/stg/solitaire/cards/Deck.java)
 * JetUML v1.0 [MultiLineString](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/MultiLineString.java)
 
@@ -312,14 +311,14 @@ Here the field `aName`, clearly of type `String`, has the string represented as 
 
 For maximum learning effectiveness, I recommend peeking at the [answers](answers/Answers-01.md) only after giving the problems an honest try.
 
-0. Implement class `Card` as a single enumerated type. For the purpose of the Solitaire application, does this look like a superior or inferior solution to version 7 of class `Card` seen in class? Why? Try writing down your answer in specific terms using terminology seen in the course. This will be an excellent practice for the exams.
-0. Extend the `Suit` enumerated type in `Card` to include a method `color()` that returns the color of the suit. The return type should be a new enumerated type `Color`.
-0. Extend version 7 of class `Card` to support the concept of a "Joker" (a special card that is not in any suit) while keeping the class as well-encapsulated as possible.
-0. Further extend your class to support any number of distinct jokers. For example, a "high" joker vs. a "low" joker, or even three jokers, etc. Again, try to keep things well-encapsulated and respectful of the class design guidelines seen in the reading.
-0. Add a method `getCards()` to the `Deck` class that returns the cards in the deck without breaking encapsulation.
-0. Create a new class called `MultiDeck` that contains a list of decks (some card games require multiple decks). Make the class copyable through a copy constructor. First, make a shallow copy of the decks contained. Use the debugger to confirm that the decks in a multi-deck are shared between an original multi-deck and its copies. Then, use deep copying to make copied multi-decks fully distinct object graphs. Use Design by Contract and the `assert` statement to clarify the class's interface.
-0. Create a UML Object Diagram of a `MultiDeck` instance.
-0. Study JetUML's [MultiLineString](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/MultiLineString.java) class and assess the quality of its encapsulation. Is it possible to modify its state without going through its methods?
+1. Implement class `Card` as a single enumerated type. For the purpose of the Solitaire application, does this look like a superior or inferior solution to version 7 of class `Card` seen in class? Why? Try writing down your answer in specific terms using terminology seen in the book.
+2. Extend the `Suit` enumerated type in `Card` to include a method `color()` that returns the color of the suit. The return type should be a new enumerated type `Color`.
+3. Extend version 7 of class `Card` to support the concept of a "Joker" (a special card that is not in any suit) while keeping the class as well-encapsulated as possible.
+4. Further extend your class to support any number of distinct jokers. For example, a "high" joker vs. a "low" joker, or even three jokers, etc. Again, try to keep things well-encapsulated and respectful of the class design guidelines seen in the reading.
+5. Add a method `getCards()` to the `Deck` class that returns the cards in the deck without breaking encapsulation.
+6. Create a new class called `MultiDeck` that contains a list of decks (some card games require multiple decks). Make the class copyable through a copy constructor. First, make a shallow copy of the decks contained. Use the debugger to confirm that the decks in a multi-deck are shared between an original multi-deck and its copies. Then, use deep copying to make copied multi-decks fully distinct object graphs. Use Design by Contract and the `assert` statement to clarify the class's interface.
+7. Create a UML Object Diagram of a `MultiDeck` instance.
+8. Study JetUML's [MultiLineString](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/MultiLineString.java) class and assess the quality of its encapsulation. Is it possible to modify its state without going through its methods?
 
 ---
 
