@@ -24,7 +24,7 @@ After this module you should:
 
 In Module 1 we saw how to define well-encapsulated classes, but conveniently left out the question of how objects of these classes would interact. In Module 2 we start facing this question. Interactions between objects are mediated through *interfaces*. The term "interface" is heavily overloaded in programming: it can have different meanings depending on the context. 
 
-A **interface to a class or to an object** consists of the methods of that class (or of the object's class) that are *accessible* to another class or object. What methods are *accessible* depends on the *scoping rules* that apply to a class member. In the context of Module 2 we will keep things simple and assume that the interface to a class or object is the set of its public methods. This is not strictly true, but for Module 2 we don't need the additional distinctions. Note that I refer to the interface of a *class or object*. This simply means that the concept of interface applies to both. If we're thinking of a design solution in terms of class definitions, then the interface is that of the class. If we're thinking of a design solution in terms of a collection of instantiated objects of the class, then it's the object's interface that's relevant.
+A **interface to a class or to an object** consists of the methods of that class (or of the object's class) that are *accessible* to another class or object. What methods are *accessible* depends on the *scoping rules* that apply to a class member. In the context of Module 2 we will keep things simple and assume that the interface to a class or object is the set of its public methods. This is not strictly true, but for Module 2 we don't need the additional distinctions. Note that I refer to the interface of a *class or object*. This simply means that the concept of interface applies to both. If we're thinking of a design solution in terms of class definitions, then the interface is that of the class. If we're thinking of a design solution in terms of a collection of instantiated objects of the class, then it's the object's interface that's relevant. We will revisit this duality in Module 3.
 
 Consider the following program:
 
@@ -446,7 +446,7 @@ This design is much improved because now instead of depending on a complete impl
 What this means in practice for your design activities is that whenever you include, as part of your design, a relation between two classes, it's important to consider whether the client class really needs to depend on the entire interface to the server class, or whether it should only depend on a *role* objects of this class will fulfill. In the latter case, it makes sense to define a new interface for that class, and have the client depend only on the interface. This is a common design operation called *extracting an interface from a concrete type*. Eclipse provides advanced tool support for extracting interfaces, which you can access through the `Refactoring` menu.
 
 ## Reading
-* Textbook 4.1-4.5, 5.1, 5.2, 5.4.3
+* [Module 2 Code Samples](https://github.com/prmr/SoftwareDesignCode/tree/master/module02/ca/mcgill/cs/swdesign/m2)
 * Solitaire v0.3 [PlayingStrategy.java](https://github.com/prmr/Solitaire/blob/v0.3/src/ca/mcgill/cs/stg/solitaire/ai/PlayingStrategy.java) as a simple example of a Strategy interface;
 * JetUML v1.0 [SegmentationStyle.java](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/SegmentationStyle.java) as a more elaborate example use of the Strategy Design Pattern.
 
