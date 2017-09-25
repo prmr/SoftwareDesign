@@ -89,7 +89,7 @@ The situation above, where two distinct `Card` objects represent the ace of club
 
 For this reason, Java provides a mechanism to allow programmers to specify what it means for two objects of a class to be equal. This specification is realized by *overriding* the [equals](http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-) and [hashCode](http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--) methods. The default implementation of the `equals` method defines *equality as identity*. In other words, if the `equals` method is not redefined for a class, `a.equals(b)` is the same as `a == b`. In many situations, like our example of playing cards, this is not what we need, and we must supply our own implementation of the `equals` method. Implementations of `equals` can usually follow this example as a template:
 
-```
+```java
 public boolean equals(Object pObject)
 {
 	if( pObject == null ) // As required by the specification
@@ -113,7 +113,7 @@ public boolean equals(Object pObject)
 
 We will revisit some of the details of the overriding mechanism in Module 7. For now, it suffices to say that if the `equals` method is *redefined* (or *overriden*) in a class, calling `equals` on an object of this class will result in the redefined method being executed. In our case, 
 
-```
+```java
 card1.equals(card2)
 ```
 
@@ -175,7 +175,7 @@ The Singleton pattern differs from the Flyweight in that it attempts to guarante
 
 As demonstrated in the code of [Hand.createByRankComparator](answers/Hand.java), methods of anonymous classes have access to an interesting scope that seems to include the local variables of the parent method.
 
-```
+```java
 public static Comparator<Hand> createByRankComparator(Rank pRank)
 {
 	return new Comparator<Hand>()
