@@ -188,6 +188,8 @@ The Singleton design pattern provides a principled way to ensure that there is *
 
 The Singleton pattern differs from the Flyweight in that it attempts to guarantee that there is *a single instance of a class*, as opposed to *unique instances of a class*. Singleton objects are typically stateful, wheras Flyweights should be immutable. 
 
+A typical mistake when implementing the Singleton pattern is to store a reference to an instance of the class in a static field called `INSTANCE` or something like it, without taking proper care to prevent client code from independently creating new objects. For example, class `ClosedInputStream` of the Apache Commons IO library defines a ["singleton" field](https://github.com/apache/commons-io/blob/ffcbfdc80ed7ca7ffce883f615f710beabd9e06c/src/main/java/org/apache/commons/io/input/ClosedInputStream.java#L36), but the class is not really a singleton because it is re-instantiated in different parts of the library, for example [here](https://github.com/apache/commons-io/blob/ffcbfdc80ed7ca7ffce883f615f710beabd9e06c/src/main/java/org/apache/commons/io/input/CloseShieldInputStream.java#L49) and [here](https://github.com/apache/commons-io/blob/ffcbfdc80ed7ca7ffce883f615f710beabd9e06c/src/main/java/org/apache/commons/io/input/AutoCloseInputStream.java#L65). In this case, use of the Singleton name is harmfully misleading, because users of the library may rely on the fact that the class supports a single instance when it does not.
+
 ### A Review of Object Characteristics
 
 | Characteristic | Description |
