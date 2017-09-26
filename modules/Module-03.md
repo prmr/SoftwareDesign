@@ -33,8 +33,8 @@ An important concept when thinking of a design in terms of run-time objects is t
 ```java
 public class BankAccount
 {
-	private int aAmount = 0;
-	...
+   private int aAmount = 0;
+   ...
 ```
 
 the cardinality of the space of possible concrete states for `BankAccount` is `2^32`, or about 4 billion states. As soon as objects have fields of reference types, the size of the state space explodes dramatically. For example, the state space of a `Deck` object includes all possible permutations of any number of cards in the deck, a number in the range of 2e68 (two times 10 to the 68th power). In the case of the `BankAccount` object, adding an `aName` field of type `String` blows up the size of the state space to something that is only limited by the physical memory of the computing system. For this reason, when designing software, it is more practical to think in terms of *abstract states*. 
@@ -92,22 +92,22 @@ For this reason, Java provides a mechanism to allow programmers to specify what 
 ```java
 public boolean equals(Object pObject)
 {
-	if( pObject == null ) // As required by the specification
-	{
-		return false;
-	}
-	else if( pObject == this ) // Performance optimization
-	{
-		return true;
-	}
-	else if( pObject.getClass() != getClass()) // Ensures the objects are of the same class
-	{
-		return false;
-	}
-	else // Actual comparison code. Assumes the downcast is safe.
-	{
-		return aRank == ((Card)pObject).aRank && ((Card)pObject).aSuit == aSuit;
-	}
+   if( pObject == null ) // As required by the specification
+   {
+      return false;
+   }
+   else if( pObject == this ) // Performance optimization
+   {
+      return true;
+   }
+   else if( pObject.getClass() != getClass()) // Ensures the objects are of the same class
+   {
+      return false;
+   }
+   else // Actual comparison code. Assumes the downcast is safe.
+   {
+      return aRank == ((Card)pObject).aRank && ((Card)pObject).aSuit == aSuit;
+   }
 }
 ```
 
@@ -220,7 +220,7 @@ This technically works because the compiler will prevent the instantiation of en
 
 ## Exercises
 
-Exercises prefixed with **(+)** are optional, more challenging questions aimed to provide you with additional design and programming experience. Exercises prefixed with **(P)** (for "project") will incrementally guide you towards the ultimate completion of a complete Solitaire application.
+Exercises prefixed with :star: are optional, more challenging questions aimed to provide you with additional design and programming experience. Exercises prefixed with :spades: will incrementally guide you towards the ultimate completion of a complete Solitaire application.
 
 For maximum learning effectiveness, I recommend peeking at the [answers](answers/Answers-03.md) only after giving the problems an honest try.
 
@@ -230,19 +230,19 @@ For maximum learning effectiveness, I recommend peeking at the [answers](answers
 
 3. Change the design of your `Card` class to ensure the uniqueness of its instances through the use of the Flyweight Design Pattern.
 
-0. (P) Design and implement a class `WorkingStack` that manages the state of one of the working stacks in Solitaire. Note that as opposed to the `SuitStack` designed in Module 2, for `WorkingStack` you have to solve the problem of remembering which card is visible (or face up), and which card is not.
+4. :spades: Design and implement a class `WorkingStack` that manages the state of one of the working stacks in Solitaire. Note that as opposed to the `SuitStack` designed in Module 2, for `WorkingStack` you have to solve the problem of remembering which card is visible (or face up), and which card is not.
 
-0. Using the Singleton Design Pattern, design an `GameModel` class that is a singleton.
+5. :spades: Using the Singleton Design Pattern, design a `GameModel` class that is a Singleton.
 
-0. (P) Complete the design of the `GameModel` class. This class will be responsible for managing all the necessary state for a game of solitaire. The class should offer the following state-changing services (through methods): `reset()` initializes a new game by clearing all the working stacks, shuffling the deck, and placing cards on the working stack according to the rules of solitaire (one card on the first stack, two on the second, etc., with the top card of each stack visible); `move(Card, Location)` Moves a card from an assumed legal playing position to the specified location (to be designed); `discard` Moves a card from the top of the deck to the top of the discard pile. In addition, the `GameModel` should provide all the necessary state-querying services, including methods to check the state of the deck and the discard pile (empty or nor), view the cards in the different stacks, etc. In particular, the `GameModel` class should provide a method `getScore()` that returns the cumulative number of cards in the four suit stacks. A score of 52 indicates a win.
+6. :spades: Complete the design of the `GameModel` class. This class will be responsible for managing all the necessary state for a game of solitaire. The class should offer the following state-changing services (through methods): `reset()` initializes a new game by clearing all the working stacks, shuffling the deck, and placing cards on the working stack according to the rules of solitaire (one card on the first stack, two on the second, etc., with the top card of each stack visible); `move(Card, Location)` Moves a card from an assumed legal playing position to the specified location (to be designed); `discard` Moves a card from the top of the deck to the top of the discard pile. In addition, the `GameModel` should provide all the necessary state-querying services, including methods to check the state of the deck and the discard pile (empty or nor), view the cards in the different stacks, etc. In particular, the `GameModel` class should provide a method `getScore()` that returns the cumulative number of cards in the four suit stacks. A score of 52 indicates a win.
 
-0. (P) Create a UML Class diagram that illustrates the most important elements of your implementation of the `GameModel` class; 
+7. :spades: Create a UML Class diagram that illustrates the most important elements of your implementation of the `GameModel` class; 
 
-0. (P) Create a UML State diagram that captures all the main abstract states of an instance of the `GameModel` class, and the transitions between them; 
+8. :spades: Create a UML State diagram that captures all the main abstract states of an instance of the `GameModel` class, and the transitions between them; 
 
-0. (P) Using the Strategy Design Pattern, add an `autoplay()` method to the `GameModel`, whose purpose is to automatically perform a legal move, if possible. Carefully consider how the strategy should work (inputs, outputs). Consider using the interface segregation principle to decouple the strategy from the `GameEngine`.
+9. :spades: Using the Strategy Design Pattern, add an `autoplay()` method to the `GameModel`, whose purpose is to automatically perform a legal move, if possible. Carefully consider how the strategy should work (inputs, outputs). Consider using the interface segregation principle to decouple the strategy from the `GameEngine`.
 
-0. (P+) Implement, in a main method somewhere (where?), a small driver program that automatically plays N games and reports the average final score per game and the percentage of games won. If, for N=10,000, you get above 2% win or 9 points per game on average, make sure to let the instructor know.
+10. :spades: :star: Implement, in a main method somewhere (where?), a small driver program that automatically plays N games and reports the average final score per game and the percentage of games won. If, for N=10,000, you get above 2% win or 9 points per game on average, make sure to let the instructor know.
 
 ---
 
