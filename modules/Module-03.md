@@ -123,6 +123,35 @@ A very important note when overriding `equals` in Java, is that any class that o
 
 A final consideration related to identity and equality is the concept of **uniqueness**. In our example program, we could rightfully wonder what is the point of tolerating duplicate objects that represent exactly the same card (e.g., ace of clubs). A sometimes very useful property for the objects of a class is *uniqueness*. Objects of a class are unique if it is not possible for two distinct objects to be equal. If the objects of a class can be guaranteed to be unique, then we no longer need to define equality, because in this specific case, equality become identical to identity and we can compare objects using the `==` operator. Although strict guarantees of uniqueness are almost impossible to achieve in Java due to mechanisms such as reflection and serialization, in practice the use of two design patterns and the conscious avoidance of these mechanisms provides a "pretty good" guarantee that can help greatly simplify some designs.
 
+### Sharing References with Anonymous Classes and Lambda Expressions
+
+[Module 1](Module-01.md) introduced the concept of *encapsulation*, and this module focused on the careful management of objects and their state. One common programming language featurel, *anonymous classes and functions* requires careful consideration to ensure references to objects are not shared by accident.
+
+As demonstrated in the code of [Hand.createByRankComparator](answers/Hand.java), methods of Java anonymous classes have access to an interesting scope that seems to include the local variables of the parent method.
+
+```java
+public static Comparator<Hand> createByRankComparator(Rank pRank)
+{
+	return new Comparator<Hand>()
+	{
+		@Override
+		public int compare(Hand pHand1, Hand pHand2)
+		{
+			return countCards(pHand1, pRank) - countCards(pHand2, pRank);
+		}
+		...
+	};
+}
+```
+
+Upon closer inspection, it appears that the code of method `compare` *declared inside the anonymous class* has access to the parameter `pRank` of `createByRankComparator`, which is a *separate method in a separate class*. What could pRank possibly refer to when the program is running? Once the `createByRankComparator` method returns an object, this object has its own life-cycle that is completely independent from that of the `Hand` object. Yet this is legal, compilable code, that actually works.
+
+Because referring to variables in the parent methods from an anonymous class is such a useful programming idiom, it is fully supported by the compiler. To make this work, when the compiler creates the definition of the anonymous class, it also (invisibly) adds *fields* to the anonymous class, and copies references to each of the local variable referenced in the code of the anonymous class's method into a field. Thus, once an object of the anonymous class is created, the references to the local variables are now stored in fields of the same name in the anonymous class. The object diagram below illustrates this idea:
+
+![Closure Example](figures/m03-closure.png)
+
+In this diagram the factory method is represented as a separate object with field `pRank` used to represent its parameter. This method returns a completely new object of an anonymous class. So that the `compare` method can still refer to the `pRank` parameter, a field `pRank` is created in the instance of the anonymous comparator, and the value of `pRank` is copied to it. A method definition together with references to its local environment variables is commonly called a [closure](https://en.wikipedia.org/wiki/Closure_(computer_programming)). As the object diagram shows, it should be clear that closures can easily lead to shared references between object instances. To prevent unexpected behavior, Java prevents reassigning local variables that are referenced in anonymous classes. In Java 7 and earlier, local variables referenced in anonymous classes had to be declared `final`. With Java 8 the compiler can infer variables to be *effectively final* without the keyword. In any case, the point of this appendix is to emphasize that sharing references to objects through closures is still sharing references to objects, and when the shared objects are mutable, one should keep in mind that it can weaken encapsulation.
+
 ### The Flyweight Design Pattern
 
 The [Flyweight Pattern](https://en.wikipedia.org/wiki/Flyweight_pattern) is provides a useful way to cleanly manage collections of low-level immutable objects. Although often use to address *performance concerns*, the Flyweight is also valuable to ensure the uniqueness of objects of a class.
@@ -168,35 +197,6 @@ The Singleton pattern differs from the Flyweight in that it attempts to guarante
 |**Identity:** | The system-level definition of an object. Two variables storing a reference to the same object identity refer to the same object. |
 |**Sharing:** | A reference to an object is shared if it can be referred to from different places (e.g., scopes) in a program. |
 |**Uniqueness:** | Objects can be said to be unique if it is not possible to have two objects that are equal. |
-
-### Appendix: Sharing References with Anonymous Classes and Lambda Expressions
-
-[Module 1](Module-01.md) introduced the concept of *encapsulation*, and this module focused on the careful management of objects and their state. In Java, one feature of *anonymous classes and lambda expressions* requires careful consideration to ensure references to objects are not shared by accident.
-
-As demonstrated in the code of [Hand.createByRankComparator](answers/Hand.java), methods of anonymous classes have access to an interesting scope that seems to include the local variables of the parent method.
-
-```java
-public static Comparator<Hand> createByRankComparator(Rank pRank)
-{
-	return new Comparator<Hand>()
-	{
-		@Override
-		public int compare(Hand pHand1, Hand pHand2)
-		{
-			return countCards(pHand1, pRank) - countCards(pHand2, pRank);
-		}
-		...
-	};
-}
-```
-
-Upon closer inspection, it appears that the code of method `compare` *declared inside the anonymous class* has access to the parameter `pRank` of `createByRankComparator`, which is a *separate method in a separate class*. What could pRank possibly refer to when the program is running? Once the `createByRankComparator` method returns an object, this object has its own life-cycle that is completely independent from that of the `Hand` object. Yet this is legal, compilable code, that actually works.
-
-Because referring to variables in the parent methods from an anonymous class is such a useful programming idiom, it is fully supported by the compiler. To make this work, when the compiler creates the definition of the anonymous class, it also (invisibly) adds *fields* to the anonymous class, and copies references to each of the local variable referenced in the code of the anonymous class's method into a field. Thus, once an object of the anonymous class is created, the references to the local variables are now stored in fields of the same name in the anonymous class. The object diagram below illustrates this idea:
-
-![Closure Example](figures/m03-closure.png)
-
-In this diagram the factory method is represented as a separate object with field `pRank` used to represent its parameter. This method returns a completely new object of an anonymous class. So that the `compare` method can still refer to the `pRank` parameter, a field `pRank` is created in the instance of the anonymous comparator, and the value of `pRank` is copied to it. A method definition together with references to its local environment variables is commonly called a [closure](https://en.wikipedia.org/wiki/Closure_(computer_programming)). As the object diagram shows, it should be clear that closures can easily lead to shared references between object instances. To prevent unexpected behavior, Java prevents reassigning local variables that are referenced in anonymous classes. In Java 7 and earlier, local variables referenced in anonymous classes had to be declared `final`. With Java 8 the compiler can infer variables to be *effectively final* without the keyword. In any case, the point of this appendix is to emphasize that sharing references to objects through closures is still sharing references to objects, and when the shared objects are mutable, one should keep in mind that it can weaken encapsulation.
 
 ## Reading
 
