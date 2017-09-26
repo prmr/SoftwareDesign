@@ -132,15 +132,15 @@ As demonstrated in the code of [Hand.createByRankComparator](answers/Hand.java),
 ```java
 public static Comparator<Hand> createByRankComparator(Rank pRank)
 {
-	return new Comparator<Hand>()
-	{
-		@Override
-		public int compare(Hand pHand1, Hand pHand2)
-		{
-			return countCards(pHand1, pRank) - countCards(pHand2, pRank);
-		}
-		...
-	};
+   return new Comparator<Hand>()
+   {
+      @Override
+      public int compare(Hand pHand1, Hand pHand2)
+      {
+         return countCards(pHand1, pRank) - countCards(pHand2, pRank);
+      }
+      ...
+   };
 }
 ```
 
