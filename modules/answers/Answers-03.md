@@ -42,5 +42,3 @@ public final class GameModel implements GameModelView
 ## Exercise 6
 
 See the fully implemented [GameModel](https://github.com/prmr/Solitaire/blob/v0.4/src/ca/mcgill/cs/stg/solitaire/model/GameModel.java) for a sample.
-
-## Exercise 7
