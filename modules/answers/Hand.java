@@ -75,9 +75,11 @@ public class Hand implements Iterable<Card>, Comparable<Hand>
 	/**
 	 * @param pCard A card to check for containment.
 	 * @return True if pCard is a card in this hand.
+	 * @pre pCard != null
 	 */
 	public boolean contains(Card pCard)
 	{
+		assert pCard != null;
 		return aCards.contains(pCard);
 	}
 
