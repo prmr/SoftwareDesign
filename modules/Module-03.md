@@ -190,6 +190,19 @@ The Singleton pattern differs from the Flyweight in that it attempts to guarante
 
 A typical mistake when implementing the Singleton pattern is to store a reference to an instance of the class in a static field called `INSTANCE` or something like it, without taking proper care to prevent client code from independently creating new objects. For example, class `ClosedInputStream` of the Apache Commons IO library defines a ["singleton" field](https://github.com/apache/commons-io/blob/ffcbfdc80ed7ca7ffce883f615f710beabd9e06c/src/main/java/org/apache/commons/io/input/ClosedInputStream.java#L36), but the class is not really a singleton because it is re-instantiated in different parts of the library, for example [here](https://github.com/apache/commons-io/blob/ffcbfdc80ed7ca7ffce883f615f710beabd9e06c/src/main/java/org/apache/commons/io/input/CloseShieldInputStream.java#L49) and [here](https://github.com/apache/commons-io/blob/ffcbfdc80ed7ca7ffce883f615f710beabd9e06c/src/main/java/org/apache/commons/io/input/AutoCloseInputStream.java#L65). In this case, use of the Singleton name is harmfully misleading, because users of the library may rely on the fact that the class supports a single instance when it does not.
 
+The classic way to prevent instantiations is to make the class constructor private. However, in [Essential Java](https://www.safaribooksonline.com/library/view/effective-java-2nd/9780137150021/), Bloch proposes a controversial trick, namely, to use an enumerated type ("Item 3: Enforce the singleton property with a private constructor or an enum type"). For example, to make a `GameEngine` class a singleton, one could do:
+
+```java
+public enum GameEngine
+{
+   INSTANCE;
+	
+   public void initializeGame() {}
+}
+```
+
+This technically works because the compiler will prevent the instantiation of enumerated types. Although this approach is represented as "preferred" in Effective Java, it is not without detractors, as evidenced by [this Reddit thread](https://www.reddit.com/r/java/comments/60mk1z/implementing_singleton_as_enum/) and [this blog](https://closingbraces.net/2011/07/04/enum-as-singleton/). My conclusion is that this strategy is a trick that uses a programming mechanism (enum types) for an intent other that originally designed, and as such can be confusing. Here the type `GameEngine` is not a finite set of values that represent different game engines, which is what one would initially expect when seeing an `enum` designation. The enum trick also closes the door to subclassing the `Singleton`, although this variant is explicitly discussed in the [original design pattern book](https://openlibrary.org/books/OL7408317M/Design_Patterns). I thus recommend sticking to a private constructor to ensure the single instance constraint.
+
 ### A Review of Object Characteristics
 
 | Characteristic | Description |
