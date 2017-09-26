@@ -28,20 +28,20 @@ An **interface to a class or to an object** consists of the methods of that clas
 
 Consider the following program:
 
-```
+```java
 class Game
 {
-	Deck aDeck;
-	...
+   Deck aDeck;
+   ...
 	
 public final class Deck
 {
-	private  Stack<Card> aCards = new Stack<>();
-	...
-	public Deck( Deck pDeck ) {...}
-	public void shuffle() {...]
-	public Card draw() {...}
-	public boolean isEmpty() {...}
+   private  Stack<Card> aCards = new Stack<>();
+   ...
+   public Deck( Deck pDeck ) {...}
+   public void shuffle() {...]
+   public Card draw() {...}
+   public boolean isEmpty() {...}
 }
 ```
 
@@ -51,18 +51,18 @@ There are, however, many situations were we want to *decouple* the interface of 
 
 Consider the case of manipulating icons in a program:
 
-```
+```java
 class Game
 {
-	Icon aIcon = ...;
+   Icon aIcon = ...;
 	
-	public void showIcon()
-	{
-		if(aIcon.getIconWidth() > 0 && aIcon.getIconHeight() > 0 )
-		{
-			aIcon.paintIcon(...);
-		}
-	}
+   public void showIcon()
+   {
+      if(aIcon.getIconWidth() > 0 && aIcon.getIconHeight() > 0 )
+      {
+         aIcon.paintIcon(...);
+      }
+   }
 ...
 ```
 
@@ -72,7 +72,7 @@ In Java, interfaces provide a **specification** of the methods that it should be
 
 To tie a class with an interface, we use the `implements` keyword.
 
-```
+```java
 public class ImageIcon implements Icon
 ```
 
@@ -83,7 +83,7 @@ The `implements` keyword has two related meanings:
 
 The subtype relation between a concrete class and an interface is what enables the use of [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)). In plain language, polyphorphism is the ability to have different shapes. Here, an abstractly specified `Icon` can have different concrete shapes that correspond to the different implementations of the `Icon` interface. For polymorphism to makes sense in the context of a Java program it's important to remember that according to the rules of the Java type system it is possible to assign a value to a variable if the value is of the same type *or a subtype* of the type of the variable. Because the interface implementation relation defines a subtype relation, concrete classes declared to implement an interface can be assigned to variables declared to be of the interface type. Another illustration of the use of polymorphism is the use of concrete vs. abstract collection types:
 
-```
+```java
 List<String> list = new ArrayList<>();
 ```
 
@@ -99,7 +99,7 @@ Common design questions related to interfaces include: *do I need a separate int
 
 In Module 1 we solved the problem of shuffling a collection easily with the use of a library:
 
-```
+```java
 Collections.shuffle(aCards); // Where aCards is a Stack<Card> instance
 ```
 
@@ -109,7 +109,7 @@ But what if we want to reuse code to *sort* the cards in the deck? Sorting, like
 
 The `Collections` class conveniently supplies us with a number of sorting functions, but if we opportunistically try 
 
-```
+```java
 Collections.sort(aCards); // Where aCards is a Stack<Card> instance
 ```
 
@@ -117,7 +117,7 @@ without further thinking, we are rewarded with a moderately cryptic compilation 
 
 The [Comparable](http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html) interface helps solve this problem by defining a piece of behavior related specifically to the comparison of objects, in the form of a single `int compareTo(T)` method. Given the existence of this interface, the internal implementation of `Collections.sort` can now rely on it to compare the objects it should sort. You can imagine that the internal code of the `sort` implementation would have statements like:
 
-```
+```java
 if( object1.compareTo(object2) > 0 )...
 ```
 
@@ -125,14 +125,14 @@ So here it really does not matter what the object is, *as long as it is comparab
 
 To make it possible for us to sort a stack of cards, we therefore have to provide this *comparable* behavior and declare it through an interface implementation indication:
 
-```
+```java
 public class Card implements Comparable<Card>
 {
-	@Override
-	public int compareTo(Card pCard)
-	{
-		return pCard.getRank().ordinal() - getRank().ordinal();
-	}
+   @Override
+   public int compareTo(Card pCard)
+   {
+      return pCard.getRank().ordinal() - getRank().ordinal();
+   }
 ```
 
 Note that this minimal implementation sorts cards by ascending rank, but leaves the order of suits undefined, which in practice leads to unpredictability. In the exercises you will improve this behavior to sort cards by taking suits into account as well. 
@@ -165,40 +165,40 @@ Notice the following:
 Implementing the `Comparable` interfaces allows instances of `Card` to compare themselves with other instances of `Card` using one strategy, for instance, by comparing the card's rank. What if we are designing a game where it makes sense to sort cards according to different strategies, and occasionally switch between them? One could tweak the code of `compareTo`, for instance by setting a flag in an instance of `Card` and switching the comparison strategy on this flag. However, hairbrained schemes of this nature would destroy the immutability of cards and generally degrade the cleanliness of the design. A better solution here is to move the comparison code to a separate object.
 
 This solution is supported by the [Comparator](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html) interface. This interface also has a single method, but it takes two arguments:
-```
+```java
 int compare(T pObject1, T pObject2)
 ```
 
 Not surprisingly, library methods were also designed to work with this interface. For example:
-```
+```java
 sort(List<T> list, Comparator<? super T> c)
 ```
 
 This method can sort a list of objects that are not necessarily comparable, by taking into account an object guaranteed to be able to compare two instances of the items in the list. One can now define a "rank first" comparator:
 
-```
+```java
 public class RankFirstComparator implements Comparator<Card>
 {
-	@Override
-	public int compare(Card pCard1, Card pCard2)
-	{ /* Comparison code */ }
+   @Override
+   public int compare(Card pCard1, Card pCard2)
+   { /* Comparison code */ }
 }
 ```
 
 and another "suit first" comparator:
 
-```
+```java
 public class SuitFirstComparator implements Comparator<Card>
 {
-	@Override
-	public int compare(Card pCard1, Card pCard2)
-	{ /* Comparison code */ }
+   @Override
+   public int compare(Card pCard1, Card pCard2)
+   { /* Comparison code */ }
 }
 ```
 
 and sort with the desired comparator:
 
-```
+```java
 Collections.sort(aCards, new RankFirstComparator());
 ```
 
@@ -206,51 +206,51 @@ Although simple, the use of a comparator object introduces many interesting desi
 
 First, if comparator classes are **defined as standalone top-level Java classes**, the code of their `compare` methods will not have access to the private members of the objects they compare. In some cases the information available from accessor methods is sufficient to implement the comparison, but in many situations implementing the `compare` method will require access to private members. In such cases one option is to declare the comparator classes as [nested classes](https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html) of the class being compared:
 
-```
+```java
 public class Card
 {
-	static class CompareBySuitFirst implements Comparator<Card>
-	{
-		@Override
-		public int compare(Card pCard1, Card pCard2)
-		{
-			// Comparison code
-		}
-	}
-	...
+   static class CompareBySuitFirst implements Comparator<Card>
+   {
+      @Override
+      public int compare(Card pCard1, Card pCard2)
+      {
+         // Comparison code
+      }
+   }
+   ...
 ```
 
 and to client code the design would be almost the same, except for the additional name fragment for the comparator:
 
-```
+```java
 Collections.sort(aCards, new Card.CompareBySuitFirst());
 ```
 
 Another option is to define comparator classes "on-the-fly" as [anonymous classes](https://docs.oracle.com/javase/tutorial/java/javaOO/anonymousclasses.html). In cases where the comparator
 does not hold any state, and is only referred to once, this makes a lot of sense:
 
-```
+```java
 public class Deck 
 {
-	public void sort()
-	{				
-		Collections.sort(aCards, new Comparator<Card>() {
-			@Override
-			public int compare(Card pCard1, Card pCard2)
-			{ /* Comparison code */ }
-		});
-	}
+   public void sort()
+   {				
+      Collections.sort(aCards, new Comparator<Card>() {
+         @Override
+         public int compare(Card pCard1, Card pCard2)
+         { /* Comparison code */ }
+      });
+   }
 ```
 
 Optionally, since we are using Java 8, we can also pretend that comparators are a function references, and use the practically equivalent syntax of [lambda expressions](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html):
 
-```
+```java
 public class Deck 
 {
-	public void sort()
-	{				
-		Collections.sort(aCards, (pCard1, pCard2) -> pCard1.getRank().compareTo(pCard2.getRank()));	
-	}
+   public void sort()
+   {				
+      Collections.sort(aCards, (pCard1, pCard2) -> pCard1.getRank().compareTo(pCard2.getRank()));	
+   }
 ```
 
 In this module lambda expression are covered as an "extra" that is more or less equivalent to function objects.
@@ -259,20 +259,21 @@ In the two examples above, we have however brought back the problem of encapsula
 the comparison is defined outside of the `Card` class. We can fix this with the help of a static **factory method** whose role is simply to create and return a comparator
 of the desired type:
 
-```
+```java
 public class Card
 {
-	...
-	public static Comparator<Card> createByRankComparator()
-	{
-		return new Comparator<Card>() 
-		{
-			@Override
-			public int compare(Card pCard1, Card pCard2)
-			{
-				// Comparison code
-			}};
-	}
+   ...
+   public static Comparator<Card> createByRankComparator()
+   {
+      return new Comparator<Card>() 
+      {
+         @Override
+         public int compare(Card pCard1, Card pCard2)
+         {
+            // Comparison code
+         }
+      };
+   }
 ```
 
 A final question to consider for comparators is whether a comparator should have state. For example, instead of having different comparators for sorting cards by ranks and suits,
@@ -283,7 +284,7 @@ is harder to understand, for reasons explained in Module 3.
 
 In Module 1 I introduced the problem of how to gain access to a collection of objects encapsulated by another object without violating encapsulation and information hiding. One solution proposed was to return copies of the internal state, for example, returning a copy of the `Stack` of cards encapsulated within a `Deck` instance. One issue with this is that it can lead to *coupling* between the precise data structure returned and the clients. For instance, if we choose to return a deck's cards as a stack:
 
-```
+```java
 public Stack<Card> getCards() {...}
 ```
 
@@ -293,17 +294,17 @@ To support iteration we must first have a specification of what it means to iter
 
 To enable iteration over the cards of a `Deck`, let's simply redefine the `getCards` method to return an iterator instead of a list:
 
-```
+```java
 public Iterator<Card> getCards() {...}
 ```
 
 This way to print all the cards of a deck, we can do:
 
-```
+```java
 Iterator<Card> iterator = deck.getCards();
 while( iterator.hasNext() )
 {
-  	System.out.println(iterator.next());
+   System.out.println(iterator.next());
 }
 ```
 
@@ -311,41 +312,41 @@ Although this design achieves our decoupling goal and is already pretty good, we
 
 We can make our `Deck` class iterable by extending the `Iterable` interface and renaming the `getCards()` method to `iterator()`:
 
-```
+```java
 public class Deck implements Iterable<Card>
 {
-	...
-	public Iterator<Card> iterator() {...}
+   ...
+   public Iterator<Card> iterator() {...}
 }
 ```
 
 This way an instance of `Deck` can be supplied anywhere an `Iterable` interface is expected. As it turns out, one of the main ways to use `Iterable` objects is with the Java `forall` loop. In Java the `forall` loop:
 
-```
+```java
 List<String> theList = ...;
 for( String string : theList )
 {
-	System.out.println(string);
+   System.out.println(string);
 }
 ```
 
 is just [syntactic sugar](https://en.wikipedia.org/wiki/Syntactic_sugar) for
 
-```
+```java
 List<String> theList = ...;
 for(Iterator<String> iterator = list.iterator(); iterator.hasNext(); )
 {
-	String next = iterator.next();
-	System.out.println(next);
+   String next = iterator.next();
+   System.out.println(next);
 }
 ```
 
 So to iterate over a deck, we can now do:
 
-```
+```java
 for( Card card : deck )
 {
-	System.out.println(card);
+   System.out.println(card);
 }
 ```
 
@@ -353,15 +354,15 @@ The way the `forall` loop can work, is that under the cover it expects the right
 
 The final issue to solve to complete our iterator-based design for `Deck` is to find a way to return an instance of `Iterator` to return when the `iterator()` method is called. Although it is always possible to hand-craft our own user-defined class that implements the `Iterator<Card>` interface, here it's much easier to simply observe that the `Stack` contained within a `Deck` is also `Iterable`, and the `Iterator` it returns does everything that we want. So:
 
-```
+```java
 public class Deck implements Iterable<Card>
 {
-	private Stack<Card> aCards ...
-	...
-	public Iterator<Card> iterator() 
-	{
-		return aCards.iterator();
-	}
+   private Stack<Card> aCards ...
+   ...
+   public Iterator<Card> iterator() 
+   {
+      return aCards.iterator();
+   }
 }
 ```
 
