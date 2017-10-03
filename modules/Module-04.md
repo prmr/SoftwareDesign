@@ -25,8 +25,8 @@ One way to detect bugs, and to gain confidence that a part of a program does wha
 
 In practice, a **unit test** consists in one execution of a **unit under test (UUT)** with some **input data** and the comparison of the result of the execution against some **oracle**. For example, the statement:
 
-```
-Math.abs(5) == 5
+```java
+Math.abs(5) == 5;
 ```
 
 technically qualifies as a test. Here the UUT is the library method `Math.abs(int)`, the input data is the integer 5, and the oracle is, in this case, also the value 5. When testing non-static method, it's important to remember that the input data includes the receiver object (the object that receives the method call).
@@ -39,48 +39,48 @@ This task is typically supported by a **unit testing framework** like [xUnit](ht
 
 In JUnit a unit test maps to a method. The code below illustrates a very simple unit test with JUnit.
 
-```
+```java
 public class AbsTest
 {
-	@Test
-	public void testAbsPositive()
-	{
-		assertEquals(5,Math.abs(5));
-	}
+   @Test
+   public void testAbsPositive()
+   {
+      assertEquals(5,Math.abs(5));
+   }
 	
-	@Test
-	public void testAbsNegative()
-	{
-		assertEquals(5,Math.abs(-5));
-	}
+   @Test
+   public void testAbsNegative()
+   {
+      assertEquals(5,Math.abs(-5));
+   }
 	
-	@Test
-	public void testAbsMax()
-	{
-		assertEquals(Integer.MAX_VALUE,Math.abs(Integer.MIN_VALUE));
-	}
+   @Test
+   public void testAbsMax()
+   {
+      assertEquals(Integer.MAX_VALUE,Math.abs(Integer.MIN_VALUE));
+   }
 }
 ```
 
-The `@Test` [Annotation](https://docs.oracle.com/javase/tutorial/java/annotations/index.html) indicates that the method should be run as a unit test. This annotation is defined in the JUnit library, which must be added to a project's classpath before it is visible. The test method should typically contain at least one call to a UUT. The way to automatically verify that the execution of a UUT has the expected effect is to execute various calls to `assert*` methods. Assert methods are different from the `assert` statement in Java. They are declared as static methods of the class `org.junit.Assert*` and all they do is basically verify a predicate and, if the predicate is not true, report a *test failure*. The JUnit framework includes a GUI component called a *test runner*. To execute the JUnit test running from within Eclipse, right-click on a project that contains at least one jUnit test method, and select `Run As | JUnit Test`. When executing, all the JUnit test runner does is inspect the program, collect all methods flagged as unit tests using annotations, and invoke them, then report whether the tests passed on failed.
+The `@Test` [Annotation](https://docs.oracle.com/javase/tutorial/java/annotations/index.html) indicates that the method should be run as a unit test. This annotation is defined in the JUnit library, which must be added to a project's classpath before it is visible. The test method should typically contain at least one call to a UUT. The way to automatically verify that the execution of a UUT has the expected effect is to execute various calls to `assert*` methods. Assert methods are different from the `assert` statement in Java. They are declared as static methods of the class `org.junit.Assert*` and all they do is basically verify a predicate and, if the predicate is not true, report a *test failure*. The JUnit framework includes a GUI component called a *test runner*. To execute the JUnit test running from within Eclipse, right-click on a project that contains at least one JUnit test method, and select `Run As | JUnit Test`. When executing, all the JUnit test runner does is inspect the program, collect all methods flagged as unit tests using annotations, invoke them, then report whether the tests passed or failed.
 
 For additional instructions on how to use JUnit, read [this tutorial](http://www.vogella.com/tutorials/JUnit/article.htm). To fully understand how JUnit works it is necessary to first read the [Annotations](https://docs.oracle.com/javase/tutorial/java/annotations/index.html) and [Reflection](https://docs.oracle.com/javase/tutorial/reflect/) tutorials.
 
 ### Test Suite Organization
 
-A collection of tests for a project is known as a **test suite**. A common question is how to organize our tests in a sensible matter. There are different approaches, but in Java a common way to organize tests is to have one *test class* per *project class*, where the test class collects all the tests that test methods of that class. Furthermore, it is common practice to located all the testing code in a different *source folder* with a package structure that *mirrors the project's package structure*. The rationale for this idiom is that in Java classes in the same package are in the same *package scope* independently of their location on the disk. This means that classes and methods in the test package can refer to non-public (but non-private) members of the original project. This often simplifies the test code. The figure below illustrates this idea.
+A collection of tests for a project is known as a **test suite**. A common question is how to organize our tests in a sensible manner. There are different approaches, but in Java a common way to organize tests is to have one *test class* per *project class*, where the test class collects all the tests that test methods of that class. Furthermore, it is common practice to locate all the testing code in a different *source folder* with a package structure that *mirrors the project's package structure*. The rationale for this idiom is that in Java classes in the same package are in the same *package scope* independently of their location in a file system. This means that classes and methods in the test package can refer to non-public (but non-private) members of classes the project code. This strategy simplifies the test code. The figure below illustrates this idea.
 
 ![Test Suite Organization](figures/m04-TestSuiteOrganization.png)
 
 ### Test Fixtures
 
-In test classes that group multiple test methods, it will often be convenient to define a number of "default" objects or values to be used as receiver objects and/or oracles. This practice will avoid the duplication of setup code in each test method. Baseline objects used for testing are often referred to as a *test fixture*, and declared as fields of a test class. However, when designing a test suite with JUnit, is it extremely important to know that JUnit **provides no ordering guarantee of any kind* for the execution of unit tests. In consequence, unit tests must be independent of each other so that they can be executed in any order. This further implies that no test method should rely on the fixture being left in a given state by another test. In most cases this precludes the use of the class constructor to initialize the fixuture, because the constructor is only called once. The workaround is to nominate a method of the test class to execute before any test method. In JUnit this method is nominated using te `@Before` annotation. Fixture initialization code should therefore be located in this method. The use of test fixtures in JUnit is illustrated by most test classes in both sample projects. For example, in the Solitaire application's [TestSuitStackManager](https://github.com/prmr/Solitaire/blob/master/test/ca/mcgill/cs/stg/solitaire/model/TestSuitStackManager.java) class, the fixture consists of a single field `aSuitStackManager` which is initialized with a fresh object in method `setup`:
+In test classes that group multiple test methods, it will often be convenient to define a number of "default" objects or values to be used as receiver objects and/or oracles. This practice will avoid the duplication of setup code in each test method. Baseline objects used for testing are often referred to as a *test fixture*, and declared as fields of a test class. However, when designing a test suite with JUnit, is it extremely important to know that JUnit *provides no ordering guarantee of any kind* for the execution of unit tests. In consequence, unit tests must be independent of each other so that they can be executed in any order. This further implies that no test method should rely on the fixture being left in a given state by another test. In most cases this precludes the use of the class constructor to initialize the fixture, because the constructor is only called once. The workaround is to nominate a method of the test class to execute before any test method. In JUnit this method is nominated using te `@Before` annotation. Fixture initialization code should therefore be located in this method. The use of test fixtures in JUnit is illustrated by most test classes in both sample projects. For example, in the Solitaire application's [TestSuitStackManager](https://github.com/prmr/Solitaire/blob/master/test/ca/mcgill/cs/stg/solitaire/model/TestSuitStackManager.java) class, the fixture consists of a single field `aSuitStackManager` which is initialized with a fresh object in method `setup`:
 
-```
+```java
 @Before
 public void setup()
 {
-	aSuitStackManager = new SuitStackManager();
+   aSuitStackManager = new SuitStackManager();
 }
 ```
 
@@ -94,29 +94,29 @@ The situation is very different, however, when exceptional behavior *is explicit
 
 This situation raises the question of how to test for exceptional conditions. In JUnit there are two idioms. One is to use the `expected` property of the `@Test` annotation:
 
-```
+```java
 @Test(expected = EmptyStackException.class)
 public void testPeekEmpty1()
 {
-	Stack<String> stack = new Stack<>();
-	stack.peek();
+   Stack<String> stack = new Stack<>();
+   stack.peek();
 }
 ``` 
 
 With this feature, JUnit will automatically *fail the test* if the execution of the corresponding test method completes *without* raising an exception of the specified type. This testing idiom is very useful, but limited in the sense that the exceptional behavior must be the last thing to happen in the test. In cases where it is desirable to execute additional testing code after testing the exceptional behavior, the following idiom can be used:
 
-```
+```java
 @Test
 public void testPeekEmpty2()
 {
-	Stack<String> stack = new Stack<>();
-	try
-	{
-		stack.peek();
-		fail();
-	}
-	catch(EmptyStackException e )
-	{}
+   Stack<String> stack = new Stack<>();
+   try
+   {
+      stack.peek();
+      fail();
+   }
+   catch(EmptyStackException e )
+   {}
 }
 ```
 
@@ -124,7 +124,7 @@ This idiom is a bit convoluted, but does exactly what we want. If the UUT (the `
 
 ### Encapsulation and Unit Testing
 
-A common question when writing tests is, how can we test private methods? There are possible avenues for answering that question, but experts disagree about which one is the right one:
+A common question when writing tests is, how can we test private methods? There are different possible avenues for answering that question, but experts disagree about which one is the right one:
 
 * Private methods are internal elements of other, accessible methods, and therefore are not really "units" that should be tested. Following this logic, the code in private methods should be tested indirectly through the execution of the accessible methods that call them;
 * The `private` access modifier is a tool to help us structure the project code, and tests can ignore it.
@@ -135,56 +135,56 @@ To by-pass the `private` access modifier, it is necessary to use [metaprogrammin
 
 The following code sample illustrates the main steps:
 
-```
+```java
 public class TestEditorFrame 
 { 
-	private Method aCreateFileFilter;
-	private EditorFrame aEditorFrame; 
+   private Method aCreateFileFilter;
+   private EditorFrame aEditorFrame; 
 	
-	@Before
-	public void setup() throws Exception
-	{
-		aCreateFileFilter = EditorFrame.class.getDeclaredMethod("createFileFilter", String.class);
-		aCreateFileFilter.setAccessible(true);
-		aEditorFrame = new EditorFrame(UMLEditor.class);
-	}
+   @Before
+   public void setup() throws Exception
+   {
+      aCreateFileFilter = EditorFrame.class.getDeclaredMethod("createFileFilter", String.class);
+      aCreateFileFilter.setAccessible(true);
+      aEditorFrame = new EditorFrame(UMLEditor.class);
+   }
 ```
 
 This test class definition includes, as part of its fixture, a field that stores a reference to an instance of class `Method` that represents the private method we want to test. The field is initialized in the `setup` method, and made accessible outside the class scope using the `setAccessible` method. This last part is what bypasses the `private` keyword.
 
 In the test class, we can then define a *convenience method* that launches the execution of the UUT (`createFileFilter`):
 
-```
+```java
 private FileFilter createFileFilter(String pFormat)
 {
-	try
-	{
-		return (FileFilter) aCreateFileFilter.invoke(aEditorFrame, pFormat);
-	}
-	catch(InvocationTargetException | IllegalAccessException pException)
-	{
-		TestCase.fail();
-		return null;
-	}
+   try
+   {
+      return (FileFilter) aCreateFileFilter.invoke(aEditorFrame, pFormat);
+   }
+   catch(InvocationTargetException | IllegalAccessException pException)
+   {
+      TestCase.fail();
+      return null;
+   }
 }
 ```
 
 In the methods of the test class, calling `createFileFilter` now has the same effect as calling `createFileFilter` on an instance of `EditorFrame`. This way the rest of the test looks pretty normal:
 
-```
+```java
 @Test
 public void testCreateFileFilteAcceptDirectory()
 {
-	FileFilter filter = createFileFilter("PNG");
-	File temp = new File("foo");
-	temp.mkdir();
-	assertTrue(temp.isDirectory());
-	assertTrue(filter.accept(temp));
-	temp.delete();
+   FileFilter filter = createFileFilter("PNG");
+   File temp = new File("foo");
+   temp.mkdir();
+   assertTrue(temp.isDirectory());
+   assertTrue(filter.accept(temp));
+   temp.delete();
 }
 ```
 
-except that it does not directly call the UUT, but a wrapper that uses metaprogramming to call the UUT while bypassig the access restriction of the `private` keyword.
+except that it does not directly call the UUT, but a wrapper that uses metaprogramming to call the UUT while by-passig the access restriction of the `private` keyword.
 
 ### Testing with Stubs
 
@@ -192,9 +192,9 @@ The key to unit testing is to test small parts of the program *in isolation*. Bu
 
 ![Test Suite Organization](figures/m04-Stubs.png)
 
-In this task we face at least three questions:
+In this task we face at least three problems:
 
-* Calling the `void executeMove(...)` method on any strategy will trigger the execution of presumably complex behavior by the strategy, which possible depends on many other parts of the code. This does not align well with the concept of unit testing, where we test small pieces of code in isolation.
+* Calling the `void executeMove(...)` method on any strategy will trigger the execution of presumably complex behavior by the strategy, which possibly depends on many other parts of the code. This does not align well with the concept of unit testing, where we want to test small pieces of code in isolation.
 * How can we know which strategy would be used by the game engine? Presumably we need to determine an oracle for the results.
 * How is this different from testing the strategies individually?
 
@@ -202,48 +202,48 @@ The way out of this conundrum is the realization that the responsibility of `Gam
 
 An object stub is a greatly simplified version of an object that mimics its behavior sufficiently to support the testing of a UUT that uses this object. Using stubs is heavily dependent on types and polymorphism (see Module 2). Continuing with our `automove` situation, here we simply want to test that the method calls a strategy, so we will define a dummy strategy in the test method:
 
-```
+```java
 public class TestGameEngine
 {
-	@Test
-	public void testAutoPlay() throws Exception
-	{
-		class StubStrategy implements PlayingStrategy
-		{
-			private boolean aExecuted = false;
+   @Test
+   public void testAutoPlay() throws Exception
+   {
+      class StubStrategy implements PlayingStrategy
+      {
+         private boolean aExecuted = false;
 			
-			public boolean hasExecuted() { return aExecuted; }
+         public boolean hasExecuted() { return aExecuted; }
 			
-			@Override
-			public void executeMove(GameEngine pGameEngine)
-			{
-				aExecuted = true;				
-			}
-		}
+         @Override
+         public void executeMove(GameEngine pGameEngine)
+         {
+            aExecuted = true;				
+         }
+      }
 ```
 
 This strategy does nothing except remember that its `executeMove` method has been called. We can then use an instance of this stub instead of a "real" strategy in the rest of the test. To inject the stub in the game engine, we again rely on metaprogramming:
 
-```
+```java
 @Test
 public void testAutoPlay() throws Exception
 {
 	...
-	Field strategyField = GameEngine.class.getDeclaredField("aStrategy");
-	strategyField.setAccessible(true);
-	StubStrategy strategy = new StubStrategy();
-	GameEngine engine = GameEngine.instance();
-	strategyField.set(engine, strategy);
+   Field strategyField = GameEngine.class.getDeclaredField("aStrategy");
+   strategyField.setAccessible(true);
+   StubStrategy strategy = new StubStrategy();
+   GameEngine engine = GameEngine.instance();
+   strategyField.set(engine, strategy);
 ```
 
 at which point completing the test is simply a matter of calling the UUT (`automove`) and verifying that it did properly call the strategy:
 
-```
+```java
 engine.autoMove();
 assertTrue(strategy.hasExecuted());
 ```
 
-The use of mock objects in unit testing can get extremely sophisticated, and frameworks exist to support this task (e.g., [jMock](http://www.jmock.org/)). In this course, the use of stubs/mocks will be limited to simple situations like the one illustrated here. Note that the situation illustrated here is boiled down to its essence for pedagogical purposes. In a realistic development scenario it would probably be judged overkill to use a stub to test a single method call.
+The use of mock objects in unit testing can get extremely sophisticated, and frameworks exist to support this task (e.g., [jMock](http://www.jmock.org/)). In this textbook, we only cover the use of stubs/mocks for simple situations like the one illustrated here. Note that the situation illustrated here is boiled down to its essence for pedagogical purposes. In a realistic development scenario it would probably be judged overkill to use a stub to test a single method call.
 
 ### Selecting Test Inputs
 
