@@ -249,53 +249,53 @@ The use of mock objects in unit testing can get extremely sophisticated, and fra
 
 Up to now this module covered how to define an and implement unit tests from a practical standpoint, but avoided the question of *what to test*, or what inputs to provide to the UUT. It should be clear that for the vast majority of UUTs it is not physically possible to *exhaustively test* the input space. Consider this function which should return the roots of a quadratic formula:
 
-```
+```java
 /**
  * Finds the roots for ax^2 + bx + c
  */
 public static double[] roots(double a, double b, double c)
 ```
 
-The input space for this function is enormous. The much smaller input space induced by the same parameters of type `int` still comprises `2^(32+32+32)` distinct values. Assuming you can run one billion tests per second, testing all possible inputs on this simplified function would take (about) 182 times the age of the universe. Clearly we need to select some input, a problem known as **test case selection**, where a **test case** can be considered to be an set of input for an assumed UUT. For example, `(0,0,0)` is a test case for the `roots` function. The basic challenge of the test case selection problem is to test *effectively*, meaning to find a minimal set of test cases that provides us a maximal amount of "testing" for our function. Unfortunately, while it is obvious what a minimal number of test cases is, there is no natural or even agreed-upon definition of what an amount of "testing" is. 
+The input space for this function is enormous. The much smaller input space induced by the same parameters of type `int` still comprises `2^(32+32+32)` distinct values. Assuming you can run one billion tests per second, testing all possible inputs on this simplified function would take (about) 182 times the age of the universe. Clearly we need to select some input, a problem known as **test case selection**, where a **test case** can be considered to be an set of input for an assumed UUT. For example, `(0,0,0)` is a test case for the `roots` function. The basic challenge of the test case selection problem is to test *effectively*, meaning to find a minimal set of test cases that provides us a maximal amount of "testing" for our function. Unfortunately, while it is obvious what a minimal number of test cases is, there is no natural or even agreed-upon definition of what an "amount of testing" is. 
 
 There are two basic ways to approach the selection of test cases:
 
-* **Functional (or black-box) testing** tries to cover as much of the *specified* behavior of a UUT as possible, based on some external specification of what the UUT should do. For the example of the `roots` function, this would mean, for example, ensuring we find inputs for formulas that have zero, one, two roots, some combination of positive and negative roots, etc. There are many advantages to black-box testing, including that you don't need access to the code of the UUT, testing can reveal problems with the specification, and that the test can reveal missing logic. 
+* **Functional (or black-box) testing** tries to cover as much of the *specified* behavior of a UUT as possible, based on some external specification of what the UUT should do. For the `roots` function, this would mean, for example, ensuring we find inputs for formulas that have zero, one, two roots, some combination of positive and negative roots, etc. There are many advantages to black-box testing, including that you don't need access to the code of the UUT, testing can reveal problems with the specification, and that the tests can reveal missing logic. 
 
 * **Structural (or white-box) testing** tries to cover as much of the *implemented* behavior of the UUT as possible, based on an analysis of the source code of the UUT. An example for the `roots` function is provided below. The main advantage of white-box testing is that it can reveal problems caused by low-level implementation details that are invisible at the level of the specification.
 
-In this course I don't have time to cover functional testing, so the reminder of this module provides a brief introduction to structural testing.
+Coverage of functional testing techniques is outside of the scope of this book, so the reminder of this module provides a brief introduction to structural testing.
 
 Consider the full implementation of the `roots` function:
 
-```
-public static double[] roots(double a, double b, double c)
-{
-	double q = b*b - 4*a*c;
-	if( q > 0 && a != 0 ) // Two roots
-	{   
-		return new double[]{(-b+q)/2*a, (-b-q)/2*a};
-	}
-	else if( q == 0 ) // One root
-	{
-		return new double[]{-b/2*a};
-	}
-	else // No root
-	{
-		return new double[0];
-	}
-}
+```java
+1  public static double[] roots(double a, double b, double c)
+2  { 
+3     double q = b*b - 4*a*c;
+4     if( q > 0 && a != 0 ) // Two roots
+5     {   
+6        return new double[]{(-b+q)/2*a, (-b-q)/2*a};
+7     }
+8     else if( q == 0 ) // One root
+9     {
+10      return new double[]{-b/2*a};
+11   }
+12   else // No root
+13   {
+14      return new double[0];
+15   }
+16 }
 ```
 
-Here we can intuitively see that the code structure has three "natural pieces" that correspond to the three branches of the `if-else` statement. According to the principles of structural testing we would want to find test cases that at least execute these three branches. For example: `(3,4,1),(0,0,1),(3,2,1)`.
+Here we can intuitively see that the code structure has three "natural" pieces that correspond to the three branches of the `if-else` statement. According to the principles of structural testing we would want to find test cases that at least execute these three branches. For example: `(3,4,1),(0,0,1),(3,2,1)`.
 
-To support formal reasoning about code structure, we need to rely on the concept of a **control-flow graph (CFG)**. A CFG is a model of a UUT that represents all possible paths of execution through the CFG. Nodes in the graph correspond to either **basic blocks** or **banching statements**. Basic blocks are sequences of statements with a single entry and exit point (they are always executed together). Edges in the graph represent possible **control flow**, that is, the possible that the program execution proceeds from one node to another. The following is the CFG for the roots function:
+To support formal reasoning about code structure, we rely on the concept of a **control-flow graph (CFG)**. A CFG is a model of a UUT that represents all possible paths of execution through the CFG. Nodes in the graph correspond to either **basic blocks** or **banching statements**. Basic blocks are sequences of statements with a single entry and exit point (they are always executed together). Edges in the graph represent possible **control flow**, that is, the possibility that the program execution proceeds from one node to another. The following is the CFG for the roots function:
 
 ![CFG Example](figures/m04-CFG.png)
 
 ### Test Adequacy Criteria
 
-We can now return to the problem of selecting test cases so that our test suite is "good enough". In structural testing, to know whether a test suite is "good enough" we rely on **test suite adequacy criteria** defined using the CFG. A *test suite adequacy criterion* is a predicate that is true or false for a pair (program, test suite). For example, a development team could decided that for a test suite to be good enough for their program, "80% of all statements should be executed when the test suite is executed".
+We can now return to the problem of selecting test cases so that our test suite is "good enough". In structural testing, to know whether a test suite is "good enough" we rely on **test suite adequacy criteria** defined using the CFG. A *test suite adequacy criterion* is a predicate that is true or false for a pair (program, test suite). For example, a development team could decide that for a test suite to be good enough for their program, "80% of all statements should be executed when the test suite is executed".
 
 **Statement coverage** is the simplest criterion. It is defined as `(number of statements executed)/(number of statements in the program)`. The rational for achieving statement coverage is simply that if a defect is present in a statement, it can't be detected if the statement is not executed. Statement coverage corresponds to going through all the nodes in a CFG during the execution of a test suite. 
 
