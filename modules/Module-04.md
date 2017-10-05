@@ -279,17 +279,17 @@ Consider the full implementation of the `roots` function:
 8     else if( q == 0 ) // One root
 9     {
 10      return new double[]{-b/2*a};
-11   }
-12   else // No root
-13   {
-14      return new double[0];
-15   }
-16 }
+11    }
+12    else // No root
+13    {
+14       return new double[0];
+15    }
+16  }
 ```
 
 Here we can intuitively see that the code structure has three "natural" pieces that correspond to the three branches of the `if-else` statement. According to the principles of structural testing we would want to find test cases that at least execute these three branches. For example: `(3,4,1),(0,0,1),(3,2,1)`.
 
-To support formal reasoning about code structure, we rely on the concept of a **control-flow graph (CFG)**. A CFG is a model of a UUT that represents all possible paths of execution through the CFG. Nodes in the graph correspond to either **basic blocks** or **banching statements**. Basic blocks are sequences of statements with a single entry and exit point (they are always executed together). Edges in the graph represent possible **control flow**, that is, the possibility that the program execution proceeds from one node to another. The following is the CFG for the roots function:
+To support formal reasoning about code structure, we rely on the concept of a **control-flow graph (CFG)**. A CFG is a model of a UUT that represents all possible paths of execution through the CFG. Nodes in the graph correspond to either **basic blocks** or **banching statements**. Basic blocks are sequences of statements with a single entry and exit point (they are always executed together). Edges in the graph represent possible **control flow**, that is, the possibility that the program execution proceeds from one node to another. The figure below shows the CFG for the roots function. In this diagram circles represent start and end nodes, boxes represent basic blocks, and diamonds represent branching statements, with the control flow for both true (solid) and false (dashed) conditions.
 
 ![CFG Example](figures/m04-CFG.png)
 
@@ -297,19 +297,19 @@ To support formal reasoning about code structure, we rely on the concept of a **
 
 We can now return to the problem of selecting test cases so that our test suite is "good enough". In structural testing, to know whether a test suite is "good enough" we rely on **test suite adequacy criteria** defined using the CFG. A *test suite adequacy criterion* is a predicate that is true or false for a pair (program, test suite). For example, a development team could decide that for a test suite to be good enough for their program, "80% of all statements should be executed when the test suite is executed".
 
-**Statement coverage** is the simplest criterion. It is defined as `(number of statements executed)/(number of statements in the program)`. The rational for achieving statement coverage is simply that if a defect is present in a statement, it can't be detected if the statement is not executed. Statement coverage corresponds to going through all the nodes in a CFG during the execution of a test suite. 
+**Statement coverage** is the simplest criterion. It is defined as `(number of statements executed)/(number of statements in the program)`. In the example above, the test case `(3,4,1)` achieves `4/6 = 67%` statement coverage (here the start and end nodes are ignored). The rational for achieving statement coverage is simply that if a defect is present in a statement, it can't be detected if the statement is not executed. Full statement coverage corresponds to going through all the nodes in a CFG during the execution of a test suite. Note that line coverage and basic block coverage are alternatives that are practically equivalent to statement coverage.
 
-**Branch coverage** is defined as `(number of branches executed)/(number of branches in the program)`. Branch coverage corresponds to going through all the edges in a CFG during the execution of a test suite. 
+**Branch coverage** is defined as `(number of branches executed)/(number of branches in the program)`. In the example above, the test case `(3,4,1)` achieves `2/4 = 50%` branch coverage. Full branch coverage corresponds to going through all the edges in a CFG during the execution of a test suite. 
 
-**Path coverage** is defined as `(number of path executed)/(number of paths in the program)`. Path coverage corresponds to going through all the possible path in a CFG during the execution of a test suite. Path coverage is considered a *theoretical criterion* because although it can be a useful concept to reason about testing in general, it cannot be achieved in practice.
+**Path coverage** is defined as `(number of paths executed)/(number of paths in the program)`. Path coverage corresponds to going through all the possible paths in a CFG during the execution of a test suite. In the example above, the test case `(3,4,1)` achieves `1/3 = 30%` path coverage. Path coverage is considered a *theoretical* criterion because although it can be a useful concept to reason about testing in general, it cannot be achieved in practice, in particular for code that contains loops.
 
-Because many defects can lurk in conditional statements, a number of coverage criteria target condition coverage specifically:
+Because many defects can lurk in conditional statements, a number of coverage criteria target condition coverage specifically. In the case of condition-related coverage, is is more common to refer to coverage in binary terms (full coverage is achieved vs. not), as opposed to a fraction of the possible coverage.
 
-**Basic conditions coverage** is defined as "each basic condition must have a True and a False outcome at least once during the execution of the test suite". 
+**Basic conditions coverage** is defined as "each basic condition must have a True and a False outcome at least once during the execution of the test suite". In the example above, the test case `(3,4,1)` does not achieve basic condition coverage because of the six possible condition-outcome pairs, only `false(q > 0)` on line 4 and `true(q==0)` on line 8 are covered.
 
-**Branch and conditions coverage** is defined as satisfying both the branch and basic conditions criteria.
+**Branch and conditions coverage** is defined as satisfying both the branch and basic conditions criteria. In the example above, the test case `(3,4,1)` does not achieve branch and condition coverage because it achieves neither the branch nor the basic condition criteria.
 
-**Compound conditions** is defined as achieving each possible evaluation of compound conditions. In the general case the compound conditions criterion is also considered "theoretical" because of the the large number of resulting combinations.
+**Compound conditions** is defined as achieving each possible evaluation of compound conditions. In the general case the compound conditions criterion is also considered theoretical because of the the large number of resulting combinations.
 
 Some of the coverage criteria have a **subsumption relation** between them. For criterion A to *subsume* criterion B means that if A is achieved, B is implicitly achieved. The following subsumption relations exist between the criteria seen in this module (the relation is [transitive](https://en.wikipedia.org/wiki/Transitive_relation)):
 
@@ -320,16 +320,14 @@ Some of the coverage criteria have a **subsumption relation** between them. For 
 
 ### Practical Coverage Analysis
 
-Test coverage is typically computed by tools that *instrument* the source or bytecode and report how much coverage is achieved for different criteria supported by the tool. In this course we use the EclEmma Eclipse plug-in to compute coverage. EclEmma supports instruction, line (a proxy for statement), and branch coverage. See the Module 0 exercises for instructions on how to install and run EclEmma.
+Test coverage is typically computed by tools that *instrument* the source or bytecode and report how much coverage is achieved for different criteria supported by the tool. For example, EclEmma supports instruction, line (a proxy for statement), and branch coverage. See the Module 0 exercises for instructions on how to install and run EclEmma.
 
 ### Acknowledgements
 
 The part of this module on test case selection and structural testing was adapted from a lecture originally created by Prof. Andreas Zeller based on material from the book "Software Testing and Analysis: Process, Principles, and Techniques”, by Pezze & Young, Wiley, 2008
 
-
 ## Reading
 
-* Textbook 3.7, 7.2, 7.6;
 * The [Java Tutorial - Annotations](https://docs.oracle.com/javase/tutorial/java/annotations/index.html)
 * The [Java Tutorial - Reflection](https://docs.oracle.com/javase/tutorial/reflect/)
 * The [Vogella Unit Testing Tutorial](http://www.vogella.com/tutorials/JUnit/article.html)
@@ -343,29 +341,17 @@ The best way to practice unit testing is, unsurprisingly, to write tests for as 
 
 For maximum learning effectiveness, I recommend peeking at the [answers](answers/Answers-04.md) only after giving the problems an honest try.
 
-**Exercise 1.**
+1. Write unit tests for the Java `Math.abs()` and `Math.min(...)`.
 
-Write unit tests for the Java `Math.abs()` and `Math.min(...)`.
+2. Write unit tests for the Java `Stack` methods `pop`, `push`, and `peek`.
 
-**Exercise 2.**
+3. Create CFGs for all the methods of class [RecentFilesQueue](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/RecentFilesQueue.java), except for `serialize` and `deserialize`. With the help of EclEmma, write tests that achieve branch coverage. Manually compute the coverage for all three condition criteria.
 
-Write unit tests for the Java `Stack` methods `pop`, `push`, and `peek`.
+4. :star: Extend the previous exercise to include the `serialize` and `deserialize` methods.
 
-**Exercise 3.**
+5. :spades: Write unit tests for all the classes of the Solitaire application you have developed so far. Compute the coverage of your test suite with EclEmma.
 
-Create CFGs for all the methods of class [RecentFilesQueue](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/RecentFilesQueue.java), except for `serialize` and `deserialize`. With the help of EclEmma, write tests that achieve branch coverage. Manually compute the coverage for all three condition criteria.
-
-**Exercise 4 (+).**
-
-Extend the previous exercise to include the `serialize` and `deserialize` methods.
-
-**Exercise 5 (P).**
-
-Write unit tests for all the classes of the Solitaire application you have developed so far. Compute the coverage of your test suite with EclEmma.
-
-**Exercise 6 (+).**
-
-Run EclEmma on JetUML and identify some untested code. Write a new unit test and submit it as a pull request. 
+6. :star: Run EclEmma on JetUML and identify some untested code. Write a new unit test and submit it as a pull request. 
 
 ---
 
