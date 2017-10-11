@@ -217,6 +217,7 @@ This technically works because the compiler will prevent the instantiation of en
 
 * Solitaire v0.3: [Card](https://github.com/prmr/Solitaire/blob/v0.3/src/ca/mcgill/cs/stg/solitaire/cards/Card.java) as an example of the Flyweight pattern in action.
 * Solitaire v0.3: [CardImages](https://github.com/prmr/Solitaire/blob/v0.3/src/ca/mcgill/cs/stg/solitaire/cards/CardImages.java) as a different example of the Flyweight pattern in action.
+* JetUML v1.1: [Commit cf2d37e](https://github.com/prmr/JetUML/commit/b6531f48d330ee6ab96e944a5837cefc2cf2d37e) as a concrete example of a refactoring to make a class a Singleton.
 
 ## Exercises
 
