@@ -272,7 +272,20 @@ In this solution, objects do not return references to their internal structure, 
 
 ## Exercises
 
-Exercises prefixed with **(+)** are optional, more challenging questions aimed to provide you with additional design and programming experience. Exercises prefixed with **(P)** (for "project") will incrementally guide you towards the ultimate completion of a complete Solitaire application.
+Exercises prefixed with :star: are optional, more challenging questions aimed to provide you with additional design and programming experience. Exercises prefixed with :spades: will incrementally guide you towards the ultimate completion of a complete Solitaire application.
+
+For maximum learning effectiveness, I recommend peeking at the [answers](answers/Answers-05.md) only after giving the problems an honest try.
+
+1. Draw a UML Sequence Diagram to represent the following program. Consider that the `main` method can be approximated as an object with name `client`:
+
+```java
+public static void main(String[] args)
+{
+   String string1 = "Foo";
+   String string2 = "Bar";
+   System.out.println(string1.compareTo(string2));
+}
+```
 
 1. Design a `CompositeIcon` class that can contain multiple icons. Note that a standard application of the Composite design pattern will result in the composed icons being painted on top of each other. Solve this problem with a `ShiftedIcon` decorator that will support drawing an icon as shifted by (parametric) x and y values. Extend the following diagram to complete the design. Make sure you list all the methods (including constructors) that will be necessary to make this work.
 
