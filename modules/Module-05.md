@@ -265,7 +265,6 @@ In this solution, objects do not return references to their internal structure, 
 
 ## Reading
 
-* Textbook 3.4.5, 5.5-5.8, 7.4, 10.2
 * JetUML v1.0: The [ToolBar](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/ToolBar.java) class and its [design docs](https://github.com/prmr/JetUML/blob/v1.0/doc/functional/toolbar.md) show a near-classic implementation of the Prototype design pattern.
 * Solitaire v0.3 implements the Command pattern though interface [Move](https://github.com/prmr/Solitaire/blob/v0.3/src/ca/mcgill/cs/stg/solitaire/model/Move.java)
 * Solitaire v0.3 implements the Composite pattern though class [CompositeMove](https://github.com/prmr/Solitaire/blob/master/src/ca/mcgill/cs/stg/solitaire/model/CompositeMove.java)
@@ -287,17 +286,19 @@ public static void main(String[] args)
 }
 ```
 
-1. Design a `CompositeIcon` class that can contain multiple icons. Note that a standard application of the Composite design pattern will result in the composed icons being painted on top of each other. Solve this problem with a `ShiftedIcon` decorator that will support drawing an icon as shifted by (parametric) x and y values. Extend the following diagram to complete the design. Make sure you list all the methods (including constructors) that will be necessary to make this work.
+2. Study the code of method [`GameModel.undoLast()`](https://github.com/prmr/Solitaire/blob/v0.4/src/ca/mcgill/cs/stg/solitaire/model/GameModel.java#L279) and create a UML sequence diagram to model the key object interactions in this method. Note that this and similar code exploration questions will be much easier and more enjoyable to complete using a clone of the project workspace.
+
+3. Design a `CompositeIcon` class that can contain multiple icons. Note that a standard application of the Composite design pattern will result in the composed icons being painted on top of each other. Solve this problem with a `ShiftedIcon` decorator that will support drawing an icon as shifted by (parametric) x and y values. Extend the following diagram to complete the design. Make sure you list all the methods (including constructors) that will be necessary to make this work.
 
 ![](figures/m05-exercise1.png)
 
-2. Draw a sequence diagram showing what happens to a composite icon after a painIcon callback.
+4. Draw a sequence diagram showing what happens to a composite icon after a painIcon callback.
 
-3. Implement the solution using the [module's source code samples](../artifacts/module-05/module05) as a template. When you solve this exercise, executing the main method of the `BridgeDealer` class should show a graphical window where card icons are laid out according to your solution.
+5. Implement the solution using the [module's source code samples](../artifacts/module-05/module05) as a template. When you solve this exercise, executing the main method of the `BridgeDealer` class should show a graphical window where card icons are laid out according to your solution.
 
-4. (+) Write unit tests for the `getIconHeight()` and `getIconWidth()` method using stubs.
+6. (+) Write unit tests for the `getIconHeight()` and `getIconWidth()` method using stubs.
 
-5. Make the [Hand](artifacts/module-02/comp303m02/Hand.java) class cloneable. Write a small driver program that creates a new `Hand` object and clones it. Create a UML object diagram to represent a cloned Hand. Use the debugger to verify the correctness of your diagram.
+7. Make the [Hand](artifacts/module-02/comp303m02/Hand.java) class cloneable. Write a small driver program that creates a new `Hand` object and clones it. Create a UML object diagram to represent a cloned Hand. Use the debugger to verify the correctness of your diagram.
 
 ---
 
