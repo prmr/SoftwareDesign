@@ -296,10 +296,9 @@ public static void main(String[] args)
 ![](figures/m05-exercise1.png)
 
 5. Draw a sequence diagram showing what happens to a composite icon after a painIcon callback.
+6. Implement the solution using the [module's source code samples](https://github.com/prmr/SoftwareDesignCode/tree/master/module05/ca/mcgill/cs/swdesign/m5/icon) as a template. When you solve this exercise, executing the main method of the `BridgeDealer` class should show a graphical window where card icons are laid out according to your solution.
 
-6. Implement the solution using the [module's source code samples](../artifacts/module-05/module05) as a template. When you solve this exercise, executing the main method of the `BridgeDealer` class should show a graphical window where card icons are laid out according to your solution.
-
-7. (+) Write unit tests for the `getIconHeight()` and `getIconWidth()` method using stubs.
+7. :star: Write unit tests for the `getIconHeight()` and `getIconWidth()` method using stubs.
 
 8. Make the [Hand](artifacts/module-02/comp303m02/Hand.java) class cloneable. Write a small driver program that creates a new `Hand` object and clones it. Create a UML object diagram to represent a cloned Hand. Use the debugger to verify the correctness of your diagram.
 
