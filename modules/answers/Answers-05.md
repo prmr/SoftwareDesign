@@ -23,4 +23,4 @@ Things to note from this diagram:
 
 ![](m05-3.png)
 
-With this question we finally reached a level of complexity where the value of UML models starts to become more apparent. Here with a minimum of experience a developer would be able to see from the left of the diagram that the `EditorFrame` takes care for a bunch of object navigation and access, and from the right of the diagram that that actual `undo` functionality is realized through a close collaboration between an instance of `GraphPanel` and an instance of `Clipboard`.
+With this question we finally reached a level of complexity where the value of UML models starts to become more apparent. Here with a minimum of experience a developer would be able to see from the left of the diagram that the `EditorFrame` takes care for a bunch of object navigation and access, and from the right of the diagram that that actual `cut` functionality is realized through a close collaboration between an instance of `GraphPanel` and an instance of `Clipboard`.
