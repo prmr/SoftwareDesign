@@ -57,21 +57,21 @@ It's not usual when designing aggregations of objects to run into a situation wh
 
 In this design, a `Drawing` instance aggregates a number of different `Figure` objects. A usual desirable feature of the problem domain (drawing figures) is that it should be possible to create figures by grouping different figures. This feature is realized in the design by the presence of class `CompositeFigure`. In the pattern this is referred to as the "Composite" role. Roles in the pattern are indicated using notes in the UML diagram. In this pattern the Composite class has two very important features:
 
-0. It aggregates a number of different objects of type `Figure`. Using the primitive (interface) type is very important, as it allows the composite to compose any other kind of figures, including other composites.
-0. It implements the primitive interface. This is basically what allows composite objects to be treated by the rest of the program in exactly the same way as "leaf" elements.
+1. It aggregates a number of different objects of type `Figure`. Using the primitive (interface) type is very important, as it allows the composite to compose any other kind of figures, including other composites.
+2. It implements the primitive interface. This is basically what allows composite objects to be treated by the rest of the program in exactly the same way as "leaf" elements.
 
 An example of the resulting structure is illustrated by the object diagram below.
 
 ![](figures/m05-composite2.png)
 
 When instantiating the Composite design pattern as part of a design, the implementation of the methods of the primitive's interface should most likely involve an iteration through all the composed elements. As a simple example, in the above design the implementation of method `CompositeFigure.draw(Graphics)` would most likely be:
-```
+```java
 public void draw(Graphics pGraphics)
 {
-	for( Figure figure : aFigures )
-	{
-		figure.draw(pGraphics);
-	}
+   for( Figure figure : aFigures )
+   {
+      figure.draw(pGraphics);
+   }
 }
 ```
 
@@ -92,18 +92,18 @@ In some cases we would like to optionally add some "features" to an object, but 
 
 The Decorator design pattern looks very much like the Composite Design Pattern, except that instead of a Composite object we have a Decorator object. However, the constraints on the Decorator are very similar as those of the Composite:
 
-0. It aggregates *one object* of type `Figure`. Using the primitive (interface) type is very important, as it allows the decorator to "decorate" any other kind of primitives, including other decorators (and composites!).
-0. It implements the primitive interface. This is basically what allows decorator objects to be treated by the rest of the program in exactly the same way as "leaf" elements.
+1. It aggregates *one object* of type `Figure`. Using the primitive (interface) type is very important, as it allows the decorator to "decorate" any other kind of primitives, including other decorators (and composites!).
+2. It implements the primitive interface. This is basically what allows decorator objects to be treated by the rest of the program in exactly the same way as "leaf" elements.
 
 The main question to resolve when implementing the Decorator is what the methods of the Decorator class should do. In a classic use of the Decorator design pattern, the implementation of the interface's methods should basically involve two steps, illustrated with the code for the `draw` method:
-```
+```java
 public void draw(Graphics pGraphics)
 {
-	// 1. Delegate the original request to the decorated object
-	aDecorated.draw(pGraphics);
+   // 1. Delegate the original request to the decorated object
+   aDecorated.draw(pGraphics);
 	
-	// 2. Implement the decoration
-	// Draw the border using the Graphics object
+   // 2. Implement the decoration
+   // Draw the border using the Graphics object
 }
 ```
 
@@ -121,17 +121,17 @@ Finally, Decorator and Composite classes can easily co-exist in a class hierarch
 
 In [Module 1](Module-01.md) I discussed situations where it's useful to copy some objects, and introduced the idea of copy constructors, which allow a client to make a copy of an object passed as argument:
 
-```
+```java
 Card cardCopy = new Card(pCard);
 ```
 
 Copy constructors work fine in many situations, but their main limitation is that to call a constructor it is necessary to make a static reference to a specific class (here, class `Card`). In designs that make use of polymorphism, this is a problem. Consider the scenario of a drawing editor illustrated above. Assume that in the `Drawing` class we collect reference to a number of `Figure` instances. 
 
-```
+```java
 public class Drawing
 {
-	private List<Figure> aFigures = ...;
-	...
+   private List<Figure> aFigures = ...;
+   ...
 }
 ```
 
@@ -143,19 +143,19 @@ Cloning is one of Java's most convoluted and counter-intuitive mechanisms. There
 
 To make it possible to clone a class, the first step is to **tag the class as cloneable** using the `Cloneable` tagging interface:
 
-```
+```java
 public class Card implements Cloneable {
 ```
 
 This allows other objects to check whether an object can be cloned, e.g.:
 
-```
+```java
 if( o instanceof Cloneable ) { clone = o.clone(); }
 ```
 
 The second step is to **override the `clone` method**. The method `Object clone()` is defined in class `Object`, but its access modifier is `protected`, so methods that don't have access to the cloneable class's target method can't see it. When overriding `clone`, it is therefore necessary to *widen its visibily* to `public`.
 
-```
+```java
 @Override
 public Card clone()
 {
@@ -165,42 +165,42 @@ Note that since Java 5 it is possible to change the return type from the origina
 
 The overriden clone method needs to create a new object of the same class. For reason that will become clearer in Module 7, this **should only be done by calling `super.clone()`**, not by calling a constructor.
 
-```
+```java
 @Override
 public Card clone()
 {
-	Card clone = super.clone();
-	// NOT Card clone = new Card();
+   Card clone = super.clone();
+   // NOT Card clone = new Card();
 ```
 
 The statement `super.clone` calls the `clone` method in the superclass, which here means method `Object.clone`. This method is very special. It uses metaprogramming features to return *an object of the class from where the call to the method originates*. This is special because although the method is implemented in the library class `Object`, it still returns a new instance of class `Card`.
 Method `Object.clone` is special because it also does not create a "fresh" instance of the class by internally calling the default constructor (sometimes there isn't even a default constructor). Instead, it reflectively creates a new instance of the class initialized by making a shallow copy of all the instances fields. Whenever a shallow copy is not sufficient, the overriden `clone` method must perform additional steps to more deeply copy some of the fields.
 
-For example, a reasonble implementation of `clone` of a class `Deck` would look like this:
+For example, a reasonable implementation of `clone` of a class `Deck` would look like this:
 
-```
+```java
 public Deck clone()
 {
-	try
-	{
-		Deck lReturn = (Deck)super.clone();
-		lReturn.aCards = new Stack<>();
-		for( Card card : aCards )
-		{
-			lReturn.aCards.add(card);
-		}
-		return lReturn;
-	}
-	catch (CloneNotSupportedException e)
-	{
-		return null;
-	}
+   try
+   {
+      Deck lReturn = (Deck)super.clone();
+      lReturn.aCards = new Stack<>();
+      for( Card card : aCards )
+      {
+         lReturn.aCards.add(card);
+      }
+      return lReturn;
+   }
+   catch (CloneNotSupportedException e)
+   {
+      return null;
+   }
 ```
 
 As you notice, the call to `super.clone` declares to throw a `CloneNotSupportedException` that must be caught. This exception is only raised if `super.clone` is called from within a class that is *not* declared to implement `Cloneable`. If we properly declared our class (`Card` or `Deck`) to be `Cloneable`, then we can be assured that this exception will never be raised, and we can safely squash it by catching it and doing nothing. The reason for this awkward exception-handling requirement is that because the default cloning behavior implemented by `Object.clone` (shallow copying) is potentially not appropriate for a class (like `Deck`), a programmer should not be able to call `clone` "accidentally". Having to catch the exception is supposed to force programmers to remember this, although it's not clear to what extent this trick was successful.
 
 The last, optional, step when using cloning is to add the `clone` method to the super type of a hierarchy of classes whose objects we want to clone. In the `DrawingEditor` example, we would probably want to add `clone` to the `Figure` interface. Unfortunately, the `Cloneable` interface does not include the `clone` method, so that the `clone` method will not automatically be visible to clients of `Cloneable` types. Another useful trick is to make the hierarchy supertype extend clone instead of making all the concrete type declare to implement it individually, e.g.;
-```
+```java
 public interface Figure extend Cloneable 
 ...
 ```
@@ -213,18 +213,18 @@ One use of polymorphic copying is to support the design of a class that speciali
 
 The buttons on the panel all basically do the same thing: place an object on the diagram. The only thing that changes for different buttons is the type of graph node that gets *created*. So it would be desirable, from a code reuse point of view, to have only one class that can handle the creation of any kind of button. In the actual design, the toolbar is implemented by class [Toolbar](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/framework/ToolBar.java) which manages the button and has a method that can return what "tool" is selected. The class *does not* manage the creation of any `Node` objects, but instead can return *the type of node* that corresponds to the button that is selected:
 
-```
+```java
 public GraphElement getSelectedTool()
 ```
 
 Whenever a user clicks a button on the toolbar, the code that responds to the input from the user can now simply create the new node by cloning it:
 
-```
+```java
 private void handleNodeCreation(MouseEvent pEvent)
 {
-	Node newNode = ((Node)aSideBar.getSelectedTool()).clone();
-	boolean added = aGraph.addNode(newNode, getMousePoint(pEvent));
-	...
+   Node newNode = ((Node)aSideBar.getSelectedTool()).clone();
+   boolean added = aGraph.addNode(newNode, getMousePoint(pEvent));
+   ...
 ```
 
 This is the idea of using a **prototype object**. Here the toolbar can provided a prototype object to the part of the program in charge of adding a `GraphElement` to the diagram, and to accomplish this task the client code can simply clone the prototype object. A simpler, synthetic example that summarizes this idea is illustrated with class [ElementCreator](artifacts/module-05/module05/ElementCreator.java). 
