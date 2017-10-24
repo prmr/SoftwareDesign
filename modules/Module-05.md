@@ -300,7 +300,7 @@ concept of a composite command, and use this feature to implement a command that
 fresh program.
 
 7. Starting from the [Module 5 Code Samples](https://github.com/prmr/SoftwareDesignCode/tree/master/module05/ca/mcgill/cs/swdesign/m5), enhance the design with the concept
-of a "logged command" that logs any kind of command to the console after having executed it. Use reflection to create the message that is logged to the console.
+of a "logged command" that logs any kind of command to the console after having executed it. 
 
 8. Design a `CompositeIcon` class that can contain multiple icons. Note that a standard application of the Composite design pattern will result in the composed icons being painted on top of each other. Solve this problem with a `ShiftedIcon` decorator that will support drawing an icon as shifted by (parametric) x and y values. Extend the following diagram to complete the design. Make sure you list all the methods (including constructors) that will be necessary to make this work.
 
