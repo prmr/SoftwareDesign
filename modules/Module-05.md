@@ -291,16 +291,28 @@ public static void main(String[] args)
 
 3. Study the code of method [`EditorFrame.cut()`](https://github.com/prmr/JetUML/blob/v1.1/src/ca/mcgill/cs/stg/jetuml/framework/EditorFrame.java#L702) in JetUML and create a UML sequence diagram to model the key object interactions in this method.
 
-4. Design a `CompositeIcon` class that can contain multiple icons. Note that a standard application of the Composite design pattern will result in the composed icons being painted on top of each other. Solve this problem with a `ShiftedIcon` decorator that will support drawing an icon as shifted by (parametric) x and y values. Extend the following diagram to complete the design. Make sure you list all the methods (including constructors) that will be necessary to make this work.
+4. Make the [Hand](https://github.com/prmr/SoftwareDesignCode/tree/master/module02/ca/mcgill/cs/swdesign/m2/Hand.java) class cloneable. Write a small driver program that creates a new `Hand` object and clones it. Create a UML object diagram to represent a cloned Hand. Use the debugger to verify the correctness of your diagram.
+
+5. Starting from the [Module 5 Code Samples](https://github.com/prmr/SoftwareDesignCode/tree/master/module05/ca/mcgill/cs/swdesign/m5), implement method `clone` in class `ConferenceShow`.
+
+6. Starting from the [Module 5 Code Samples](https://github.com/prmr/SoftwareDesignCode/tree/master/module05/ca/mcgill/cs/swdesign/m5), enhance the design with the 
+concept of a composite command, and use this feature to implement a command that clears the program and adds one show to the
+fresh program.
+
+7. Starting from the [Module 5 Code Samples](https://github.com/prmr/SoftwareDesignCode/tree/master/module05/ca/mcgill/cs/swdesign/m5), enhance the design with the concept
+of a "logged command" that logs any kind of command to the console after having executed it. Use reflection to create the message that is logged to the console.
+
+8. Design a `CompositeIcon` class that can contain multiple icons. Note that a standard application of the Composite design pattern will result in the composed icons being painted on top of each other. Solve this problem with a `ShiftedIcon` decorator that will support drawing an icon as shifted by (parametric) x and y values. Extend the following diagram to complete the design. Make sure you list all the methods (including constructors) that will be necessary to make this work.
 
 ![](figures/m05-exercise1.png)
 
-5. Draw a sequence diagram showing what happens to a composite icon after a painIcon callback.
-6. Implement the solution using the [module's source code samples](https://github.com/prmr/SoftwareDesignCode/tree/master/module05/ca/mcgill/cs/swdesign/m5/icon) as a template. When you solve this exercise, executing the main method of the `BridgeDealer` class should show a graphical window where card icons are laid out according to your solution.
+9. Draw a sequence diagram showing what happens to a composite icon after a painIcon callback.
 
-7. :star: Write unit tests for the `getIconHeight()` and `getIconWidth()` method using stubs.
+10. Implement the solution using the [module's source code samples](https://github.com/prmr/SoftwareDesignCode/tree/master/module05/ca/mcgill/cs/swdesign/m5/icon) as a template. When you solve this exercise, executing the main method of the `BridgeDealer` class should show a graphical window where card icons are laid out according to your solution.
 
-8. Make the [Hand](artifacts/module-02/comp303m02/Hand.java) class cloneable. Write a small driver program that creates a new `Hand` object and clones it. Create a UML object diagram to represent a cloned Hand. Use the debugger to verify the correctness of your diagram.
+11. :star: Write unit tests for the `getIconHeight()` and `getIconWidth()` method using stubs.
+
+12. Study the code of the [Solitaire](https://github.com/prmr/Solitaire/tree/v0.4) application and draw a UML class diagram that shows how the Command design pattern is used to support game `Move`s.
 
 ---
 
