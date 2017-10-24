@@ -24,3 +24,35 @@ Things to note from this diagram:
 ![](m05-3.png)
 
 With this question we finally reached a level of complexity where the value of UML models starts to become more apparent. Here with a minimum of experience a developer would be able to see from the left of the diagram that the `EditorFrame` takes care for a bunch of object navigation and access, and from the right of the diagram that that actual `cut` functionality is realized through a close collaboration between an instance of `GraphPanel` and an instance of `Clipboard`.
+
+## Exercise 4
+
+The class must be declared to implement `Cloneable`, and supply a `clone` method. Here we assume that
+it's acceptable to make a shallow copy of the card objects, since they are immutable and either unique or systematically tested 
+for equality using `equals`.
+
+```java
+public class Hand implements Iterable<Card>, Cloneable
+{
+   ...
+   @Override
+   public Hand clone()
+   {
+      try
+      {
+         Hand clone = (Hand) super.clone();
+         clone.aCards = new ArrayList<>();
+         for( Card card : aCards )
+         {
+            clone.add(card);
+         }
+         return clone;
+      }
+      catch(CloneNotSupportedException e)
+      {
+         return null;
+		}
+	}
+```
+
+![](m05-4.png)
