@@ -120,6 +120,7 @@ Finally, let's assume that after using this design in a version of the system, a
 
 ## Reading
 
+* The [Module 6 code samples](https://github.com/prmr/SoftwareDesignCode/tree/master/module06/ca/mcgill/cs/swdesign/m6/LuckyNumber.java)
 * The [JavaFX Tutorial](http://docs.oracle.com/javafx/2/get_started/hello_world.htm)
 * Solitaire v0.3 The [DeckView](https://github.com/prmr/Solitaire/blob/v0.3/src/ca/mcgill/cs/stg/solitaire/gui/DeckView.java) class as an example of a GUI observer.
 
@@ -131,7 +132,7 @@ Exercises prefixed with :star: are optional, more challenging questions aimed to
 2. Re-write the code of the [LuckyNumber](https://github.com/prmr/SoftwareDesignCode/tree/master/module06/ca/mcgill/cs/swdesign/m6/LuckyNumber.java) sample application so that data flows between
 the model and the observers using the pull strategy. Create a class diagram and a sequence diagram that model the key aspects of this solution.
 3. Write the code that implements a skeleton application that corresponds to the Observer Design Case Study. Write a driver program that adds and removes item to make sure everything works as expected. 
-4. Study the code of the [Solitaire](https://github.com/prmr/Solitaire/tree/v0.4) application to see how the `GameModelListerner` interface is used. Create a class diagram and a sequence
+4. Study the code of the [Solitaire](https://github.com/prmr/Solitaire/tree/v0.4) application to see how the `GameModelListener` interface is used. Create a class diagram and a sequence
 diagram to document how the observer pattern is used in relation to the `GameModel` class.
 5. Write a JavaFX application with a button and a label, which writes the current date and time in the label every time the button is pressed. You can obtain the current date and time with the following API call `new Date().toString();` 
 6. Re-write the code of the [LuckyNumber](https://github.com/prmr/SoftwareDesignCode/tree/master/module06/ca/mcgill/cs/swdesign/m6/LuckyNumber.java) sample application to add a "Notify" buttons that notifies observers of the value in the model. The value should only be propagated when the button is clicked. 
