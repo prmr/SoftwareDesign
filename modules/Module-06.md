@@ -135,7 +135,7 @@ the model and the observers using the pull strategy. Create a class diagram and 
 4. Study the code of the [Solitaire](https://github.com/prmr/Solitaire/tree/v0.4) application to see how the `GameModelListener` interface is used. Create a class diagram and a sequence
 diagram to document how the observer pattern is used in relation to the `GameModel` class.
 5. Write a JavaFX application with a button and a label, which writes the current date and time in the label every time the button is pressed. You can obtain the current date and time with the following API call `new Date().toString();` 
-6. Re-write the code of the [LuckyNumber](https://github.com/prmr/SoftwareDesignCode/tree/master/module06/ca/mcgill/cs/swdesign/m6/LuckyNumber.java) sample application to add a "Notify" buttons that notifies observers of the value in the model. The value should only be propagated when the button is clicked. 
+6. Re-write the code of the [LuckyNumber](https://github.com/prmr/SoftwareDesignCode/tree/master/module06/ca/mcgill/cs/swdesign/m6/LuckyNumber.java) sample application to add a "Notify" button that notifies observers of the value in the model. The value should only be propagated when the button is clicked. 
 7. Study the code of the [Solitaire](https://github.com/prmr/Solitaire/tree/v0.4) application to see how the `DiscardPileView` relies on the observer design pattern to respond to GUI events, and also updates to the model. Draw a class diagram and a sequence diagram to capture the information you discover.
 ---
 
