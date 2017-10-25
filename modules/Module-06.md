@@ -128,6 +128,8 @@ Finally, let's assume that after using this design in a version of the system, a
 
 Exercises prefixed with :star: are optional, more challenging questions aimed to provide you with additional design and programming experience. Exercises prefixed with :spades: will incrementally guide you towards the ultimate completion of a complete Solitaire application.
 
+For maximum learning effectiveness, I recommend peeking at the [answers](answers/Answers-06.md) only after giving the problems an honest try.
+
 1. Extend the code of the [LuckyNumber](https://github.com/prmr/SoftwareDesignCode/tree/master/module06/ca/mcgill/cs/swdesign/m6/LuckyNumber.java) sample application to include a Roman Numerals panel.
 2. Re-write the code of the [LuckyNumber](https://github.com/prmr/SoftwareDesignCode/tree/master/module06/ca/mcgill/cs/swdesign/m6/LuckyNumber.java) sample application so that data flows between
 the model and the observers using the pull strategy. Create a class diagram and a sequence diagram that model the key aspects of this solution.
