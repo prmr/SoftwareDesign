@@ -9,7 +9,7 @@ The idea of inversion of control is one of the most powerful intellectual tools 
 After this module you should:
 
 * Be able to use the Observer design pattern effectively;
-* Be able to design and implement simple graphical user interfaces with Swing and JavaFX;
+* Be able to design and implement simple graphical user interfaces with JavaFX;
 * Understand the concept of an application framework;
 
 ## Notes
@@ -17,7 +17,7 @@ After this module you should:
 ### Motivation
 
 One of the main problems that motivates inversion of control in design is situations where a number of objects need to be kept consistent with a certain state. An example from the programming domain itself is an integrated development environment like Eclipse, which presents different views of the code. For example, the Outline View shows the outline of a class that can also be viewed in the text editor, etc.
-I illustrate a simpler instance of this problem with the [LuckyNumber](artifacts/module-06/module6/LuckyNumber.java) toy application. When launched this application shows a number between 1 and 10 in three different ways (or with three different *views*):
+I illustrate a simpler instance of this problem with the [LuckyNumber](https://github.com/prmr/SoftwareDesignCode/blob/master/module06/ca/mcgill/cs/swdesign/m6/LuckyNumber.java) toy application. When launched this application shows a number between 1 and 10 in three different ways (or with three different *views*):
 
 ![](figures/m06-luckyNumber.png)
 
