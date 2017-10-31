@@ -188,30 +188,29 @@ as handler is shown in comments.
 ```java
 public class DateButton extends Application
 {
-	public static void main(String[] pArgs) 
-	{
-        launch(pArgs);
-    }
+   public static void main(String[] pArgs) 
+   {
+      launch(pArgs);
+   }
     
-    @Override
-    public void start(Stage pPrimaryStage) 
-    {
-    	Button button = new Button(LocalDateTime.now().toString());
+   @Override
+   public void start(Stage pPrimaryStage) 
+   {
+      Button button = new Button(LocalDateTime.now().toString());
+      button.setOnAction(new EventHandler<ActionEvent>() 
+      {
+         @Override
+         public void handle(ActionEvent arg0)
+         {
+            button.setText(LocalDateTime.now().toString());
+         }
+      });
     	
-    	button.setOnAction(new EventHandler<ActionEvent>() 
-    	{
-			@Override
-			public void handle(ActionEvent arg0)
-			{
-				button.setText(LocalDateTime.now().toString());
-			}
-		});
+      // Does exactly the same as the above statement, but using a lambda expression. 
+      // button.setOnAction((e) -> button.setText(LocalDateTime.now().toString()));
     	
-    	// Does exactly the same as the above statement, but using a lambda expression. 
-    	// button.setOnAction((e) -> button.setText(LocalDateTime.now().toString()));
-    	
-        pPrimaryStage.setScene(new Scene(button));
-        pPrimaryStage.show();
-    }
+      pPrimaryStage.setScene(new Scene(button));
+      pPrimaryStage.show();
+   }
 }
 ```
