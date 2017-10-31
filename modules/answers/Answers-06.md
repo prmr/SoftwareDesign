@@ -33,3 +33,138 @@ public void newNumber()
 The sequence required to update the observers becomes a bit more complex:
 
 ![](m06-2b.png)
+
+## Exercise 3
+
+The minimal code to exercise all parts of the pattern is shown below.
+
+```java
+public class Inventory
+{
+	private List<Item> aItems = new ArrayList<>();
+	private List<AdditionObserver> aAdditionObservers = new ArrayList<>();
+	private List<RemovalObserver> aRemovalObservers = new ArrayList<>();
+	
+   public static void main(String[] args)
+	{
+		Inventory inventory = new Inventory();
+		PieChart pieChart = new PieChart();
+		ListView listView = new ListView();
+		TransactionLogger logger = new TransactionLogger();
+		inventory.addAdditionObserver(pieChart);
+		inventory.addAdditionObserver(listView);
+		inventory.addAdditionObserver(logger);
+		inventory.addRemovalObserver(pieChart);
+		inventory.addRemovalObserver(listView);
+		
+		Item item1 = new Item("Stapler");
+		Item item2 = new Item("Toaster");
+		inventory.addItem(item1);
+		inventory.addItem(item2);
+		inventory.removeItem(item1);
+	}
+	
+	public void addAdditionObserver( AdditionObserver pObserver )
+	{
+		aAdditionObservers.add(pObserver);
+	}
+	
+	public void addRemovalObserver( RemovalObserver pObserver )
+	{
+		aRemovalObservers.add(pObserver);
+	}
+	
+	public void addItem(Item pItem)
+	{
+		aItems.add(pItem);
+		notifyAdditionObservers(pItem);
+	}
+	
+	public void removeItem(Item pItem)
+	{
+		aItems.remove(pItem);
+		notifyRemovalObservers(pItem);
+	}
+	
+	private void notifyAdditionObservers(Item pItem)
+	{
+		for( AdditionObserver observer : aAdditionObservers )
+		{
+			observer.itemAdded(pItem);
+		}
+	}
+	
+	private void notifyRemovalObservers(Item pItem)
+	{
+		for( RemovalObserver observer : aRemovalObservers )
+		{
+			observer.itemRemoved(pItem);
+		}
+	}
+}
+
+interface AdditionObserver
+{
+	void itemAdded(Item pItem);
+}
+
+interface RemovalObserver
+{
+	void itemRemoved(Item pItem);
+}
+
+class Item
+{
+	private String aName;
+	
+	public Item(String pName)
+	{
+		aName = pName;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return aName;
+	}
+}
+
+class PieChart implements AdditionObserver, RemovalObserver
+{
+	@Override
+	public void itemRemoved(Item pItem)
+	{
+		System.out.println("Removed " + pItem + " from PieChart");		
+	}
+
+	@Override
+	public void itemAdded(Item pItem)
+	{
+		System.out.println("Added " + pItem + " to PieChart");		
+	}
+}
+
+class ListView implements AdditionObserver, RemovalObserver
+{
+	@Override
+	public void itemRemoved(Item pItem)
+	{
+		System.out.println("Removed " + pItem + " from ListView");		
+	}
+
+	@Override
+	public void itemAdded(Item pItem)
+	{
+		System.out.println("Added " + pItem + " to ListView");		
+	}
+}
+
+class TransactionLogger implements AdditionObserver
+{
+	@Override
+	public void itemAdded(Item pItem)
+	{
+		System.out.println("Logged addition of " + pItem) ;		
+	}
+}
+```
