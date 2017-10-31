@@ -36,7 +36,7 @@ The sequence required to update the observers becomes a bit more complex:
 
 ## Exercise 3
 
-The minimal code to exercise all parts of the pattern is shown below.
+The minimal code to exercise all parts of the pattern is shown below. The skeleton implements the last version of the design discussed in the case study.
 
 ```java
 public class Inventory
@@ -45,7 +45,7 @@ public class Inventory
 	private List<AdditionObserver> aAdditionObservers = new ArrayList<>();
 	private List<RemovalObserver> aRemovalObservers = new ArrayList<>();
 	
-   public static void main(String[] args)
+	public static void main(String[] args)
 	{
 		Inventory inventory = new Inventory();
 		PieChart pieChart = new PieChart();
@@ -168,3 +168,14 @@ class TransactionLogger implements AdditionObserver
 	}
 }
 ```
+
+## Exercise 4
+
+The class diagram. A useful variant would be to add dependencies between concrete observers (e.g., `DeckView`) and the `GameModel`, since the callbacks mostly access the game model.
+
+![](m06-4a.png)
+
+The sequence diagram starts the sequence with a "client" calling `perform` on a `CardMove` target. This happens in the GUI code. Note that the model leaves out numerous details, among others the non-trivial logic in `GameModel.move(...)`, so as to focus on illustrating the behavior relevant to the observer pattern. Many instances of `GameModelListener` are left
+out to avoid cluttering the diagram.
+
+![](m06-4b.png)
