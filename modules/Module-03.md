@@ -111,7 +111,7 @@ public boolean equals(Object pObject)
 }
 ```
 
-We will revisit some of the details of the overriding mechanism in Module 7. For now, it suffices to say that if the `equals` method is *redefined* (or *overriden*) in a class, calling `equals` on an object of this class will result in the redefined method being executed. In our case, 
+We will revisit some of the details of the overriding mechanism in Module 7. For now, it suffices to say that if the `equals` method is *redefined* (or *overridden*) in a class, calling `equals` on an object of this class will result in the redefined method being executed. In our case, 
 
 ```java
 card1.equals(card2)
@@ -125,7 +125,7 @@ A final consideration related to identity and equality is the concept of **uniqu
 
 ### Sharing References with Anonymous Classes and Lambda Expressions
 
-[Module 1](Module-01.md) introduced the concept of *encapsulation*, and this module focused on the careful management of objects and their state. One common programming language featurel, *anonymous classes and functions* requires careful consideration to ensure references to objects are not shared by accident.
+[Module 1](Module-01.md) introduced the concept of *encapsulation*, and this module focused on the careful management of objects and their state. One common programming language feature, *anonymous classes and functions* requires careful consideration to ensure references to objects are not shared by accident.
 
 As demonstrated in the code of [Hand.createByRankComparator](answers/Hand.java), methods of Java anonymous classes have access to an interesting scope that seems to include the local variables of the parent method.
 
@@ -186,7 +186,7 @@ The Singleton design pattern provides a principled way to ensure that there is *
 
 **Discussion:**
 
-The Singleton pattern differs from the Flyweight in that it attempts to guarantee that there is *a single instance of a class*, as opposed to *unique instances of a class*. Singleton objects are typically stateful, wheras Flyweights should be immutable. 
+The Singleton pattern differs from the Flyweight in that it attempts to guarantee that there is *a single instance of a class*, as opposed to *unique instances of a class*. Singleton objects are typically stateful, whereas Flyweights should be immutable. 
 
 A typical mistake when implementing the Singleton pattern is to store a reference to an instance of the class in a static field called `INSTANCE` or something like it, without taking proper care to prevent client code from independently creating new objects. For example, class `ClosedInputStream` of the Apache Commons IO library defines a ["singleton" field](https://github.com/apache/commons-io/blob/ffcbfdc80ed7ca7ffce883f615f710beabd9e06c/src/main/java/org/apache/commons/io/input/ClosedInputStream.java#L36), but the class is not really a singleton because it is re-instantiated in different parts of the library, for example [here](https://github.com/apache/commons-io/blob/ffcbfdc80ed7ca7ffce883f615f710beabd9e06c/src/main/java/org/apache/commons/io/input/CloseShieldInputStream.java#L49) and [here](https://github.com/apache/commons-io/blob/ffcbfdc80ed7ca7ffce883f615f710beabd9e06c/src/main/java/org/apache/commons/io/input/AutoCloseInputStream.java#L65). In this case, use of the Singleton name is harmfully misleading, because users of the library may rely on the fact that the class supports a single instance when it does not.
 

@@ -184,7 +184,7 @@ public void testCreateFileFilteAcceptDirectory()
 }
 ```
 
-except that it does not directly call the UUT, but a wrapper that uses metaprogramming to call the UUT while by-passig the access restriction of the `private` keyword.
+except that it does not directly call the UUT, but a wrapper that uses metaprogramming to call the UUT while by-passing the access restriction of the `private` keyword.
 
 ### Testing with Stubs
 
@@ -289,7 +289,7 @@ Consider the full implementation of the `roots` function:
 
 Here we can intuitively see that the code structure has three "natural" pieces that correspond to the three branches of the `if-else` statement. According to the principles of structural testing we would want to find test cases that at least execute these three pieces. For example: `(3,4,1),(0,0,1),(3,2,1)`.
 
-To support formal reasoning about code structure, we rely on the concept of a **control-flow graph (CFG)**. A CFG is a model of a UUT that represents all possible paths of execution through the CFG. Nodes in the graph correspond to either **basic blocks** or **banching statements**. Basic blocks are sequences of statements with a single entry and exit point (they are always executed together). Edges in the graph represent possible **control flow**, that is, the possibility that the program execution proceeds from one node to another. The figure below shows the CFG for the roots function. In this diagram circles represent start and end nodes, boxes represent basic blocks, and diamonds represent branching statements, with the control flow for both true (solid) and false (dashed) conditions.
+To support formal reasoning about code structure, we rely on the concept of a **control-flow graph (CFG)**. A CFG is a model of a UUT that represents all possible paths of execution through the CFG. Nodes in the graph correspond to either **basic blocks** or **branching statements**. Basic blocks are sequences of statements with a single entry and exit point (they are always executed together). Edges in the graph represent possible **control flow**, that is, the possibility that the program execution proceeds from one node to another. The figure below shows the CFG for the roots function. In this diagram circles represent start and end nodes, boxes represent basic blocks, and diamonds represent branching statements, with the control flow for both true (solid) and false (dashed) conditions.
 
 ![CFG Example](figures/m04-CFG.png)
 
@@ -324,7 +324,7 @@ Test coverage is typically computed by tools that *instrument* the source or byt
 
 ### Acknowledgements
 
-The part of this module on test case selection and structural testing was adapted from a lecture originally created by Prof. Andreas Zeller based on material from the book "Software Testing and Analysis: Process, Principles, and Techniques”, by Pezze & Young, Wiley, 2008
+The part of this module on test case selection and structural testing was adapted from a lecture originally created by Prof. Andreas Zeller based on material from the book "Software Testing and Analysis: Process, Principles, and Techniquesï¿½, by Pezze & Young, Wiley, 2008
 
 ## Reading
 
