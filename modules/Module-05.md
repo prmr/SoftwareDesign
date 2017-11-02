@@ -153,7 +153,7 @@ This allows other objects to check whether an object can be cloned, e.g.:
 if( o instanceof Cloneable ) { clone = o.clone(); }
 ```
 
-The second step is to **override the `clone` method**. The method `Object clone()` is defined in class `Object`, but its access modifier is `protected`, so methods that don't have access to the cloneable class's target method can't see it. When overriding `clone`, it is therefore necessary to *widen its visibily* to `public`.
+The second step is to **override the `clone` method**. The method `Object clone()` is defined in class `Object`, but its access modifier is `protected`, so methods that don't have access to the cloneable class's target method can't see it. When overriding `clone`, it is therefore necessary to *widen its visibility* to `public`.
 
 ```java
 @Override
@@ -163,7 +163,7 @@ public Card clone()
 
 Note that since Java 5 it is possible to change the return type from the original `Object` to the more specific `Card` (this feature is called a *covariant return type*).
 
-The overriden clone method needs to create a new object of the same class. For reason that will become clearer in Module 7, this **should only be done by calling `super.clone()`**, not by calling a constructor.
+The overridden clone method needs to create a new object of the same class. For reason that will become clearer in Module 7, this **should only be done by calling `super.clone()`**, not by calling a constructor.
 
 ```java
 @Override
@@ -174,7 +174,7 @@ public Card clone()
 ```
 
 The statement `super.clone` calls the `clone` method in the superclass, which here means method `Object.clone`. This method is very special. It uses metaprogramming features to return *an object of the class from where the call to the method originates*. This is special because although the method is implemented in the library class `Object`, it still returns a new instance of class `Card`.
-Method `Object.clone` is special because it also does not create a "fresh" instance of the class by internally calling the default constructor (sometimes there isn't even a default constructor). Instead, it reflectively creates a new instance of the class initialized by making a shallow copy of all the instances fields. Whenever a shallow copy is not sufficient, the overriden `clone` method must perform additional steps to more deeply copy some of the fields.
+Method `Object.clone` is special because it also does not create a "fresh" instance of the class by internally calling the default constructor (sometimes there isn't even a default constructor). Instead, it reflectively creates a new instance of the class initialized by making a shallow copy of all the instances fields. Whenever a shallow copy is not sufficient, the overridden `clone` method must perform additional steps to more deeply copy some of the fields.
 
 For example, a reasonable implementation of `clone` of a class `Deck` would look like this:
 
@@ -233,7 +233,7 @@ In this code example, an instance of `ElementCreator` is capable of creating any
 
 ### The Command Design Pattern
 
-Conceptually a command is a piece of code that accomplishes something: saving a file, adding a node to a diagram, etc. Intuitively the way to represent a command in a program easily maps to the concept of a function or method, since that is an abstraction that corresponds to a piece of code that will execute. However, an often-useful design idom is to instead use an entire object to represent a command and to act on commands polymorphically. The UML Class Diagram below shows how this can be achieved.
+Conceptually a command is a piece of code that accomplishes something: saving a file, adding a node to a diagram, etc. Intuitively the way to represent a command in a program easily maps to the concept of a function or method, since that is an abstraction that corresponds to a piece of code that will execute. However, an often-useful design idiom is to instead use an entire object to represent a command and to act on commands polymorphically. The UML Class Diagram below shows how this can be achieved.
 
 ![](figures/m05-command.png)
 
