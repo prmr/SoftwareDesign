@@ -199,7 +199,7 @@ public void start(Stage pPrimaryStage)
 }
 ```
 
-Here the `main` method does not start executing the application code: instead, it simply calls the static method `Application.launch`. This method executes a number of background tasks and, when it is ready, it calls the `launch` method (the `launch` method is, in that sense, a callback). As shown above, the `launch` method builds the component graph and, once that's done, it calls `show` on the object that represents the top-level GUI element, at which point the GUI application becomes visible and reactive.
+Here the `main` method does not start executing the application code: instead, it simply calls the static method `Application.launch`. This method executes a number of background tasks and, when it is ready, it calls the `start` method (the `start` method is, in that sense, a callback). As shown above, the `launch` method builds the component graph and, once that's done, it calls `show` on the object that represents the top-level GUI element, at which point the GUI application becomes visible and reactive.
 
 
 #### Event Handling
