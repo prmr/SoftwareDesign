@@ -8,7 +8,7 @@ This textbook provides an in-depth introduction to software design, with a focus
 
 ## Contributing to this Repository
 
-I welcome corrections and suggestions. If you spot errors in the material please check the [issue list](https://github.com/prmr/SoftwareDesign/issues) and open a new one as appropriate. Constructive feedback is acknowledge [below](#acknowledgment). Please note that I do not accept pull requests on this repo.
+I welcome corrections and suggestions. If you spot errors in the material please check the [issue list](https://github.com/prmr/SoftwareDesign/issues) and open a new one as appropriate. Constructive feedback is acknowledged [below](#acknowledgment). Please note that I do not accept pull requests on this repo.
 
 ## Module 0 - Preparation
 
