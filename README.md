@@ -4,7 +4,11 @@ This textbook provides an in-depth introduction to software design, with a focus
 
 * **Concrete:** The concepts presented are worked down to a level where they are directly applied in source code. For this reason, a minimum level of Java programming proficiency is necessary. It is important to note that the Java programming language is the learning tool that allows me to illustrate and discuss various design concepts: it is not the subject being taught. Learning software design in-depth requires the use of a programming language, but the knowledge gained is expected translate easily to other languages. This being said, we might as well choose a mature, free, and well-supported language. Translation of the material to use [Plankalk&uuml;l](https://en.wikipedia.org/wiki/Plankalk%C3%BCl) is left as an exercise.
 * **Narrative:** This text follows a narrative style that links design problems, concepts, and solutions into a cohesive package. This is in contrast to reference material such as design pattern catalogs or API documentation.
-* **Foundational:** *To the extent possible*, this material attempts to be independent from any specific technological solution, and in particular software application frameworks. Frameworks are invaluable for realistic development, but their continual evolution means that idiosyncratic knowledge required to use them has a short expectation of usefulness. Rather, this text focuses on general principles and techniques that underly most frameworks.
+* **Foundational:** *To the extent possible*, this material attempts to be independent from any specific technological solution, and in particular software application frameworks. Frameworks are invaluable for realistic development, but their continual evolution means that idiosyncratic knowledge required to use them has a short expectation of usefulness. Rather, this text focuses on general principles and techniques that underlie most frameworks.
+
+## Contributing to this Repository
+
+I welcome corrections and suggestions. If you spot errors in the material please check the [issue list](https://github.com/prmr/SoftwareDesign/issues) and open a new one as appropriate. Constructive feedback is acknowledge [below](#acknowledgment). Please note that I do not accept pull requests on this repo.
 
 ## Module 0 - Preparation
 
@@ -71,6 +75,15 @@ This module will explore design solutions that incorporate design patterns an in
 Sometimes, the data in a running program needs to be transferred out of the program, for example to be stored in a file or transmitted over a network. In this module, I will cover the main techniques for serializing object graphs using a variety of frameworks including Java's binary serialization and JavaBeans frameworks and JSON serialization APIs. This module will also feature an introduction to the agile development practice called refactoring.
 
 [Module Notes](modules/Module-10.md)
+
+## Acknowledgment
+
+I have taught software design for close to a decade using Cay Hostmanns' book "Object-Oriented Design and Pattern, 2nd edition" (Wiley 2006). Although I have progressively developed my own way to introduce and present software design, Horstmann's text was a crucial influence in this progression. The part of module 4 on test case selection and structural testing was adapted from a lecture originally created by Prof. Andreas Zeller based on material from the book "Software Testing and Analysis: Process, Principles, and Techniques”, by Pezze & Young (Wiley, 2008).
+By now the content of this repository has been scrutinized by hundreds of bright eyes and sharp minds (in roughly 2 to 1 proportions). I am grateful to all those who have taken the time to report errors and suggest improvement: 
+[Nima Adibpour](https://github.com/nima200),
+[Ashley Stendel](https://github.com/ashley-stendel)
+[Allan Wang](https://github.com/AllanWang)
+
 
 ## License
 
