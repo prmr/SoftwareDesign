@@ -171,3 +171,122 @@ public class Program
 
 Here, overriding `toString()` in the various classes in the sample code would open up a whole range of possibilities 
 for logging commands with more useful information.
+
+## Exercise 8
+
+![](m05-8.png)
+
+## Exercise 9
+
+![](m05-9.png)
+
+## Exercise 10
+
+You will need two new classes, a `CompositeIcon` and a `ShiftedIcon`.
+
+```java
+public class CompositeIcon implements Icon
+{
+   private final List<Icon> aIcons = new ArrayList<>();
+	
+   public void addIcon(Icon pIcon)
+   {
+      aIcons.add(pIcon);
+   }
+	
+   @Override
+   public int getIconHeight()
+   {
+      int max = 0;
+      for( Icon icon : aIcons )
+      {
+         max = Math.max(max, icon.getIconHeight());
+      }
+      return max;
+   }
+
+   @Override
+   public int getIconWidth()
+   {
+      int max = 0;
+      for( Icon icon : aIcons )
+      {
+         max = Math.max(max, icon.getIconWidth());
+      }
+      return max;
+   }
+
+   @Override
+   public void paintIcon(Component pComponent, Graphics pGraphics, int pX, int pY)
+   {
+      for( Icon icon : aIcons )
+      {
+         icon.paintIcon(pComponent, pGraphics, pX, pY);
+      }
+   }
+}
+```
+
+```java
+public class ShiftedIcon implements Icon
+{
+   private final Icon aShiftedIcon;
+   private final int aX;
+   private final int aY;
+	
+   public ShiftedIcon(Icon pIcon, int pX, int pY)
+   {
+      aShiftedIcon = pIcon;
+      aX = pX;
+      aY = pY;
+   }
+	
+
+   @Override
+   public int getIconHeight()
+   {
+      return aShiftedIcon.getIconHeight() + aY;
+   }
+
+   @Override
+   public int getIconWidth()
+   {
+      return aShiftedIcon.getIconWidth() + aX;
+	}
+
+   @Override
+   public void paintIcon(Component pComponent, Graphics pGraphics, int pX, int pY)
+   {
+      aShiftedIcon.paintIcon(pComponent, pGraphics, pX + aX, pY + aY);
+   }
+}
+```
+
+With these two working it's just a matter of creating the desired icon within the constructor and callback in `HandPanel`:
+
+```java
+HandPanel()
+{
+   setBackground(CASINO_GREEN);
+   add(aLabel);
+   CompositeIcon icon = new CompositeIcon();
+   for( int i = 0; i < 13; i++ )
+   {
+      icon.addIcon(new ShiftedIcon(CardImages.getBack(), 20*i, 5 * i));
+   }
+   aLabel.setIcon(icon);
+}
+	
+public void showHand(Card[] pHand)
+{
+   Deck deck = new Deck();
+   deck.shuffle();
+   CompositeIcon icon = new CompositeIcon();
+   for( int i = 0; i < 13; i++ )
+   {
+      icon.addIcon(new ShiftedIcon(CardImages.getCard(deck.draw()), 20*i, 5 * i));
+   }
+   aLabel.setIcon(icon);
+}
+```
+
