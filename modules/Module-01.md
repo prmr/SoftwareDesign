@@ -214,7 +214,7 @@ If the internal objects that need to be exposed are *immutable*, then there's no
 ```
 public class Card
 {
-	Rank aRank = ...;
+	private Rank aRank = ...;
 	
 	public Rank getRank()
 	{
