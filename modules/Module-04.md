@@ -184,7 +184,7 @@ public void testCreateFileFilteAcceptDirectory()
 }
 ```
 
-except that it does not directly call the UUT, but a wrapper that uses metaprogramming to call the UUT while by-passig the access restriction of the `private` keyword.
+except that it does not directly call the UUT, but a wrapper that uses metaprogramming to call the UUT while by-passing the access restriction of the `private` keyword.
 
 ### Testing with Stubs
 
@@ -324,7 +324,7 @@ Test coverage is typically computed by tools that *instrument* the source or byt
 
 ### Acknowledgements
 
-The part of this module on test case selection and structural testing was adapted from a lecture originally created by Prof. Andreas Zeller based on material from the book "Software Testing and Analysis: Process, Principles, and Techniques”, by Pezze & Young, Wiley, 2008
+The part of this module on test case selection and structural testing was adapted from a lecture originally created by Prof. Andreas Zeller based on material from the book "Software Testing and Analysis: Process, Principles, and Techniques", by Pezze & Young, Wiley, 2008
 
 ## Reading
 

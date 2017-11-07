@@ -78,11 +78,12 @@ Sometimes, the data in a running program needs to be transferred out of the prog
 
 ## Acknowledgment
 
-I have taught software design for close to a decade using Cay Hostmanns' book "Object-Oriented Design and Pattern, 2nd edition" (Wiley 2006). Although I have progressively developed my own way to introduce and present software design, Horstmann's text was a crucial influence in this progression. The part of module 4 on test case selection and structural testing was adapted from a lecture originally created by Prof. Andreas Zeller based on material from the book "Software Testing and Analysis: Process, Principles, and Techniques", by Pezze & Young (Wiley, 2008).
-By now the content of this repository has been scrutinized by hundreds of bright eyes and sharp minds (in roughly 2 to 1 proportions). I am grateful to all those who have taken the time to report errors and suggest improvement: 
+I have taught software design for close to a decade using Cay Hostmanns' book "Object-Oriented Design and Pattern, 2nd edition" (Wiley 2006). Although I have progressively developed my own way to introduce and present the material, Horstmann's text was a crucial influence in this progression. The part of module 4 on test case selection and structural testing was adapted from a lecture originally created by Andreas Zeller based on material from the book "Software Testing and Analysis: Process, Principles, and Techniques", by Pezze & Young (Wiley, 2008).
+By now the content of this repository has been scrutinized by hundreds of bright eyes and sharp minds (in roughly 2 to 1 proportions). I am grateful to those who have taken the time to report errors and suggest improvement: 
 [Nima Adibpour](https://github.com/nima200),
-[Ashley Stendel](https://github.com/ashley-stendel)
-[Allan Wang](https://github.com/AllanWang)
+[Ashley Stendel](https://github.com/ashley-stendel),
+[Allan Wang](https://github.com/AllanWang),
+[dreaming-dog](https://github.com/dreaming-dog)
 
 
 ## License

@@ -136,11 +136,11 @@ Given these three concepts, we can summarize that creating and executing a GUI a
 
 #### The Component Graph
 
-The component graph can be seen from 4 different perspective (old image using Swing, to be updated eventually):
+The component graph can be seen from four different perspectives (old image using Swing, to be updated eventually):
 
 ![](figures/m06-ComponentGraph.png)
 
-In JavaFX the type hierarchy available to define component is extensive, the following is an incomplete simplification:
+In JavaFX, the type hierarchy available to define component is extensive; the following is an incomplete simplification:
 
 ![](figures/m06-JavaFX.png)
 
@@ -148,7 +148,7 @@ The following code from the [LuckyNumber sample](https://github.com/prmr/Softwar
 construction of a component graph:
 
 ```java
- @Override
+@Override
 public void start(Stage pPrimaryStage) 
 {
    ... 	
@@ -176,7 +176,7 @@ private static GridPane createPane()
 Frameworks differ from libraries in an essential way: they control the flow of the program and only call
 into application (i.e., developer-defined) code when they "decide". For this reason frameworks follow a paradigm called
 "inversion of control". Inversion of control is directly related to the observer pattern, since the framework determines
-when GUI elements (the subjects) trigger notification to their observers (the even handlers).
+when GUI elements (the subjects) trigger notification to their observers (the event handlers).
 
 ![](figures/m06-framework-a.png)
 

@@ -20,7 +20,7 @@ After this module you should:
 
 ### General Concepts and Definitions
 
-The idea of **encapsulation** is to "to enclose in or as if in a capsule" [[Merriam-Webster](https://www.merriam-webster.com/dictionary/Encapsulation)]. For example, you can think of a nut, which is encapsulated in its shell. The shell, or capsule, serves as protection. In software design we encapsulate both data and computation both to protect them from corruption, and to simplify the design. Encapsulation in software design is related to the principle of **information hiding**, which has been around since the early 1970s. According to [Vogel et al.](http://link.springer.com/book/10.1007/978-3-642-19736-9) "The principle generally states that you only show a client that part of the total information that is really necessary for the client’s task and you hide all remaining information."
+The idea of **encapsulation** is to "to enclose in or as if in a capsule" [[Merriam-Webster](https://www.merriam-webster.com/dictionary/Encapsulation)]. For example, you can think of a nut, which is encapsulated in its shell. The shell, or capsule, serves as protection. In software design we encapsulate both data and computation both to protect them from corruption, and to simplify the design. Encapsulation in software design is related to the principle of **information hiding**, which has been around since the early 1970s. According to [Vogel et al.](http://link.springer.com/book/10.1007/978-3-642-19736-9) "The principle generally states that you only show a client that part of the total information that is really necessary for the client's task and you hide all remaining information."
 
 One of the first problems we will tackle in this module is to design an abstraction that can conveniently represent a single playing card. In a standard deck of cards there are 52 distinct cards and any given card can be completely defined by its *suit* (Hearts, Spades, Diamonds, Clubs) and its *rank* (Ace, 2, 3,...,10, Jack, Queen, King). In a program we can represent a playing card in many different ways. For example, using a single integer between 0 and 51 where the value of the integer somehow represents the card. Or, we could represent a card using a combination of 6 boolean values (insane but technically possible). Here to apply the principle of information hiding, we would organize our program structure so as to *hide* the decision of how exactly we represent a card in the program.
 
@@ -39,7 +39,7 @@ One of the main mechanisms we use to define abstractions in type-based object-or
 
 Consider the following bad example:
 
-```
+```java
 int card = 0; // The ace of clubs
 ```
 
@@ -49,13 +49,13 @@ For this reason it's generally a bad idea to try to shoehorn domain concepts int
 
 In other cases we want to use our own type (or one defined by a library):
 
-```
+```java
 class Card {}
 ```
 
 If we started to design this type, we would quickly realize that our program also needs to manipulate two other types of values: *suits* and *ranks*. These types of values are a bit different because they are more like labels for domain objects than actual objects. What makes them feel like labels are that there are a finite number of them for a particular type of values (e.g., 4 for suits), and it appears to be useless to have two or more instances representing a given suit (e.g., clubs). In fact values of these types would be used more or less as *constants* in a program.
 
-```
+```java
 private static int CLUBS = 0;
 private static int HEARTS = 1;
 ...
@@ -63,7 +63,7 @@ private static int HEARTS = 1;
 
 There is a specific mechanism for representing these kinds of values called the [Enumerated Type](https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html), or "enum types" for short. It's better to avoid the single colloquial term "enum" because it's not clear whether it refers to an enumerated type or a value of this type. Enumerated types are a truly powerful feature for software design, and I will use them extensively throughout this course. The one slight weakness of enumerated types in Java is that in addition to the enumerated values:
 
-```
+```java
 public enum Suit
 {
 	CLUBS, DIAMONDS, SPADES, HEARTS
@@ -72,7 +72,7 @@ public enum Suit
 
 a variable of an enumerated type can also take the value `null`:
 
-```
+```java
 Suit suit = Suit.CLUBS;
 suit = null;
 ```
@@ -98,18 +98,18 @@ A bit of important terminology about various variable *scopes* that impact encap
 
 * **Object Scope**: Instance variables (a.k.a. non-static fields) denoted as `private` can (only) be accessed by methods that take the same instance as implicit parameters (i.e., methods on the same object). These are considered to be in the object scope. The "object scope" is a useful concept for design, especially when considering the problem of escaping references (see below). However, the concept of an object scope is not supported by the Java language, which has a strictly static view of scopes. In Java, instances variables ("fields") are placed in the *class scope*, which approximates the idea of the object scope, but provides additional flexibility when implementing things like copy constructors (or the `equals` method, something we will see later). Consider the code below:
 
-```
+```java
 public class Card
 {
-	private Rank aRank;
-	private Suit aSuit;
+   private Rank aRank;
+   private Suit aSuit;
 
-	public Card( Card pCard )
-	{
-		aRank = pCard.aRank;
-		aCard = pCard.aSuit;
-	}
-	...
+   public Card( Card pCard )
+   {
+      aRank = pCard.aRank;
+      aCard = pCard.aSuit;
+   }
+   ...
 ```
 
 Here the code in the constructor can see the private `aRank` and `aSuit` fields of a *different* `Card` object, because the references happen between members of the same class. This situation can be a bit confusing at first, but it's good to remember that it's somewhat of a special case. For all the code except the methods of `Card`, the object scope and the class scope will overlap. 
@@ -128,23 +128,23 @@ One of the ways we can achieve good encapsulation is to always define variables 
 * **The door was not closed:** If an instance variable is assigned a value obtained from a parameter, the caller of the method retains a reference to the object, which means the value is not properly captured by the object scope. One solution here is to copy the object before assigning it.
 * **The back door is open:** If a reference to an instance variable is stored within an object that can be referenced from outside the object scope, then the reference escapes the object scope. One solution here is to copy the object before storing it in the provided data structure, but often this kind of convoluted design can be improved to avoid the problem in the first place.
 
-```
+```java
 public class Deck
 {
-	/* There is no door */
-	public Stack<Card> aCards = new Stack<>();
+   /* There is no door */
+   public Stack<Card> aCards = new Stack<>();
 	
-	/* The front door is open */
-	public Stack<Card> getCards()
-	{ return aCards; }
+   /* The front door is open */
+   public Stack<Card> getCards()
+   { return aCards; }
 	
-	/* The door was not closed */
-	public void setStack(Stack<Card> pCards)
-	{ aCards = pCards; }
+   /* The door was not closed */
+   public void setStack(Stack<Card> pCards)
+   { aCards = pCards; }
 	
-	/* The back door is open */
-	public void applyAll( List<Stack<Card>> pTaskList )
-	{ pTaskList.add(aCards); }
+   /* The back door is open */
+   public void applyAll( List<Stack<Card>> pTaskList )
+   { pTaskList.add(aCards); }
 }
 ```
 
@@ -154,12 +154,12 @@ The idea of [Design by Contract](https://en.wikipedia.org/wiki/Design_by_contrac
 
 A typical case where Design by Contract is useful is to specify whether `null` is a legal input or not. Consider the following constructor for a `Card` class:
 
-```
+```java
 public class Card
 {
-	public Card(Rank pRank, Suit pSuit)
-	{
-		...
+   public Card(Rank pRank, Suit pSuit)
+   {
+      ...
 ```
 
 Is it legal to pass in a `null` value for `pRank` and/or `pSuit`? Maybe, maybe not. A helpful programmer could put this in the Javadocs, which is better than nothing. Design by Contract goes further and provides a formal framework for reasoning about this kind of interface information. There's a lot to say about Design by Contract. Here I only summarize what I use in the course.
@@ -168,19 +168,19 @@ The idea of Design by Contract is for method signatures (and complementary meta-
 
 In this course I adopt a lightweight version of Design by Contract where preconditions are specified using Java statements in the Javadoc using the `@pre` tag and, more rarely, postconditions are specified using the tag `@post`. 
 
-```
-	/**
-	 * ...
-	 * @pre pRank != null && pSuit != null
-	 */
-	public Card(Rank pRank, Suit pSuit)
-	{
-		...
+```java
+   /**
+    * ...
+    * @pre pRank != null && pSuit != null
+    */
+   public Card(Rank pRank, Suit pSuit)
+   {
+      ...
 ```
 
 It is possible to make pre- and postconditions (and any other predicate) *checkable* in Java using the `assert` statement:
 
-```
+```java
 assert pRank != null && pSuit != null;
 ```
 
@@ -194,15 +194,15 @@ A final note about Design by Contract is that the addition of preconditions to a
 for a certain type of input (like null values) and produces a well-defined behavior as the result, then this is part
 of the official interface specification! When designing method interfaces, it is important to decide whether the method will be in charge of rejecting illegal values, or whether these will simply be specified as invalid. These are two different design choices.
 
-```
-	/**
-	 * ...
-	 * @pre pRank != null && pSuit != null
-	 */
-	public Card(Rank pRank, Suit pSuit) 
-	{
-		if( pRank != null || pSuit != null ) throw new IllegalArgumentException()
-		...
+```java
+   /**
+    * ...
+    * @pre pRank != null && pSuit != null
+    */
+   public Card(Rank pRank, Suit pSuit) 
+   {
+      if( pRank != null || pSuit != null ) throw new IllegalArgumentException()
+      ...
 ```
 
 ### Exposing Encapsulated Information
@@ -211,26 +211,26 @@ In a great majority of cases the objects of the classes we design will need to e
 
 If the internal objects that need to be exposed are *immutable*, then there's no issue. For example, a `Card` object returns its rank:
 
-```
+```java
 public class Card
 {
-	Rank aRank = ...;
+   private Rank aRank = ...;
 	
-	public Rank getRank()
-	{
-		return aRank;
-	}
-	...
+   public Rank getRank()
+   {
+      return aRank;
+   }
+   ...
 ```
 
 but the value returned is of the enumerated type `Rank`, which is immutable, so even if the reference to `aRank` is allowed to escape the object scope, whatever other parts of the program get a hold of it can't do anything to the `Rank` object that is referenced, so, it's all good.
 
 But what if the object that is referenced is *mutable*, as in the case of the stack encapsulated by a `Deck` class?
 
-```
+```java
 public class Deck
 {
-	private final Stack<Card> aCards = new Stack<>();
+   private final Stack<Card> aCards = new Stack<>();
 ```
 
 If *it is really necessary* to provide information about the stack to other objects, we don't want to do this by returning a reference to the mutable stack. Several options are possible:
@@ -250,18 +250,18 @@ Here we focus on copy constructors. The other strategies require more advanced m
 A copy constructor is simply a constructor that takes in a parameter of the same type as the class whose objects should be copied, and copies the 
 information from the argument object to the invoked object. For example for a `Card`:
 
-```
+```java
 public class Card
 {
-	private Rank aRank;
-	private Suit aSuit;
+   private Rank aRank;
+   private Suit aSuit;
 	
-	/** Copy constructor */
-	public Card( Card pCard )
-	{
-		aRank = pCard.aRank;
-		aSuit = pCard.aSuit;
-	}
+   /** Copy constructor */
+   public Card( Card pCard )
+   {
+      aRank = pCard.aRank;
+      aSuit = pCard.aSuit;
+   }
 }
 ```
 

@@ -423,7 +423,7 @@ Although nominally simple, in practice instantiating a Strategy pattern requires
 
 ![Strategy Pattern - Abstract](figures/m02-strategy2.png)
 
-Here the design of the Strategy interface is already decided because we are reusing the `Comparator` interface. This strategy is purely functional as it does not have any side-effect and returns the result of applying the (comparison) algorithm. At this point it should become a bit clearer that implementing the `Comparator` inteface as a `UniversalComparator` that holds a value to decide what kind of comparison to do, is not a proper instances of the Strategy pattern.
+Here the design of the Strategy interface is already decided because we are reusing the `Comparator` interface. This strategy is purely functional as it does not have any side-effect and returns the result of applying the (comparison) algorithm. At this point it should become a bit clearer that implementing the `Comparator` interface as a `UniversalComparator` that holds a value to decide what kind of comparison to do, is not a proper instances of the Strategy pattern.
 
 ### The Interface Segregation Principle
 
