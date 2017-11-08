@@ -27,7 +27,7 @@ So far we have seen many situations where we can leverage polymorphism to realiz
 
 ![](figures/m07-polymorphism.png)
 
-However, one limitation of this design becomes immediately apparent when we try to implement it. In this design, the root of the type hierarchy is an *interface*, so it defines services without providing any implementation for them. However, the kinds of services it defines, such as being able to return a name for an employee, are likely to be implemented in an identical way by each client. For example:
+However, one limitation of this design becomes immediately apparent when we try to implement it. In this design, the root of the type hierarchy is an *interface*, so it defines services without providing any implementation for them. However, the kinds of services it defines, such as being able to return a name for an employee, are likely to be implemented in an identical way by each class. For example:
 
 ```java
 public class Programmer implements Employee
@@ -59,7 +59,7 @@ public class Manager extends Employee
    private int aBonus;
 ```
 
-To understand the effect of inheritance on a program, it's important to remember that a class is essentially a *template for creating objects*. Defining a subclass (e.g., `Manager`) as an extension of a superclass (e.g., `Employee`) means that when objects of the subclass are instantiated with the `new` keyword, the objects will be created by collating all the declarations of the subclass and all of its superclasses. The result will be a *single* object. The run-time type of this object will be the type specified in the `new` statement. However, just like interface implementation, class extension induces a suptyping relations. In this sense, objects of a subclass can always be assigned to a variable of any of its superclasses (in addition to its implementing interfaces):
+To understand the effect of inheritance on a program, it's important to remember that a class is essentially a *template for creating objects*. Defining a subclass (e.g., `Manager`) as an extension of a superclass (e.g., `Employee`) means that when objects of the subclass are instantiated with the `new` keyword, the objects will be created by collating all the declarations of the subclass and all of its superclasses. The result will be a *single* object. The run-time type of this object will be the type specified in the `new` statement. However, just like interface implementation, class extension induces a suptyping relation. In this sense, an object can always be assigned to a variable of any of its superclasses (in addition to its implementing interfaces):
 
 ```java
 Employee alice = new Manager();
@@ -70,6 +70,25 @@ In the code above, a new object of (run-time) type `Manager` is created and assi
 ```java
 Manager manager = (Manager) alice;
 ```
+
+In this module, the distinction between **compile-time** type and **run-time** type will become increasingly important. The run-time type of an object is the (most specific) type of an object when it is instantiated, usually through the `new` keyword. It is the type that is returned by method `getClass()`. The run-time type of an object never changes for the duration of the object's life-time. In contrast, the compile-time (or static) type of an object is the type of the *variable* in which an object is stored. In a correct program the static type of an object can correspond to its run-time type, or to any supertype of its run-time type. The static type of an object can be different at different points in the program, depending on the variables in which an object is stored. Consider the following example:
+
+```java
+1  public static boolean isManager(Object pObject)
+2  {
+3     return pObject instanceof Manager;
+4  }
+5
+6  public static void main(String[] args)
+7  {
+8     Employee alice = new Manager();
+9     Manager manager = (Manager) alice;
+10    boolean isManager1 = isManager(alice);
+11    boolean isManager2 = isManager(manager);
+12 }
+```
+
+Here at line 8 an object is created that is of run-time type `Manager` and assigned to a variable of (static) type `Employee`. As stated above, the run-time type of this object remains `Manager` throughout the execution of the program. However, at line 9 the static type of the object is `Manager`, and at line 3 it is `Object` (a formal parameter is a kind of variable, so the type of a parameter acts like a type of variable).
 
 ## Exercises
 
