@@ -16,7 +16,60 @@ After this module you should:
 ## Reading
 
 * Textbook Chapter 6;
+* The [Java Tutorial - Inheritance](https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html)
 * JetUML v1.0 The class hierarchy rooted at interface [Node](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/graph/Node.java)
+
+## Notes
+
+### Review of Inheritance
+
+So far we have seen many situations where we can leverage polymorphism to realize various design features. Generally speaking polymorphism makes a design *extensible* and *reusable*. For example, the small design below is extensible because it is possible to add new types of employees without disrupting the existing design. Similarly, features that work with one type of employee can be reused on other types of employees.
+
+![](figures/m07-polymorphism.png)
+
+However, one limitation of this design becomes immediately apparent when we try to implement it. In this design, the root of the type hierarchy is an *interface*, so it defines services without providing any implementation for them. However, the kinds of services it defines, such as being able to return a name for an employee, are likely to be implemented in an identical way by each client. For example:
+
+```java
+public class Programmer implements Employee
+{
+   private String aName;
+   private int aSalary;
+   ...
+	
+public class Manager implements Employee
+{
+   private String aName;
+   private int aSalary;
+   private int aBonus;	
+   ...
+```
+
+So here we could say that the design induces *code duplication*, which is generally not desirable. There is an extensive 
+literature on the topic of [code clones](https://en.wikipedia.org/wiki/Duplicate_code), but the bottom line is that they should be avoided.
+
+One programming language mechanism readily available to avoid code duplication is *inheritance*. In Java and similar language, inheritance allows programmers to define a class (the subclass) with respect to a base class (or superclass). This avoid repeating declaration, since the declarations of the base class will be automatically taken into account when creating instances of the subclass.
+
+![](figures/m07-inheritance.png)
+
+In UML inheritance is denoted by a *solid line* with a white triangle pointing from the subclass to the superclass. In Java the subclass-superclass relation is declared using the `extends` keyword:
+
+```java
+public class Manager extends Employee
+{
+   private int aBonus;
+```
+
+To understand the effect of inheritance on a program, it's important to remember that a class is essentially a *template for creating objects*. Defining a subclass (e.g., `Manager`) as an extension of a superclass (e.g., `Employee`) means that when objects of the subclass are instantiated with the `new` keyword, the objects will be created by collating all the declarations of the subclass and all of its superclasses. The result will be a *single* object. The run-time type of this object will be the type specified in the `new` statement. However, just like interface implementation, class extension induces a suptyping relations. In this sense, objects of a subclass can always be assigned to a variable of any of its superclasses (in addition to its implementing interfaces):
+
+```java
+Employee alice = new Manager();
+```
+
+In the code above, a new object of (run-time) type `Manager` is created and assigned to a variable named `alice` of (compile-time) type `Employee`. This is legal because `Manager` is a subtype of `Employee`, just as in the initial case with the interface. Note that when an instance of `Manager` is assigned to a variable of type `Employee`, it does not "become" an employee or "lose" any of the manager-specific fields. In Java, once an object is created, its run-time type remains unchanged, and in this example it would be possible to safely assign the object back to a variable of type `Manager`:
+
+```java
+Manager manager = (Manager) alice;
+```
 
 ## Exercises
 
