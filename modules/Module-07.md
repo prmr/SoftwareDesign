@@ -90,9 +90,36 @@ In this module, the distinction between **compile-time** type and **run-time** t
 
 Here at line 8 an object is created that is of run-time type `Manager` and assigned to a variable of (static) type `Employee`. As stated above, the run-time type of this object remains `Manager` throughout the execution of the program. However, at line 9 the static type of the object is `Manager`, and at line 3 it is `Object` (a formal parameter is a kind of variable, so the type of a parameter acts like a type of variable).
 
+### Inheriting Fields
+
+With inheritance, the subclass *inherits* the declarations of the superclass. Conceptually, the consequences of inheriting field declarations are quite different from those of method declarations, so we will discuss these separately.
+
+Field declarations define state held by the instantiated object. When creating a new object with the `new` keyword, the object created will have a field for each field declared in the class named in the `new` statement, and each of its superclass, transitively. Given the following class hierarchy:
+
+```java
+class Employee
+{
+   private String aName;
+   private int aSalary;
+   ...
+   
+class Manager extends Employee
+{
+   private int aBonus;
+   ...
+```
+
+object created with the statement:
+
+```
+new Manager(...);
+```
+
+will have three fields: `aName`, `aSalary`, and `aBonus`. Note that it does not matter that the fields are private. Accessibility is a *static* concept: it is only relevant to the source code. The fact that the code in class `Manager` cannot see (or access) the fields declared its superclass does not change anything to the fact that these fields are inherited. For the fields to be accessible in subclasses, it is possible to declare them `protected` or to simple access their value through an accessor method (a.k.a. "getter").
+
 ## Exercises
 
-Exercises prefixed with **(+)** are optional, more challenging questions aimed to provide you with additional design and programming experience. Exercises prefixed with **(P)** (for "project") will incrementally guide you towards the ultimate completion of a complete Solitaire application.
+Exercises prefixed with :star: are optional, more challenging questions aimed to provide you with additional design and programming experience. Exercises prefixed with :spades: will incrementally guide you towards the ultimate completion of a complete Solitaire application.
 
 **Exercise 1.**
 
