@@ -22,19 +22,19 @@ Textbook: Section 10.6;
 
 ### Design Pattern Review Scenario
 
-We will explore how to combine design patterns by creating a design for a hypothetical mobile robotics system. In this system, a `Robot` class represents a three-wheeled robot with two active wheels and one free wheel that can also rotate around a pivot. The `Robot` class provides very basic control primitives through a method `void moveLeftWheel(double pRadians)` and a similar method for moving the right wheel. The `pRadians` parameter specifies how much to turn the wheel, e.g., `pRadians=2*PI` turns the wheel a full circle.
+We will explore how to combine design patterns by creating a design for a hypothetical mobile robotics system. In this system, a `Robot` class represents a three-wheeled robot with two active wheels and one free wheel that can also rotate around a pivot. The `Robot` class provides very basic control primitives through a method `void moveLeftWheel(double pRadians)` a similar method for moving the right wheel, and a similar method for moving both wheels in synch. The `pRadians` parameter specifies how much to turn the wheel, e.g., `pRadians=2*PI` turns the wheel a full circle.
 
 ![](figures/m08-robot.png)
 
 We want to expand this design to implement the following requirements:
 
-0. It should be possible to define higher-level commands for the robot in terms of the basic primitives. For example it should be possible to define a "Forward Move" command that moves both wheels by the same amount. The number of different commands should be extensible;
-0. Commands should be parameterizable, e.g., "move forward 1 meter" vs 2 meters, etc.
-0. Any command should be reversible;
-0. Commands should have a name that can be discoverable at run time. For example, a "Move forward 1 meter".
-0. It should be possible to aggregate commands into more complex "macro commands". For example, a "Back and Forth" command could involve a forward move followed by a backward move.
-0. It should be possible for components in the system other than the robot to be notified of commands issued on a `Robot` object. Three components interested in robot commands include a `CommandLogger` that prints all commands with a time stamp, `CommandRecorder` that can be issued a request to record commands (or to stop recording them), and to control the robot to replay the recording; a `RobotConsole` component that visually shows the path of the robot in a graphical user interface.
-0. The system should remember the last command issued to a robot, and provide a convenience method `reexecute()` to re-execute this command. The reexecution of the command should be considered a new, separate command.
+1. It should be possible to define higher-level commands for the robot in terms of the basic primitives. For example it should be possible to define a "Forward Move" command that moves both wheels by the same amount. The number of different commands should be extensible;
+2. Commands should be parameterizable, e.g., "move forward 1 meter" vs 2 meters, etc.
+3. Any command should be reversible;
+4. Commands should have a name that can be discoverable at run time. For example, a "Move forward 1 meter".
+5. It should be possible to aggregate commands into more complex "macro commands". For example, a "Back and Forth" command could involve a forward move followed by a backward move.
+6. It should be possible for components in the system other than the robot to be notified of commands issued on a `Robot` object. Three components interested in robot commands include a `CommandLogger` that prints all commands with a time stamp, `CommandRecorder` that can be issued a request to record commands (or to stop recording them), and to control the robot to replay the recording; a `RobotConsole` component that visually shows the path of the robot in a graphical user interface.
+7. The system should remember the last command issued to a robot, and provide a convenience method `reexecute()` to re-execute this command. The reexecution of the command should be considered a new, separate command.
 
 In addition to these requirements, the final design should exhibit a number of qualities:
 * Effective code reuse: the design should limit code duplication;
