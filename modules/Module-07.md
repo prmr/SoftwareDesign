@@ -117,6 +117,86 @@ new Manager(...);
 
 will have three fields: `aName`, `aSalary`, and `aBonus`. Note that it does not matter that the fields are private. Accessibility is a *static* concept: it is only relevant to the source code. The fact that the code in class `Manager` cannot see (or access) the fields declared its superclass does not change anything to the fact that these fields are inherited. For the fields to be accessible in subclasses, it is possible to declare them `protected` or to simple access their value through an accessor method (a.k.a. "getter").
 
+The inheritance of fields creates an interesting problem of data initialization. When an object can be initialized with default value, the process is simple. In our case, if we assign the 
+default values as follows:
+
+```java
+class Employee
+{
+   private String aName = "Anonymous";
+   private int aSalary = 0;
+   ...
+   
+class Manager extends Employee
+{
+   private int aBonus = 0;
+   ...
+```
+
+We can expect that creating a new instance of class `Manager` will result in an instance with three fields with the specified values. However, it is often the case that object
+initialization requires input data (e.g., an actual name for the employee and/or manager). In this case it becomes important to pay attention to the order in which fields of a class
+are initialized. The general principle is that (in Java) the fields of an object are initialized "top dowm", from the fields of the most general superclass down to the specific class named in the new statement. In our example, `aName` would be initialized, then `aSalary`, and then `aBonus`. This order is achieved simply by the fact that the first instruction of any
+constructor is to call the constructor of its superclass, and so on. For this reason, the order of constructor calls is "bottom up".
+
+![](figures/m07-fieldinit.png)
+
+In Java, it is important to know that if *no constructor is declared*, a default constructor with no parameter is invisibly made available. For this reason, the fact that the first line
+of any constructor is the call to the super-constructor can be *implicit*. In the running example, declaring:
+
+```java
+class Manager extends Employee
+{
+   private int aBonus = 0;
+   
+   public Manager(int pBonus)
+   { // Automaticall calls super()
+      aBonus = pBonus.
+```
+
+Means that the default constructor of `Employee` is called and terminates before the code of the proper `Manager` constructor executes. With this constructor chain, it then becomes
+relatively easy to pass input values "up" to initialize fields declared in a superclass. For example:
+
+```java
+class Employee
+{
+   private String aName = "Anonymous";
+   private int aSalary = 0;
+   
+   public Employee(String pName, int pSalary)
+   {
+      aName = pName;
+      aSalary = pSalary;
+   }
+   ...
+   
+class Manager extends Employee
+{
+   private int aBonus = 0;
+  
+   public Manager(String pName, int pSalary, int pBonus)
+   {
+      super(pName, pSalary);
+      aBonus = pBonus;
+```
+
+Here the first line of the `Manager` constructor is an *explicit* call to the constructor of the superclass, that passes in the initialization data. This explicit call is now
+actually required, because declaring a non-default constructor in `Employee` prevents the automatic generation of a default constructor. Once the `super()` call terminates, the
+initialization *of the same object* continues with the assignment of the bonus field. Note that calling the constructor of the super class with `super()` is *very different* from 
+calling the constructor of the superclass with a `new` statement. In the latter case, two different objects are created. The code:
+
+```java
+   ...
+   public Manager(String pName, int pSalary, int pBonus)
+   {
+      new Employee(pName, pSalary);
+      aBonus = pBonus;
+   }
+```
+
+calls the default constructor of `Employee` (if available), then creates a new `Employee` instance, different from the instance under construction, 
+immediately discards the reference to this instance, and then completes the initialization of the object. This code is problematic.
+
+
 ## Exercises
 
 Exercises prefixed with :star: are optional, more challenging questions aimed to provide you with additional design and programming experience. Exercises prefixed with :spades: will incrementally guide you towards the ultimate completion of a complete Solitaire application.
