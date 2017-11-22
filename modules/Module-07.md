@@ -196,34 +196,47 @@ calling the constructor of the superclass with a `new` statement. In the latter 
 calls the default constructor of `Employee` (if available), then creates a new `Employee` instance, different from the instance under construction, 
 immediately discards the reference to this instance, and then completes the initialization of the object. This code is problematic.
 
+### Inheriting Methods
+
+Inheriting methods is different from fields because method declarations don't change anything to the state held by an object, and so don't involve any data initialization of an object. Instead, the inheritance of methods centers around the question of availability. By default, methods of a superclass are applicable to instances of a subclass. For example, if we define a method `getName()` in `Employee`, it will be possible to call this method on an instance of `Manager`:
+
+```java
+Manager manager = new Manager(); // Inherits from Employee
+manager.getName();
+```
+
+This "feature" is nothing special, and really is only a consequence of what a method represents and the rules of the type system. Rememer that (in Java) a non-static method is just a different way to express a function that takes an object of a specific class as its first argument. For example, the method `getName()` in `Employee`:
+
+```java
+class Employee
+{
+	private String aName = ...;
+
+   public String getName()
+   {
+      return this.aName;
+	}
+}
+```
+
+is more or less equivalent to the static method:
+
+```java
+class Employee
+{
+   public static String getName(Employee pThis)
+   {
+      return pThis.getName();
+}
+```
+
+In the first case the function is invoked by specifying the target object *before* the call: `employee.getName()`. In this case we refer to the employee parameter as the *implicit parameter*. A reference to this parameter is accessible through the `this` keyword within the method. In the second case the function is invoked by specifying the target object as an *explicit* parameter, so *after* the call: `getName(employee)`. In this case to clear any ambiguity it is usually necessary to specify the type of the class where the method is located, so `Employee.getName(employee)`. What this example illustrates, however, is that methods of a superclass are automatically *applicable* to instances of a subclass because instance of a subclass can be assigned to a variable of any supertype. Because it is legal to assign a reference to a `Manager` to a parameter of type `Employee`, the `getName()` method is available to instances of any subclass of `Employee`.
 
 ## Exercises
 
-Exercises prefixed with :star: are optional, more challenging questions aimed to provide you with additional design and programming experience. Exercises prefixed with :spades: will incrementally guide you towards the ultimate completion of a complete Solitaire application.
+1. A bike courier company uses a Scheduler system to schedule bikers for delivery based on various factors (unimportant for this practice question). The company wants the flexibility to install different scheduling algorithms. However, all scheduling algorithms should follow these steps: (a) check if at least one biker is available, and if not throw an exception; (b) schedule a biker using a given algorithm; (c) notify interested observers that a biker was scheduled. Operations (a) and (c) are the same for all algorithms, but should be isolated in separate methods. Concrete schedulers should also have the flexibility to throw algorithm-specific types of exceptions if they cannot fulfill a scheduling request. Assume all exceptions for this design are checked. Complete the following UML class diagram to provide a design for these requirements. Use the TEMPLATE METHOD design pattern. When relevant to the design, make sure to include the appropriate modifiers for methods and/or classes (`final`, `public`, `protected`,`private`, `abstract`, etc.). Illustrate support for two different scheduling algorithms. Include the OBSERVER mechanism for biker notification. Write the code necessary to implement the relevant parts of your design.
 
-**Exercise 1.**
-
-A bike courier company uses a Scheduler system to schedule bikers for delivery based on various factors (unimportant for this practice question). The company wants the flexibility to install different scheduling algorithms. However, all scheduling algorithms should follow these steps:
-
-   a) check if at least one biker is available, and if not throw an exception;
-   
-   b) schedule a biker using a given algorithm;
-   
-   c) notify interested observers that a biker was scheduled.
-	
-Operations a) and c) are the same for all algorithms, but should be isolated in separate methods. Concrete schedulers should also have the flexibility to throw algorithm-specific types of exceptions if they cannot fulfill a scheduling request. Assume all exceptions for this design are checked. Complete the following UML class diagram to provide a design for these requirements. Use the TEMPLATE METHOD design pattern. When relevant to the design, make sure to include the appropriate modifiers for methods and/or classes (`final`, `public`, `protected`,`private`, `abstract`, etc.). Illustrate support for two different scheduling algorithms. Include the OBSERVER mechanism for biker notification. Write the code necessary to implement the relevant parts of your design.
-
-**Exercise 2. (P)**
-
-In the Solitaire application an instance of `Move` represents a possible move in the game. Design a class hierarchy that captures all the possible implementations of `Move`.
-
-**Exercise 3. (P)**
-
-Study the design of the GUI of the Solitaire application v0.4. As part of your study, create class and sequence diagrams that capture the key design decisions of the implementation. Note how inheritance is used. 
-
-**Exercise 4. (P+)**
-
-Fill in the implementation of the Solitaire GUI on your own based on the design completed as part of Exercise 3, only looking at the code if you get stuck. Feel free to add improvements to the look and feel of the application.
+2. Study the design of the GUI of the Solitaire application v0.4. As part of your study, create class and sequence diagrams that capture the key design decisions of the implementation. Note how inheritance is used. 
 
 ---
 
