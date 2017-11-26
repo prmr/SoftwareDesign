@@ -115,7 +115,7 @@ object created with the statement:
 new Manager(...);
 ```
 
-will have three fields: `aName`, `aSalary`, and `aBonus`. Note that it does not matter that the fields are private. Accessibility is a *static* concept: it is only relevant to the source code. The fact that the code in class `Manager` cannot see (or access) the fields declared its superclass does not change anything to the fact that these fields are inherited. For the fields to be accessible in subclasses, it is possible to declare them `protected` or to simple access their value through an accessor method (a.k.a. "getter").
+will have three fields: `aName`, `aSalary`, and `aBonus`. Note that it does not matter that the fields are private. Accessibility is a *static* concept: it is only relevant to the source code. The fact that the code in class `Manager` cannot see (or access) the fields declared its superclass does not change anything to the fact that these fields are inherited. For the fields to be accessible in subclasses, it is possible to declare them `protected` or to simple access their value through an accessor method (a.k.a. "getter"). In Java, type members declared to be `protected` are only accessible within methods of the same class, classes in the same package, and subclasses in any package.
 
 The inheritance of fields creates an interesting problem of data initialization. When an object can be initialized with default value, the process is simple. In our case, if we assign the 
 default values as follows:
@@ -205,7 +205,7 @@ Manager manager = new Manager(); // Inherits from Employee
 manager.getName();
 ```
 
-This "feature" is nothing special, and really is only a consequence of what a method represents and the rules of the type system. Rememer that (in Java) a non-static method is just a different way to express a function that takes an object of a specific class as its first argument. For example, the method `getName()` in `Employee`:
+This "feature" is nothing special, and really is only a consequence of what a method represents and the rules of the type system. Remember that a non-static method is just a different way to express a function that takes an object of a specific class as its first argument. For example, the method `getName()` in `Employee`:
 
 ```java
 class Employee
@@ -230,13 +230,51 @@ class Employee
 }
 ```
 
-In the first case the function is invoked by specifying the target object *before* the call: `employee.getName()`. In this case we refer to the employee parameter as the *implicit parameter*. A reference to this parameter is accessible through the `this` keyword within the method. In the second case the function is invoked by specifying the target object as an *explicit* parameter, so *after* the call: `getName(employee)`. In this case to clear any ambiguity it is usually necessary to specify the type of the class where the method is located, so `Employee.getName(employee)`. What this example illustrates, however, is that methods of a superclass are automatically *applicable* to instances of a subclass because instance of a subclass can be assigned to a variable of any supertype. Because it is legal to assign a reference to a `Manager` to a parameter of type `Employee`, the `getName()` method is available to instances of any subclass of `Employee`.
+In the first case the function is invoked by specifying the target object *before* the call: `employee.getName()`. In this case we refer to the employee parameter as the *implicit parameter*. A reference to this parameter is accessible through the `this` keyword within the method. In the second case the function is invoked by specifying the target object as an *explicit* parameter, so *after* the call: `getName(employee)`. In this case to clear any ambiguity it is usually necessary to specify the type of the class where the method is located, so `Employee.getName(employee)`. What this example illustrates, however, is that methods of a superclass are automatically *applicable* to instances of a subclass because instances of a subclass can be assigned to a variable of any supertype. Because it is legal to assign a reference to a `Manager` to a parameter of type `Employee`, the `getName()` method is available to instances of any subclass of `Employee`.
+
+In some cases, the methods inherited from a superclass do not quite do what we want. Assume that in our running example class `Employee` has a method `getCompensation()`:
+
+```java
+class Employee 
+{
+   private protected aSalary = ...;
+   ...
+   public int getCompensation() { return aSalary; }
+```
+
+If in our problem space the compensation of a manager is their salary plus a bonus, the inherited method `getCompensation()` will not quite do what we want: the bonus will be missing. In such cases, it is usual to *redefine* or *override* the behavior of the inherited method by supplying an implementation in the subclass that only applies to instances of the (more specific, less general) subclasses. For example:
+
+```java
+class Manager extends Employee 
+{
+   private int aBonus = ...;
+   ...
+   public int getCompensation() 
+   {
+      return aSalary + aBonus; 
+   }
+```
+
+In this example, although the field `aSalary` is declared in the superclass `Employee`, it is accessible to methods of the subclass `Manager` because it is declared as `protected`. If this field had been declared `private`, the code would not compiled to due an access violation, as discussed below.
+
+Overriding inherited methods has a major consequence on the design of an object-oriented program, because it introduces the possibility that multiple method implementations apply to an object that is the target of a method invocation. For example, in the code:
+
+```java
+int compensation = new Manager(...).getCompensation();
+```
+
+both `Employee.getCompensation()` and `Manager.getCompensation()` can legally be used. How to choose? For the program to work, the programming environment (the JVM) must follow a *method selection algorithm*. For overridden methods, the selection algorithm is relatively intuitive: when multiple implementations are applicable, the run-time environment selects the *most specific one* based on the *run-time type of the implicit parameter*. Again, the run-time type of an object is the "actual" class that was instantiated: the class name that follows the `new` keyword, or the class type represented by the object returned by a call to `Object.getClass()`. Because the selection of an overridden method relies on run-time information, the selection procedure is often referred to as *dynamic dispatch", or "dynamic binding". It is important to remember that type information in the source code is completely overlooked for dynamic dispatch. So, in this example:
+
+```java
+Employee employee = new Manager(...);
+int compensation = employee.getCompensation();
+```
+
+the method `Manager.getCompensation()` would be selected, even though the static (compile-time) type of the target object is `Employee`.
 
 ## Exercises
 
 1. A bike courier company uses a Scheduler system to schedule bikers for delivery based on various factors (unimportant for this practice question). The company wants the flexibility to install different scheduling algorithms. However, all scheduling algorithms should follow these steps: (a) check if at least one biker is available, and if not throw an exception; (b) schedule a biker using a given algorithm; (c) notify interested observers that a biker was scheduled. Operations (a) and (c) are the same for all algorithms, but should be isolated in separate methods. Concrete schedulers should also have the flexibility to throw algorithm-specific types of exceptions if they cannot fulfill a scheduling request. Assume all exceptions for this design are checked. Complete the following UML class diagram to provide a design for these requirements. Use the TEMPLATE METHOD design pattern. When relevant to the design, make sure to include the appropriate modifiers for methods and/or classes (`final`, `public`, `protected`,`private`, `abstract`, etc.). Illustrate support for two different scheduling algorithms. Include the OBSERVER mechanism for biker notification. Write the code necessary to implement the relevant parts of your design.
-
-2. Study the design of the GUI of the Solitaire application v0.4. As part of your study, create class and sequence diagrams that capture the key design decisions of the implementation. Note how inheritance is used. 
 
 ---
 
