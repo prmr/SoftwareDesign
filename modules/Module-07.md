@@ -272,6 +272,32 @@ int compensation = employee.getCompensation();
 
 the method `Manager.getCompensation()` would be selected, even though the static (compile-time) type of the target object is `Employee`.
 
+In some cases it is necessary to by-pass the dynamic binding mechanism and link to a specific, statically-predictable method implementation. In Java however, for non-static methods it is only possible to do so by referring to the implementation of a method that is being directly overridden. This exception to the usual dynamic binding mechanism is intended to support the common case where a method is overidden to provide behavior *in addition* to what the original method does. To illustrate this case in our `Manager`-`Employee` scenario, consider a variant of the design where field `aSalary` in `Employee` would be `private`. In this case redefining `getCompensation` in `Manager` is tricky, since a reference to `aSalary` would result in a compilation-time access violation error:
+
+```java
+class Manager extends Employee 
+{
+   private int aBonus = ...;
+   ...
+   public int getCompensation() 
+   {
+      // Cannot be replaced with return getCompensation() + aBonus;
+      return aSalary + aBonus; 
+   }
+```
+
+In the revised design the only way to access the value of `aSalary` is to call method `getCompensation()` on an object of type `Employee` (or a subtype). In the case where the run-time type of the object is `Manager`, however, this will result in a stack overflow, since the method would recursively call itself without a termination condition.
+
+The solution is to refer to the *specific implementation* of `getCompensation()` in class `Employee`. To do so we use the keyword `super` followed by a method name:
+
+```java
+public int getCompensation() 
+{
+   return super.getCompensation() + aBonus; 
+   }
+```
+
+
 ## Exercises
 
 1. A bike courier company uses a Scheduler system to schedule bikers for delivery based on various factors (unimportant for this practice question). The company wants the flexibility to install different scheduling algorithms. However, all scheduling algorithms should follow these steps: (a) check if at least one biker is available, and if not throw an exception; (b) schedule a biker using a given algorithm; (c) notify interested observers that a biker was scheduled. Operations (a) and (c) are the same for all algorithms, but should be isolated in separate methods. Concrete schedulers should also have the flexibility to throw algorithm-specific types of exceptions if they cannot fulfill a scheduling request. Assume all exceptions for this design are checked. Complete the following UML class diagram to provide a design for these requirements. Use the TEMPLATE METHOD design pattern. When relevant to the design, make sure to include the appropriate modifiers for methods and/or classes (`final`, `public`, `protected`,`private`, `abstract`, etc.). Illustrate support for two different scheduling algorithms. Include the OBSERVER mechanism for biker notification. Write the code necessary to implement the relevant parts of your design.
