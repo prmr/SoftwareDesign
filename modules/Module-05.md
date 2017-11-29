@@ -227,9 +227,59 @@ private void handleNodeCreation(MouseEvent pEvent)
    ...
 ```
 
-This is the idea of using a **prototype object**. Here the toolbar can provided a prototype object to the part of the program in charge of adding a `GraphElement` to the diagram, and to accomplish this task the client code can simply clone the prototype object. A simpler, synthetic example that summarizes this idea is illustrated with class [ElementCreator](artifacts/module-05/module05/ElementCreator.java). 
+This is the idea of using a **prototype object**. Here the toolbar can provided a prototype object to the part of the program in charge of adding a `GraphElement` to the diagram, and to accomplish this task the client code can simply clone the prototype object. A simpler, synthetic example that summarizes this idea is illustrated with class `ElementCreator`:
 
-In this code example, an instance of `ElementCreator` is capable of creating any number of new objects of any type that is a subtype of `Element`. To enable the creation of new objects, the `ElementCreator` instance must store a reference to a prototype object. Once this prototype is available, it is possible to create new objects simply by cloning the prototype. In a more elaborate design, it might also be possible to change the prototype during the life-cycle of an `ElementCreator` instance, so that whatever is created by calling `createElement()` can also change. The idea of using a prototype object to manage the creation of new object of a statically undefined type is referred to as the **Prototype Design Pattern**.
+```java
+public class ElementCreator 
+{
+   private Element aPrototype = null;
+	
+   public static void main(String[] args) 
+   {
+      ElementCreator creator = new ElementCreator();
+      creator.setPrototype(new ElementA());
+      System.out.println(creator.create().description());
+      creator.setPrototype(new ElementB());
+      System.out.println(creator.create().description());
+   }
+	
+   public void setPrototype(Element pElement)
+   {
+      aPrototype = pElement;
+   }
+	
+   public Element create()
+   {
+      return aPrototype.clone();
+   }
+}
+
+interface Element extends Cloneable 
+{ 
+   Element clone();
+   String description();
+}
+
+class ElementA implements Element
+{ 
+   public String description() { return "A"; }
+   public ElementA clone() 
+   {
+      try { return (ElementA) super.clone(); } catch( CloneNotSupportedException e ) { return null; }
+   }
+}
+
+class ElementB implements Element
+{ 
+   public String description() { return "B"; }
+   public ElementA clone() 
+   {
+      try { return (ElementA) super.clone(); } catch( CloneNotSupportedException e ) { return null; }
+   }
+}
+```
+
+In this code example, an instance of `ElementCreator` is capable of creating any number of new objects of any type that is a subtype of `Element`. To enable the creation of new objects, the `ElementCreator` instance must store a reference to a prototype object. Once this prototype is available, it is possible to create new objects simply by cloning the prototype. It is also be possible to change the prototype during the life-cycle of an `ElementCreator` instance, so that whatever is created by calling `create()` can also change. The idea of using a prototype object to manage the creation of new object of a statically undefined type is referred to as the **Prototype Design Pattern**.
 
 ### The Command Design Pattern
 
