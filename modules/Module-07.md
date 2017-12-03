@@ -303,6 +303,30 @@ As we saw above, overriding methods allows programmers to declare different vers
 
 The important thing to know about overloading is that the selection of a specific overloaded method is based on the *static* type of the *explicit arguments*. The selection procedure is to find all *applicable* methods and to select the *most specific* one. Although overloading provides a convenient way to organize small variants of a general computation, the use of this mechanism can easily lead to hard-to-understand code, and I recommend not overloading methods except when widely used idioms (such as constructor overloading or library methods that support different primitive types).
 
+### Abstract Classes
+
+Inheriting class member declarations helps us avoid code duplication. However, there are often situations where organizing common class members in a single super-class leads to a class declaration that it would not make sense to instantiate. For example, the small design below is for a graphical editor. The design represents how different geometric figures can be represented in the software.  
+
+![](figures/m07-abstract.png)
+
+Because all figures have a position and a color, it makes sense to group all the related functionality into a common super-class `BasicFigure`. However, because `BasicFigure` implements the `Figure` interface, it must supply an implementation for all the interface's method, including `draw`. But how should we draw a `BasicFigure`? Here, even the idea of using some sort of default behavior seems questionable, because `BasicFigure` represents a purely abstract concept that needs to be refined to gain concreteness. This design situation is directly supported by the *abstract class* feature of a programming language. Technically, an abstract class represents a correct but incomplete set of class member declarations.
+
+A class can be declared abstract by including the reserved word `abstract` in its declaration. In Java it is also common practice to prefix the identifier for an abstract class with the word `Abstract`. Hence, in our design the `BasicFigure` would be declared: `public abstract AbstractFigure implements Figure`.
+
+Declaring a class `abstract` has three main consequences:
+
+* The class cannot be instantiated, which is checked by the compiler.
+
+* The class no longer needs to supply an implementation for all the methods in the interface(s) it declares to implement. This relaxing of the interface contract rule is type-safe since the class cannot be instantiated. However, any concrete (non-abstract) class will need to have implementations for all required methods.
+
+* The class can declare new `abstract` methods, using the same `abstract` keyword, this time placed in front of a method signature. For example, adding `protected abstract Rectangle boundingBox();` within `AbstractFigure` will add a new abstract method to the class. Abstract methods are sometimes necessary to specify behavior that is required by the concrete methods of the abstract class, but cannot be instantiated. The section on the Template Method Design Pattern, below, provides a detailed illustration of this scenario. From a program construction point of view, abstract methods work just like interface methods: any concrete subclass must provide an implementation for them to be instantiable.
+
+Note that because abstract classes cannot be instantiated, their constructor can only be called from within the constructors of subclasses. For this reason it makes sense to make the constructors of abstract classes `protected`.
+
+## Reading
+
+* [Java Tutorial on Inheritance](https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html)
+
 ## Exercises
 
 1. A bike courier company uses a Scheduler system to schedule bikers for delivery based on various factors (unimportant for this practice question). The company wants the flexibility to install different scheduling algorithms. However, all scheduling algorithms should follow these steps: (a) check if at least one biker is available, and if not throw an exception; (b) schedule a biker using a given algorithm; (c) notify interested observers that a biker was scheduled. Operations (a) and (c) are the same for all algorithms, but should be isolated in separate methods. Concrete schedulers should also have the flexibility to throw algorithm-specific types of exceptions if they cannot fulfill a scheduling request. Assume all exceptions for this design are checked. Complete the following UML class diagram to provide a design for these requirements. Use the TEMPLATE METHOD design pattern. When relevant to the design, make sure to include the appropriate modifiers for methods and/or classes (`final`, `public`, `protected`,`private`, `abstract`, etc.). Illustrate support for two different scheduling algorithms. Include the OBSERVER mechanism for biker notification. Write the code necessary to implement the relevant parts of your design.
