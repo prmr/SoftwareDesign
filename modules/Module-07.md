@@ -294,9 +294,14 @@ The solution is to refer to the *specific implementation* of `getCompensation()`
 public int getCompensation() 
 {
    return super.getCompensation() + aBonus; 
-   }
+}
 ```
 
+### Overloading Methods
+
+As we saw above, overriding methods allows programmers to declare different versions of the same method, so that the most appropriate method will be selected at run-time based on the run-time type of the implicit parameter. Many programming languages (including Java) support a another mechanism for specifying different implementations of the "same" method, this time by selecting the method based on the type of the *explicit* parameters. This mechanism is known as **overloading**. A typical example of overloading can be found in [math libraries](https://docs.oracle.com/javase/8/docs/api/java/lang/Math.html), which provide basic functions such as `abs` (absolute values) for arguments of different primitive types, such a `int` and `float`. Another typically application of overloading is for constructors (e.g., a default constructor and a constructor taking various arguments).
+
+The important thing to know about overloading is that the selection of a specific overloaded method is based on the *static* type of the *explicit arguments*. The selection procedure is to find all *applicable* methods and to select the *most specific* one. Although overloading provides a convenient way to organize small variants of a general computation, the use of this mechanism can easily lead to hard-to-understand code, and I recommend not overloading methods except when widely used idioms (such as constructor overloading or library methods that support different primitive types).
 
 ## Exercises
 
