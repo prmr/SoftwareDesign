@@ -44,6 +44,8 @@ In addition to these requirements, the final design should exhibit a number of q
 
 ## Exercises
 
+For maximum learning effectiveness, I recommend peeking at the [answers](answers/Answers-08.md) only after giving the problems an honest try.
+
 1. Add Visitor support to the class hierarchy below by completing the class diagram. Include a `PrintVisitor` as part of the design. Using a sequence diagram, show a scenario of a traversal through a directory object with the print visitor. The `PrintVisitor` prints the name of each file it visits. Implement a mock-up of the design in code, and use the debugger to validate your sequence diagram.
 ![](figures/m08-FileSystem.png)
 2. Extend the file system class hierarchy to include a `HiddenDirectory` class that is a subclass of `Directory`. For the purpose of this exercise, a hidden directory behaves just like a directory, but prints the name as `"." + getName().` Adjust both the diagrams and the code in consequence.
