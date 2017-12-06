@@ -380,8 +380,31 @@ When first learning to use inheritance, the calling protocol between code in the
 
 ![](figures/m07-template.png)
 
+### Proper Use of Inheritance
 
+Inheritance is *both* a code reuse and an extensibility mechanism. This means that a subclass both inherits the declarations of its superclasses, but also becomes a subtype of the superclasses. For this reason, to avoid major design flaws, inheritance should only be used for *extending* the behavior of superclasses. For this reason, it is incorrect to use inheritance to **limit or restrict** the behavior of the superclass, and/or to use inheritance **when the subclass is not a proper subtype** of the superclass.
 
+A classic example of using inheritance incorrectly by limiting the behavior of the superclass is the so-called [Circle-ellipse problem](https://en.wikipedia.org/wiki/Circle-ellipse_problem), wherein a class to represent a circle is defined by inheriting from Ellipse and preventing clients from creating any ellipse instance that does not have equal proportions. The issue with this idea is that services that were available on instances of the superclass (ellipse) must become "invalid" or "unsupported" if the run-time instance happens to be of the subtype:
+
+```java
+Ellipse ellipse = getEllipse();
+ellipse.setHeight(ellipse.getWidth()*2); // Not possible if ellipse is an instance of Circle
+```
+
+This intuition is captured by the [Liskov substitution principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle), which basically states that subclasses should not restrict what clients of the superclass can do with an instance. Specifically, this means that methods of the subclass:
+
+* Cannot have stricter preconditions;
+* Cannot have less strict post-conditions;
+* Cannot take more specific types as parameters;
+* Cannot make the method less accessible (e.g., public -> protected);
+* Cannot throw more checked exceptions;
+* Cannot have a less specific return type.
+
+Somewhat related is the issue of (mis)using inheritance when composition should be used. Citing [Effective Java, 2nd Edition](https://www.safaribooksonline.com/library/view/effective-java-2nd/9780137150021/):
+
+> Inheritance is appropriate only in circcumstances where the subclas really is a *subtype* of the superclass. In other words, a class B should only extend a class A if an "is-a" relationship exists between the two classes.
+
+Some obvious (and acknowledged) violations of this principle include `java.util.Stack` (which inappropriately inherits from `Vector`), and `java.util.Properties` (which inappropriately inherits from `Hashtable`).
 
 ## Reading
 
