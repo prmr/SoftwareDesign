@@ -325,15 +325,15 @@ Note that because abstract classes cannot be instantiated, their constructor can
 
 ### Template Method Design Pattern
 
-One not uncommon situation with inheritance is where some code is common for all subclasses, except for some small parts of an algorithm that vary from subclass to subclass. Because parts of the code is common, it will benefit from being "moved up" to the super-class so that it can be reused and so that the design is robust to errors caused by inconsistently re-implementing common behavior. However, because the code needs information from subclasses, it cannot be completely implemented in the super-class. The solution to this problem is to put all the common code in the super-class, and to define some "hooks" to allow sub-classes to provide specialized functionality. This idea is called the Template Method design pattern. The name relates to the fact that the common method in the superclass is a "template", that gets "instantiated" differently for each subclass. The "steps" are defined as non-private (so overridable) methods in the superclass. 
+One not uncommon situation with inheritance is where some code is common for all subclasses, except for some small parts of an algorithm that vary from subclass to subclass. Because parts of the code is common, it will benefit from being "moved up" to the superclass so that it can be reused and so that the design is robust to errors caused by inconsistently re-implementing common behavior. However, because the code needs information from subclasses, it cannot be completely implemented in the superclass. The solution to this problem is to put all the common code in the superclass, and to define some "hooks" to allow subclasses to provide specialized functionality. This idea is called the Template Method design pattern. The name relates to the fact that the common method in the superclass is a "template", that gets "instantiated" differently for each subclass. The "steps" are defined as non-private (so overridable) methods in the superclass. 
 
-Let's illustrate the situation with the example of `Figure.draw(Graphics)`, from the design in the above section. Assume that in that particular design, a Figure is observable (in the sense of the Observer design pattern), and drawing a figure involves three three steps:
+Let's illustrate the situation with the example of `Figure.draw(Graphics)`, from the design in the above section. Assume that in that particular design, a figure is observable (in the sense of the Observer design pattern), and drawing a figure involves three three steps:
 
 1. Invalidating the bounding box for the figure (so the canvas can be efficiently refreshed);
 2. Actually drawing the figure (using graphics primitives such as `drawLine`, etc.);
 3. Notifying observers that the figure was drawn.
 
-Here the first and last steps *should always happen in the same way*, but obviously the second step will depend from figure to figure. To realize a solution, we capture the first and third steps as private methods in `AbstractFigure` (`BasicFigure` on the diagram). Assume that the code to complete these two operations can be entirely written in the superclass. The code of the `AbstractFigure` class would thus start to look like:
+Here the first and last steps *should always happen in the same way*, but obviously the second step will depend on the actual concrete figure. To realize a solution, we capture the first and third steps as private methods in `AbstractFigure` (`BasicFigure` on the diagram). Assume that the code to complete these two operations can be entirely written in the superclass. The code of the `AbstractFigure` class would thus start to look like:
 
 ```java
 public AbstractFigure implements Figure
@@ -374,9 +374,9 @@ The following are important to note about the use of the template method design 
 * If it is important that in a design the algorithm embodied by the template method be fixed, it could be a good idea to declare the template method `final`, so it cannot be overridden (and thus changed) in subclasses;
 * It's important that the abstract step method has a different name from the template method for this design to work. Otherwise, the template method would recursively call itself, leading to a stack overflow;
 * The most likely access modifier for the abstract step method is `protected`, because in general there will likely not be any reason for client code to call individual steps that are intended to be internal parts of a complete algorithm. Client code would normally be calling the template method.
-* The "step" that needs to be customize by subclasses does not necessarily need to be abstract. It some cases, it will make sense to have a reasonable default behavior that could be implemented in the superclass. In this case it might not be necessary to make the super-class abstract.
+* The "step" that needs to be customized by subclasses does not necessarily need to be abstract. It some cases, it will make sense to have a reasonable default behavior that could be implemented in the superclass. In this case it might not be necessary to make the super-class abstract.
 
-When first learning to use inheritance, the calling protocol between code in the super- and subclasses can be a bit confusing because, although it is scattered over multiple classes, the method calls are actually on the *same target object*. The following sequence diagram illustrates a call to draw on a hypothetical `Rectangle`. As can be seen, although it is implemented in subclasses, the call to the abstract step method is a self-call.
+When first learning to use inheritance, the calling protocol between code in the super- and subclasses can be a bit confusing because, although it is scattered over multiple classes, the method calls are actually on the *same target object*. The following sequence diagram illustrates a call to `draw` on a hypothetical `Rectangle`. As can be seen, although it is implemented in subclasses, the call to the abstract step method is a self-call.
 
 ![](figures/m07-template.png)
 
