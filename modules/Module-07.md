@@ -13,12 +13,6 @@ After this module you should:
 * Know about common problems with inheritance and how to avoid them;
 * Be able to use the Template Method Design Pattern effectively;
 
-## Reading
-
-* Textbook Chapter 6;
-* The [Java Tutorial - Inheritance](https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html)
-* JetUML v1.0 The class hierarchy rooted at interface [Node](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/graph/Node.java)
-
 ## Notes
 
 ### Review of Inheritance
@@ -409,6 +403,7 @@ Some obvious (and acknowledged) violations of this principle include `java.util.
 ## Reading
 
 * [Java Tutorial on Inheritance](https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html)
+* JetUML v1.0 The class hierarchy rooted at interface [Node](https://github.com/prmr/JetUML/blob/v1.0/src/ca/mcgill/cs/stg/jetuml/graph/Node.java)
 
 ## Exercises
 

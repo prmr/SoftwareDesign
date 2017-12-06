@@ -12,10 +12,6 @@ After this module you should:
 * Be able to determine when inheritance can be effectively used within different design patterns including the Visitor, Decorator, Composite, Command, and Strategy patterns.
 * Be able to correctly instantiate design patterns with inheritance.
 
-## Reading
-
-Textbook: Section 10.6;
-
 ## Notes
 
 ### Visitor Design Pattern
@@ -42,43 +38,29 @@ In addition to these requirements, the final design should exhibit a number of q
 * Robustness: The likelihood of `NullPointerExceptions` should be, well, null.
 
 
+## Reading
+
+* [A webpage on the Visitor design pattern](https://sourcemaking.com/design_patterns/visitor)
+
 ## Exercises
 
-Exercises prefixed with **(+)** are optional, more challenging questions aimed to provide you with additional design and programming experience. Exercises prefixed with **(P)** (for "project") will incrementally guide you towards the ultimate completion of a complete Solitaire application.
-
-**Exercise 1.**
-
-Add Visitor support to the class hierarchy below by completing the class diagram. Include a `PrintVisitor` as part of the design. Using a sequence diagram, show a scenario of a traversal through a directory object with the print visitor. The `PrintVisitor` prints the name of each file it visits. Implement a mock-up of the design in code, and use the debugger to validate your sequence diagram.
+1. Add Visitor support to the class hierarchy below by completing the class diagram. Include a `PrintVisitor` as part of the design. Using a sequence diagram, show a scenario of a traversal through a directory object with the print visitor. The `PrintVisitor` prints the name of each file it visits. Implement a mock-up of the design in code, and use the debugger to validate your sequence diagram.
 
 ![](figures/m08-FileSystem.png)
 
-**Exercise 2.**
+2. Extend the file system class hierarchy to include a `HiddenDirectory` class that is a subclass of `Directory`. For the purpose of this exercise, a hidden directory behaves just like a directory, but prints the name as `"." + getName().` Adjust both the diagrams and the code in consequence.
 
-Extend the file system class hierarchy to include a `HiddenDirectory` class that is a subclass of `Directory`. For the purpose of this exercise, a hidden directory behaves just like a directory, but prints the name as `"." + getName().` Adjust both the diagrams and the code in consequence.
+3. Instead of using a subclass for `HiddenDirectory`, implements this feature using the Decorator Design pattern. Adjust both the diagrams and the code in consequence.
 
-**Exercise 3.**
+4. Implement a `DeleteVisitor` that find a file with a name passed as parameter to the visitor, and delete all its children, if the file is a directory or a symbolic link that refers to a directory. Once this works, try changing the code so that the specified `IFile` also gets deleted. Is this a good idea?
 
-Instead of using a subclass for `HiddenDirectory`, implements this feature using the Decorator Design pattern. Adjust both the diagrams and the code in consequence.
+5. Run the [University Demo](artifacts/module-08/). What is the order of traversal implemented in `SearchVisitor`? What happens if two committees with the same parent node have the same name? Use the debugger to confirm your answer.
 
-**Exercise 4.**
+6. Experiment with different traversal orders for the visitor. 
 
-Implement a `DeleteVisitor` that find a file with a name passed as parameter to the visitor, and delete all its children, if the file is a directory or a symbolic link that refers to a directory. Once this works, try changing the code so that the specified `IFile` also gets deleted. Is this a good idea?
+7. With the University example, implement a `CommitteeDepthVisitor` that can discover the sub-committee depth of a committee that matches an input query. For example, a root committee would have value 0, a sub-committee, 1, and a sub-sub-committee 3. 
 
-**Exercise 5.**
-
-Run the [University Demo](artifacts/module-08/). What is the order of traversal implemented in `SearchVisitor`? What happens if two committees with the same parent node have the same name? Use the debugger to confirm your answer.
-
-**Exercise 6.**
-
-Experiment with different traversal orders for the visitor. 
-
-**Exercise 7.**
-
-With the University example, implement a `CommitteeDepthVisitor` that can discover the sub-committee depth of a committee that matches an input query. For example, a root committee would have value 0, a sub-committee, 1, and a sub-sub-committee 3. 
-
-**Exercise 8.**
-
-Solve the review question by producing a class diagram, sequence diagrams to illustrate a command execution, and implement a mock-up of your solution.
+8. Solve the review question by producing a class diagram, sequence diagrams to illustrate a command execution, and implement a mock-up of your solution.
 
 ---
 
