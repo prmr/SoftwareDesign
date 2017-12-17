@@ -217,7 +217,7 @@ class Employee
 {
    public static String getName(Employee pThis)
    {
-      return pThis.getName();
+      return pThis.aName;
    }
 }
 ```
