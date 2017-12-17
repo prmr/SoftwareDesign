@@ -40,7 +40,7 @@ In addition to these requirements, the final design should exhibit a number of q
 
 ## Reading
 
-* [A webpage on the Visitor design pattern](https://sourcemaking.com/design_patterns/visitor)
+* [A webpage on the Visitor design pattern](https://en.wikipedia.org/wiki/Visitor_pattern)
 
 ## Exercises
 
