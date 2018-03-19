@@ -51,7 +51,7 @@ My usual reminder about the distinction between models and complete source code 
 
 ### The Composite Design Pattern
 
-It's not usual when designing aggregations of objects to run into a situation where we would like to have groups of objects behave like single objects. This situation is best illustrated by the following design fragment for a hypothetical drawing editor.
+It's not unusual when designing aggregations of objects to run into a situation where we would like to have groups of objects behave like single objects. This situation is best illustrated by the following design fragment for a hypothetical drawing editor.
 
 ![](figures/m05-composite1.png)
 
