@@ -328,7 +328,7 @@ Let's illustrate the situation with the example of `Figure.draw(Graphics)`, from
 Here the first and last steps *should always happen in the same way*, but obviously the second step will depend on the actual concrete figure. To realize a solution, we capture the first and third steps as private methods in `AbstractFigure` (`BasicFigure` on the diagram). Assume that the code to complete these two operations can be entirely written in the superclass. The code of the `AbstractFigure` class would thus start to look like:
 
 ```java
-public AbstractFigure implements Figure
+public abstract AbstractFigure implements Figure
 {
    private void invalidate() { /* Invalidate the bounding box */ }
    private void notifyObservers() { /* Call callback on all observers */ }
